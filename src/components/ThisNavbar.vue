@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar-mobile elevation-5">
+  <nav class="navbar-mobile">
     <v-app-bar class="navbar-mobile__main" height="60px">
       <v-icon class="mr-1">mdi-school-outline</v-icon>
       <v-toolbar-title>Расписание</v-toolbar-title>
