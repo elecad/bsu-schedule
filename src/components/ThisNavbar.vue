@@ -1,6 +1,6 @@
 <template>
-  <nav class="navbar-mobile">
-    <v-app-bar class="navbar-mobile__main">
+  <nav class="navbar-mobile elevation-5">
+    <v-app-bar class="navbar-mobile__main" height="60px">
       <v-icon class="mr-1">mdi-school-outline</v-icon>
       <v-toolbar-title>Расписание</v-toolbar-title>
 
@@ -9,14 +9,15 @@
       <v-btn icon @click="searchOpenMobile">
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-      <v-btn icon>
+      <v-btn icon @click="settingsOpenMobile">
         <v-icon>mdi-cog</v-icon>
       </v-btn>
     </v-app-bar>
 
     <v-app-bar
       class="navbar-mobile__search"
-      height="70px"
+      height="75px"
+      rounded
       :class="{
         'search-mobile-active': openSearchMobile,
         'elevation-4': openSearchMobile,
@@ -27,6 +28,7 @@
       </v-btn>
 
       <v-autocomplete
+        ref="test"
         dense
         filled
         solo
@@ -37,12 +39,68 @@
         height="50px"
       ></v-autocomplete>
     </v-app-bar>
-    <div
-      class="dark-search-mode"
-      :class="{
-        'search-mobile-active': openSearchMobile,
-      }"
-    ></div>
+    <v-overlay :value="openSearchMobile" opacity="0.2"></v-overlay>
+
+    <v-dialog v-model="openSetting" scrollable>
+      <v-card>
+        <v-card-title class="text-h5"> Настройки </v-card-title>
+
+        <v-card-text>
+          Здесь будут находится будущие настройки приложения...
+          <h4>Пока тут...</h4>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+          <h2>Привет, Серёжа!!!</h2>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="settingsCloseMobile">
+            Закрыть
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </nav>
 </template>
 
@@ -51,6 +109,7 @@ export default {
   name: "NavBar",
   data: () => ({
     openSearchMobile: false,
+    openSetting: false,
     search: [
       {
         text: "12001902",
@@ -61,22 +120,25 @@ export default {
   methods: {
     searchOpenMobile() {
       this.openSearchMobile = true;
+      this.$refs.test.$refs.input.focus();
     },
     searchCloseMobile() {
       this.openSearchMobile = false;
+    },
+    settingsOpenMobile() {
+      this.openSetting = true;
+    },
+    settingsCloseMobile() {
+      this.openSetting = false;
     },
   },
 };
 </script>
 
 <style scoped>
-.navbar-mobile {
-  position: relative;
-}
-
 .navbar-mobile__search {
   position: absolute;
-  top: -160%;
+  top: -100px;
   left: 0;
   width: 100%;
   height: 100%;
@@ -86,23 +148,6 @@ export default {
 .navbar-mobile__search.search-mobile-active {
   top: 0;
   left: 0;
-  z-index: 10;
-}
-
-.dark-search-mode {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vh;
-  height: 100vh;
-  background-color: black;
-  opacity: 0;
-  visibility: hidden;
-  transition: 0.3s;
-}
-
-.dark-search-mode.search-mobile-active {
-  visibility: visible;
-  opacity: 0.4;
+  z-index: 6;
 }
 </style>
