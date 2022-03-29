@@ -1,51 +1,48 @@
 <template>
   <nav class="navbar-mobile">
-    <v-container>
-      <v-app-bar class="navbar-mobile__main">
-        <v-icon class="mr-1">mdi-school-outline</v-icon>
-        <v-toolbar-title>Расписание</v-toolbar-title>
+    <v-app-bar class="navbar-mobile__main">
+      <v-icon class="mr-1">mdi-school-outline</v-icon>
+      <v-toolbar-title>Расписание</v-toolbar-title>
 
-        <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
 
-        <v-btn icon @click="searchOpenMobile">
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon>mdi-cog</v-icon>
-        </v-btn>
-      </v-app-bar>
+      <v-btn icon @click="searchOpenMobile">
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>mdi-cog</v-icon>
+      </v-btn>
+    </v-app-bar>
 
-      <v-app-bar
-        height="75px"
-        class="navbar-mobile__search"
-        :class="{
-          'search-mobile-active': openSearchMobile,
-          'elevation-4': openSearchMobile,
-        }"
-      >
-        <v-btn icon class="mr-1" @click="searchCloseMobile">
-          <v-icon>mdi-arrow-left</v-icon>
-        </v-btn>
+    <v-app-bar
+      class="navbar-mobile__search"
+      height="70px"
+      :class="{
+        'search-mobile-active': openSearchMobile,
+        'elevation-4': openSearchMobile,
+      }"
+    >
+      <v-btn icon class="mr-1" @click="searchCloseMobile">
+        <v-icon>mdi-arrow-left</v-icon>
+      </v-btn>
 
-        <v-autocomplete
-          dense
-          filled
-          solo
-          :items="search"
-          hide-details="false"
-          placeholder="Поиск..."
-          prepend-inner-icon="mdi-magnify"
-          height="50px"
-        ></v-autocomplete>
-      </v-app-bar>
-      <div
-        class="dark-search-mode"
-        :class="{
-          'search-mobile-active': openSearchMobile,
-          'overflow-hidden': openSearchMobile,
-        }"
-      ></div>
-    </v-container>
+      <v-autocomplete
+        dense
+        filled
+        solo
+        :items="search"
+        hide-details="false"
+        placeholder="Поиск..."
+        prepend-inner-icon="mdi-magnify"
+        height="50px"
+      ></v-autocomplete>
+    </v-app-bar>
+    <div
+      class="dark-search-mode"
+      :class="{
+        'search-mobile-active': openSearchMobile,
+      }"
+    ></div>
   </nav>
 </template>
 
@@ -81,6 +78,8 @@ export default {
   position: absolute;
   top: -160%;
   left: 0;
+  width: 100%;
+  height: 100%;
   transition: 0.3s;
 }
 
@@ -91,7 +90,7 @@ export default {
 }
 
 .dark-search-mode {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vh;
