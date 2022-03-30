@@ -50,12 +50,11 @@ export default {
 
       const Fetch = new Parsers();
 
-      await Fetch.fetchLocation({
-        location: "6654",
-        week: "2802202206032022",
+      await Fetch.fetchSearch({
+        query: "1200",
       });
 
-      const schedule = Fetch.parseLocation();
+      const schedule = Fetch.parseSearch();
       console.log(schedule);
 
       // const dateAPI = new DateAPI(this.date);

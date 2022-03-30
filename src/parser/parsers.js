@@ -1,6 +1,7 @@
 import Group from "@/parser/source/group/group";
 import Teacher from "@/parser/source/teacher/teacher";
 import Location from "@/parser/source/location/location";
+import Search from "@/parser/source/search/search";
 
 const links = {
   group: ({ group, week }) => {
@@ -12,7 +13,9 @@ const links = {
   location: ({ location, week }) => {
     return `http://echo.uz/proxy/location.php?location=${location}&week=${week}`;
   },
-  search: "http://echo.uz/proxy/search.php",
+  search: ({ query }) => {
+    return `http://echo.uz/proxy/search.php?query=${query}`;
+  },
 };
 
 export default class Parsers {
@@ -112,6 +115,37 @@ export default class Parsers {
         validate: data.header.includes(" "),
         data,
       };
+    } catch (err) {
+      throw Error(err.message);
+    }
+  }
+
+  async fetchSearch({ query }) {
+    if (!query) {
+      throw console.error("Данные переданы некорректно!");
+    }
+    if (query.length < 4) {
+      return [];
+    }
+
+    let response = await fetch(links.search({ query }));
+
+    let htmlText = await response.text();
+    console.log(htmlText);
+    this.htmlText = htmlText;
+  }
+
+  parseSearch() {
+    if (!this.htmlText) {
+      throw console.error("Парсер имеет пустые данные для парсинга!");
+    }
+    try {
+      let $ = new DOMParser();
+      let htmlDoc = $.parseFromString(this.htmlText, "text/html");
+      const tables = htmlDoc.querySelectorAll(".typo-page");
+      const data = new Search(tables).parsing();
+
+      return data;
     } catch (err) {
       throw Error(err.message);
     }

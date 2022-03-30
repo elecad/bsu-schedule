@@ -1,6 +1,6 @@
-import groupParser from "@/parsers/search/help/group";
-import teacherParser from "@/parsers/search/help/teacher";
-import locationParser from "@/parsers/search/help/location";
+import groupParser from "@/parser/source/search/help/group";
+import teacherParser from "@/parser/source/search/help/teacher";
+import locationParser from "@/parser/source/search/help/location";
 
 export default class searchScheduleParser {
   $ = null;
@@ -8,9 +8,9 @@ export default class searchScheduleParser {
   result = [];
 
   types = {
-    "Группы": "group",
-    "Преподаватели": "teacher",
-    "Аудитории": "location",
+    Группы: "group",
+    Преподаватели: "teacher",
+    Аудитории: "location",
   };
 
   parsers = {
