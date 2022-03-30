@@ -1,7 +1,12 @@
-import dayParser from "@/parsers/location/help/day";
-import lessonParser from "@/parsers/location/help/lesson";
-import contentParser from "@/parsers/location/help/content";
-import headerParser from "@/parsers/location/help/header";
+// import dayParser from "@/parsers/location/help/day";
+// import lessonParser from "@/parsers/location/help/lesson";
+// import contentParser from "@/parsers/location/help/content";
+// import headerParser from "@/parsers/location/help/header";
+
+import dayParser from "@/parser/source/location/help/day.js";
+import lessonParser from "@/parser/source/location/help/lesson.js";
+import contentParser from "@/parser/source/location/help/content.js";
+import headerParser from "@/parser/source/location/help/header.js";
 
 export default class locationScheduleParser {
   $ = { header: null, shedule: null }; //? Основная node таблицы для парсинга

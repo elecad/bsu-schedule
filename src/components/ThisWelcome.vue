@@ -50,9 +50,12 @@ export default {
 
       const Fetch = new Parsers();
 
-      await Fetch.fetchTeacher({ teacher: "128622", week: "2802202206032022" });
+      await Fetch.fetchLocation({
+        location: "6654",
+        week: "2802202206032022",
+      });
 
-      const schedule = Fetch.parseTeacher();
+      const schedule = Fetch.parseLocation();
       console.log(schedule);
 
       // const dateAPI = new DateAPI(this.date);
