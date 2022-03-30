@@ -1,4 +1,4 @@
-import Day from "@/parsers/teacher/dto/day";
+import Day from "@/parser/source/teacher/dto/day.js";
 
 export default class dayParser {
   $ = null;

@@ -1,7 +1,7 @@
-import headerParser from "@/parsers/teacher/help/header";
-import dayParser from "@/parsers/teacher/help/day";
-import lessonParser from "@/parsers/teacher/help/lesson";
-import contentParser from "@/parsers/teacher/help/content";
+import headerParser from "@/parser/source/teacher/help/header";
+import dayParser from "@/parser/source/teacher/help/day";
+import lessonParser from "@/parser/source/teacher/help/lesson";
+import contentParser from "@/parser/source/teacher/help/content";
 
 export default class teacherScheduleParser {
   $ = { header: null, shedule: null };

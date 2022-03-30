@@ -1,5 +1,5 @@
-import Lesson from "@/parsers/teacher/dto/lesson";
-import Content from "@/parsers/teacher/dto/content";
+import Lesson from "@/parser/source/teacher/dto/lesson";
+import Content from "@/parser/source/teacher/dto/content";
 
 export default class lessonParser {
   $ = null;

@@ -1,4 +1,4 @@
-import Content from "@/parsers/teacher/dto/content";
+import Content from "@/parser/source/teacher/dto/content";
 
 export default class contentParser {
   $ = null;

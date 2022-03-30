@@ -50,9 +50,9 @@ export default {
 
       const Fetch = new Parsers();
 
-      await Fetch.fetchGroup({ group: "12001902", week: "2802202206032022" });
+      await Fetch.fetchTeacher({ teacher: "128622", week: "2802202206032022" });
 
-      const schedule = Fetch.parseGroup();
+      const schedule = Fetch.parseTeacher();
       console.log(schedule);
 
       // const dateAPI = new DateAPI(this.date);
