@@ -41,15 +41,22 @@
 </template>
 
 <script>
-import DateAPI from "@/class/DateAPI";
+import Parsers from "@/parser/parsers.js";
 export default {
   name: "WelcomePage",
   methods: {
-    calcDate() {
+    async calcDate() {
       console.clear();
 
-      const dateAPI = new DateAPI(this.date);
-      console.log(dateAPI.getDateForBsuAPI());
+      const Fetch = new Parsers();
+
+      await Fetch.fetchGroup({ group: "12001902", week: "2802202206032022" });
+
+      const schedule = Fetch.parseGroup();
+      console.log(schedule);
+
+      // const dateAPI = new DateAPI(this.date);
+      // console.log(dateAPI.getDateForBsuAPI());
     },
   },
 

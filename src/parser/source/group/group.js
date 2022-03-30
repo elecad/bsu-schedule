@@ -1,7 +1,8 @@
-import dayParser from "@/parsers/group/help/day";
-import lessonParser from "@/parsers/group/help/lesson";
-import contentParser from "@/parsers/group/help/content";
-import headerParser from "@/parsers/group/help/header";
+// import dayParser from "@/parsers/group/help/day";
+import dayParser from "@/parser/source/group/help/day";
+import lessonParser from "@/parser/source/group/help/lesson";
+import contentParser from "@/parser/source/group/help/content";
+import headerParser from "@/parser/source/group/help/header";
 
 export default class groupScheduleParser {
   $ = { header: null, shedule: null }; //? Основная node таблицы для парсинга
