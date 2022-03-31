@@ -34,11 +34,10 @@
         allow-overflow
         counter="1"
         dense
-        hide-no-data
         filled
         autofocus
         solo
-        no-data-text="Ничего не найдено :("
+        :no-data-text="noDataText"
         :items="search"
         hide-details="false"
         placeholder="Поиск..."
@@ -76,7 +75,7 @@
 <script>
 import Parsers from "@/parser/parsers.js";
 
-let controller = new AbortController();
+// let controller = new AbortController();
 
 export default {
   name: "NavBar",
@@ -84,6 +83,10 @@ export default {
     openSearchMobile: false,
     openSetting: false,
     search: [],
+    controller: new AbortController(),
+    timeout: null,
+    debounce: 400,
+    noDataText: "Для поиска нужно более 2 символов",
   }),
   methods: {
     searchOpenMobile() {
@@ -100,47 +103,71 @@ export default {
       this.openSetting = false;
     },
     async searchMobile(value) {
-      controller.abort();
-      controller = new AbortController();
-      this.search = [];
       if (value) {
-        const Fetch = new Parsers();
-
-        const search = await Fetch.fetchSearch({
-          query: value,
-          signal: controller.signal,
-        });
-        console.log(search);
-
-        for (let i = 0; i < search.length && i < 10; i++) {
-          const el = search[i];
-          const obj = {};
-          // console.log(el);
-          switch (el.type) {
-            case "group":
-              obj.text = el.content.id;
-              obj.value = i;
-              obj.type = "group";
-              break;
-            case "teacher":
-              obj.text = `${el.content.Surname} ${el.content.Name} ${el.content.Middlename}`;
-              obj.value = i;
-              break;
-            case "location":
-              obj.text = `${el.content.aud} ${el.content.corp}`;
-              obj.value = i;
-              break;
-            default:
-              continue;
-          }
-          this.search.push(obj);
+        this.controller.abort();
+        this.controller = new AbortController();
+        this.search = [];
+        if (this.timeout) {
+          clearTimeout(this.timeout);
         }
+
+        if (value.trim().length < 3) {
+          this.noDataText = "Для поиска нужно более 2 символов";
+        } else {
+          this.noDataText = "Поиск...";
+        }
+
+        this.timeout = setTimeout(async () => {
+          const Fetch = new Parsers();
+
+          const search = await Fetch.fetchSearch({
+            query: value,
+            signal: this.controller.signal,
+          });
+          if (search) {
+            this.noDataText = "Ничего не найдено :(";
+          }
+          for (let i = 0; i < search.length && i < 10; i++) {
+            const el = search[i];
+            const obj = {};
+            switch (el.type) {
+              case "group":
+                obj.text = el.content.id;
+                obj.value = {
+                  type: el.type,
+                  id: el.content.id,
+                  label: obj.text,
+                };
+                break;
+              case "teacher":
+                obj.text = `${el.content.Surname} ${el.content.Name} ${el.content.Middlename}`;
+                obj.value = {
+                  type: el.type,
+                  id: el.content.id,
+                  label: obj.text,
+                };
+                break;
+              case "location":
+                obj.text = `${el.content.aud} ${el.content.corp}`;
+                obj.value = {
+                  type: el.type,
+                  id: el.content.id,
+                  label: obj.text,
+                };
+                break;
+              default:
+                continue;
+            }
+            this.search.push(obj);
+          }
+        }, this.debounce);
       }
     },
 
     goSchedule(value) {
       console.log(value);
-      console.log(this.search[value].type);
+      alert(`Переход: ${value.label}(id ${value.id}) на ${value.type}`);
+      this.searchCloseMobile();
     },
   },
 };
