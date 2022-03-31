@@ -20,6 +20,7 @@ const links = {
 
 export default class Parsers {
   htmlText = "";
+
   constructor() {}
 
   async fetchGroup({ group, week }) {
@@ -120,19 +121,22 @@ export default class Parsers {
     }
   }
 
-  async fetchSearch({ query }) {
+  async fetchSearch({ query, signal }) {
     if (!query) {
       throw console.error("Данные переданы некорректно!");
     }
-    if (query.length < 4) {
+    if (query.length < 3) {
       return [];
     }
+    try {
+      let response = await fetch(links.search({ query }), { signal });
 
-    let response = await fetch(links.search({ query }));
-
-    let htmlText = await response.text();
-    console.log(htmlText);
-    this.htmlText = htmlText;
+      let htmlText = await response.text();
+      this.htmlText = htmlText;
+      return this.parseSearch();
+    } catch {
+      return [];
+    }
   }
 
   parseSearch() {
@@ -144,6 +148,15 @@ export default class Parsers {
       let htmlDoc = $.parseFromString(this.htmlText, "text/html");
       const tables = htmlDoc.querySelectorAll(".typo-page");
       const data = new Search(tables).parsing();
+
+      let ids = [];
+      return data.filter((el) => {
+        if (ids.indexOf(el.content.id) != -1 || el.content.post == "н/о")
+          return false;
+
+        ids.push(el.content.id);
+        return true;
+      });
 
       return data;
     } catch (err) {

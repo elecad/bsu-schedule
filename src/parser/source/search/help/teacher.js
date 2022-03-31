@@ -24,7 +24,7 @@ export default class teacherParser {
     this.result.Name = 2 ? FullTeacherNameArray[1] : "";
     this.result.Middlename =
       FullTeacherNameArray.length >= 3 ? FullTeacherNameArray[2] : "";
-    this.result.Id = +aTeacher.href.split("=")[1];
+    this.result.id = +aTeacher.href.split("=")[1];
   }
 
   instituteParse(node) {

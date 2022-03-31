@@ -28,10 +28,17 @@
       </v-btn>
 
       <v-autocomplete
+        @update:search-input="searchMobile"
+        @change="goSchedule"
         ref="test"
+        allow-overflow
+        counter="1"
         dense
+        hide-no-data
         filled
+        autofocus
         solo
+        no-data-text="Ничего не найдено :("
         :items="search"
         hide-details="false"
         placeholder="Поиск..."
@@ -40,7 +47,11 @@
       ></v-autocomplete>
     </v-app-bar>
 
-    <v-overlay :value="openSearchMobile" opacity="0.2"></v-overlay>
+    <v-overlay
+      :value="openSearchMobile"
+      opacity="0.2"
+      @click="searchCloseMobile"
+    ></v-overlay>
 
     <v-dialog v-model="openSetting" scrollable>
       <v-card>
@@ -63,31 +74,73 @@
 </template>
 
 <script>
+import Parsers from "@/parser/parsers.js";
+
+let controller = new AbortController();
+
 export default {
   name: "NavBar",
   data: () => ({
     openSearchMobile: false,
     openSetting: false,
-    search: [
-      {
-        text: "12001902",
-        value: "12001902",
-      },
-    ],
+    search: [],
   }),
   methods: {
     searchOpenMobile() {
       this.openSearchMobile = true;
-      this.$refs.test.$refs.input.focus();
     },
     searchCloseMobile() {
       this.openSearchMobile = false;
+      this.search = [];
     },
     settingsOpenMobile() {
       this.openSetting = true;
     },
     settingsCloseMobile() {
       this.openSetting = false;
+    },
+    async searchMobile(value) {
+      controller.abort();
+      controller = new AbortController();
+      this.search = [];
+      if (value) {
+        const Fetch = new Parsers();
+
+        const search = await Fetch.fetchSearch({
+          query: value,
+          signal: controller.signal,
+        });
+        console.log(search);
+
+        for (let i = 0; i < search.length && i < 10; i++) {
+          const el = search[i];
+          const obj = {};
+          // console.log(el);
+          switch (el.type) {
+            case "group":
+              obj.text = el.content.id;
+              obj.value = i;
+              obj.type = "group";
+              break;
+            case "teacher":
+              obj.text = `${el.content.Surname} ${el.content.Name} ${el.content.Middlename}`;
+              obj.value = i;
+              break;
+            case "location":
+              obj.text = `${el.content.aud} ${el.content.corp}`;
+              obj.value = i;
+              break;
+            default:
+              continue;
+          }
+          this.search.push(obj);
+        }
+      }
+    },
+
+    goSchedule(value) {
+      console.log(value);
+      console.log(this.search[value].type);
     },
   },
 };

@@ -4,6 +4,7 @@ import locationParser from "@/parser/source/search/help/location";
 
 export default class searchScheduleParser {
   $ = null;
+  max = 10;
 
   result = [];
 
@@ -15,21 +16,21 @@ export default class searchScheduleParser {
 
   parsers = {
     group: (node) => {
-      for (let i = 0; i < node.rows.length; i++) {
+      for (let i = 0; i < node.rows.length && i < this.max; i++) {
         const strockNode = node.rows[i];
         const data = new groupParser(strockNode).parse();
         this.result.push({ type: "group", content: data });
       }
     },
     teacher: (node) => {
-      for (let i = 0; i < node.rows.length; i++) {
+      for (let i = 0; i < node.rows.length && i < this.max; i++) {
         const strockNode = node.rows[i];
         const data = new teacherParser(strockNode).parse();
         this.result.push({ type: "teacher", content: data });
       }
     },
     location: (node) => {
-      for (let i = 0; i < node.rows.length; i++) {
+      for (let i = 0; i < node.rows.length && i < this.max; i++) {
         const strockNode = node.rows[i];
         const data = new locationParser(strockNode).parse();
         this.result.push({ type: "location", content: data });

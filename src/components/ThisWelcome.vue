@@ -7,7 +7,6 @@
       ref="dialog"
       v-model="modal"
       :return-value.sync="date"
-      persistent
       width="290px"
     >
       <template v-slot:activator="{ on, attrs }">
