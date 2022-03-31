@@ -75,8 +75,6 @@
 <script>
 import Parsers from "@/parser/parsers.js";
 
-// let controller = new AbortController();
-
 export default {
   name: "NavBar",
   data: () => ({
