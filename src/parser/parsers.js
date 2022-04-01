@@ -5,16 +5,16 @@ import Search from "@/parser/source/search/search";
 
 const links = {
   group: ({ group, week }) => {
-    return `http://echo.uz/proxy/group.php?group=${group}&week=${week}`;
+    return `/bsu/education/schedule/groups/show_schedule.php?group=${group}&week=${week}`;
   },
   teacher: ({ teacher, week }) => {
-    return `http://echo.uz/proxy/teacher.php?teacher=${teacher}&week=${week}`;
+    return `/bsu/education/schedule/teachers/show_schedule.php?teach=${teacher}&week=${week}`;
   },
   location: ({ location, week }) => {
-    return `http://echo.uz/proxy/location.php?location=${location}&week=${week}`;
+    return `/bsu/education/schedule/auditories/show_schedule.php?aud=${location}&week=${week}`;
   },
   search: ({ query }) => {
-    return `http://echo.uz/proxy/search.php?query=${query}`;
+    return `/bsu/education/schedule/search/index.php?query=${query}`;
   },
 };
 
@@ -125,16 +125,17 @@ export default class Parsers {
     if (!query) {
       throw console.error("Данные переданы некорректно!");
     }
-    if (query.length < 3) {
-      return [];
-    }
     try {
       let response = await fetch(links.search({ query }), { signal });
 
       let htmlText = await response.text();
       this.htmlText = htmlText;
+
+      console.log("Парсер: ", this.parseSearch());
+      console.log(htmlText);
       return this.parseSearch();
-    } catch {
+    } catch (e) {
+      console.log(e);
       return [];
     }
   }

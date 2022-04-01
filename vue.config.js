@@ -6,12 +6,10 @@ module.exports = defineConfig({
     client: {
       webSocketURL: "auto://0.0.0.0:0/ws",
     },
+    proxy: {
+      "^/bsu": { target: "http://echo.uz" },
+    },
   },
-  // devServer: {
-  //   allowedHosts: "all",
-  //   client: {
-  //     webSocketURL: "auto://0.0.0.0:8081/ws",
-  //   },
-  // },
+
   publicPath: process.env.NODE_ENV === "production" ? "/test-build/" : "/",
 });

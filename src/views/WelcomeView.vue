@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import WelcomePage from "../components/ThisWelcome.vue";
+import WelcomePage from "../components/TheWelcome.vue";
 
 export default {
   name: "Home",

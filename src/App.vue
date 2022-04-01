@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <nav-bar></nav-bar>
+    <schedule-nav-bar></schedule-nav-bar>
     <v-main>
       <router-view />
     </v-main>
@@ -8,12 +8,12 @@
 </template>
 
 <script>
-import navBar from "@/components/ThisNavbar";
+import scheduleNavBar from "@/components/NavBarMobile/TheNavbarMobile.vue";
 
 export default {
   name: "App",
 
-  components: { navBar },
+  components: { scheduleNavBar },
   data: () => ({}),
 };
 </script>
