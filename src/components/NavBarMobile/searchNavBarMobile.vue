@@ -14,15 +14,16 @@
       </v-btn>
 
       <v-autocomplete
-        @update:search-input="search"
-        @change="go"
+        v-model="select"
+        :search-input.sync="searchText"
+        :items="autocomplete"
+        :loading="loading"
         allow-overflow
         dense
         filled
         autofocus
         solo
         :no-data-text="noResultText"
-        :items="autocomplete"
         hide-details
         :placeholder="placholder"
         :prepend-inner-icon="innerIcon"
@@ -47,19 +48,29 @@ export default {
     open: Boolean,
   },
   data: () => ({
+    loading: false,
     heightAppBar: "75px",
     heightInput: "50px",
     placholder: "Поиск...",
     noResultText: "Необходимо 2 или более символов",
     innerIcon: "mdi-magnify",
     overlayOpacity: "0.2",
-    searchText: "",
     autocomplete: [],
+
+    searchText: null,
+    select: null,
   }),
+  watch: {
+    searchText(val) {
+      val && val !== this.select && this.search(val);
+    },
+  },
   methods: {
     search(value) {
       //? Функция поиска
-      console.clear();
+      // console.clear();
+
+      this.loading = true;
       SearchAPI.query({
         query: value,
         setFunction: this.setResultFunction,
@@ -67,6 +78,16 @@ export default {
     },
 
     setResultFunction(obj) {
+      console.log(obj);
+
+      if (obj.text == "Идёт поиск..." && !obj.result.length) {
+        // console.log('poesk?');
+        this.noResultText = obj.text;
+
+        return;
+      }
+
+      this.loading = false;
       this.noResultText = obj.text;
       this.autocomplete = obj.result;
     },

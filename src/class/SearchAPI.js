@@ -5,11 +5,12 @@ class SearchAPI {
     notFound: "Ничего не найдено :(",
     need: "Необходимо больше данных...",
     loading: "Идёт поиск...",
+    error: "Ошиб очка",
   };
 
   controller = new AbortController();
   timeout = null;
-  debounce = 500;
+  debounce = 250;
   Fetch = new Parsers();
 
   constructor() {}
@@ -32,18 +33,33 @@ class SearchAPI {
     query = this.editQuery({ query });
 
     this.timeout = setTimeout(async () => {
-      const data = await this.Fetch.fetchSearch({
-        query: query,
-        signal: this.controller.signal,
-      });
-      console.log("data", data);
-      if (data.length == 0) {
-        const d = 1;
-        setFunction({ text: this.TEXT.notFound, result: [] });
-      } else {
-        setFunction({ text: this.TEXT.loading, result: this.formResult(data) });
+      console.log("-- on timeout");
+
+      try {
+        const data = await this.Fetch.fetchSearch({
+          query: query,
+          signal: this.controller.signal,
+        }); // heh
+
+        if (data.length == 0) {
+          const d = 1;
+          setFunction({ text: this.TEXT.notFound, result: [] });
+        } else {
+          setFunction({
+            text: this.TEXT.loading,
+            result: this.formResult(data),
+          });
+        }
+      } catch (e) {
+        if (e.name == "AbortError") {
+          return;
+        }
+
+        setFunction({ text: this.TEXT.error, result: [] });
       }
     }, this.debounce);
+
+    console.log("omae?");
   }
 
   clear() {

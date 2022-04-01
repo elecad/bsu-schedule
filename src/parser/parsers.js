@@ -125,19 +125,15 @@ export default class Parsers {
     if (!query) {
       throw console.error("Данные переданы некорректно!");
     }
-    try {
-      let response = await fetch(links.search({ query }), { signal });
 
-      let htmlText = await response.text();
-      this.htmlText = htmlText;
+    let response = await fetch(links.search({ query }), { signal });
 
-      console.log("Парсер: ", this.parseSearch());
-      console.log(htmlText);
-      return this.parseSearch();
-    } catch (e) {
-      console.log(e);
-      return [];
-    }
+    let htmlText = await response.text();
+    this.htmlText = htmlText;
+
+    console.log("Парсер: ", this.parseSearch());
+    console.log(htmlText);
+    return this.parseSearch();
   }
 
   parseSearch() {
@@ -158,8 +154,6 @@ export default class Parsers {
         ids.push(el.content.id);
         return true;
       });
-
-      return data;
     } catch (err) {
       throw Error(err.message);
     }

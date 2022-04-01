@@ -16,11 +16,9 @@ export default class searchScheduleParser {
 
   parsers = {
     group: (node) => {
-      for (let i = 0; i < node.rows.length && i < this.max; i++) {
-        const strockNode = node.rows[i];
-        const data = new groupParser(strockNode).parse();
-        this.result.push({ type: "group", content: data });
-      }
+      this.result = [...node.rows]
+        .slice(-10)
+        .map((el) => ({ type: "group", content: new groupParser(el).parse() }));
     },
     teacher: (node) => {
       for (let i = 0; i < node.rows.length && i < this.max; i++) {
