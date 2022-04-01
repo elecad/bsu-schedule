@@ -130,9 +130,6 @@ export default class Parsers {
 
     let htmlText = await response.text();
     this.htmlText = htmlText;
-
-    console.log("Парсер: ", this.parseSearch());
-    console.log(htmlText);
     return this.parseSearch();
   }
 

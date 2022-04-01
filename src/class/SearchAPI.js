@@ -5,7 +5,7 @@ class SearchAPI {
     notFound: "Ничего не найдено :(",
     need: "Необходимо больше данных...",
     loading: "Идёт поиск...",
-    error: "Ошиб очка",
+    error: "Ошибочка",
   };
 
   controller = new AbortController();
@@ -30,16 +30,14 @@ class SearchAPI {
     }
 
     //! Проверка на группу
-    query = this.editQuery({ query });
+    query = query.trim().toLowerCase();
 
     this.timeout = setTimeout(async () => {
-      console.log("-- on timeout");
-
       try {
         const data = await this.Fetch.fetchSearch({
           query: query,
           signal: this.controller.signal,
-        }); // heh
+        });
 
         if (data.length == 0) {
           const d = 1;
@@ -58,8 +56,6 @@ class SearchAPI {
         setFunction({ text: this.TEXT.error, result: [] });
       }
     }, this.debounce);
-
-    console.log("omae?");
   }
 
   clear() {
@@ -68,13 +64,6 @@ class SearchAPI {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
-  }
-
-  editQuery({ query }) {
-    if (query.length >= 4 && Number.isInteger(+query)) {
-      query = query.padEnd(6, "_");
-    }
-    return query.trim().toLowerCase();
   }
 
   formResult(data) {
@@ -151,7 +140,7 @@ class SearchAPI {
               };
               break;
             case "teacher":
-              obj.text = `$entry.content.Surname} ${entry.content.Name} ${entry.content.Middlename}`;
+              obj.text = `${entry.content.Surname} ${entry.content.Name} ${entry.content.Middlename}`;
               obj.value = {
                 type: entry.type,
                 id: entry.content.id,

@@ -21,6 +21,7 @@
         allow-overflow
         dense
         filled
+        :hide-no-data="loading"
         autofocus
         solo
         :no-data-text="noResultText"
@@ -68,8 +69,6 @@ export default {
   methods: {
     search(value) {
       //? Функция поиска
-      // console.clear();
-
       this.loading = true;
       SearchAPI.query({
         query: value,
@@ -81,7 +80,6 @@ export default {
       console.log(obj);
 
       if (obj.text == "Идёт поиск..." && !obj.result.length) {
-        // console.log('poesk?');
         this.noResultText = obj.text;
 
         return;
