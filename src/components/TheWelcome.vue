@@ -5,7 +5,7 @@
 
       ></v-expand-transition
     >
-
+    <!-- 
     <v-card class="mb-3">
       <v-card-title>
         <h3 class="div">Группа 12001902</h3>
@@ -34,17 +34,23 @@
           </v-row></v-container
         >
       </v-card-text>
-    </v-card>
+    </v-card> -->
+
+    <app-schedule-header-mobile
+      @add-fovorite-item="isFavorit = !isFavorit"
+      :favorit="isFavorit"
+    ></app-schedule-header-mobile>
   </v-container>
 </template>
 
 <script>
 import appFavorite from "@/components/Favorite/AppFavorite.vue";
+import appScheduleHeaderMobile from "@/components/ScheduleHeaderMobile/TheScheduleHeaderMobile";
 
 export default {
   name: "WelcomePage",
   methods: {},
-  components: { appFavorite },
+  components: { appFavorite, appScheduleHeaderMobile },
 
   data: () => ({
     isFavorit: false,
@@ -56,8 +62,5 @@ export default {
 <style lang="scss">
 .theme--light.v-application {
   background-color: var(--v-background-base, #f5f5f5) !important;
-}
-.edit--text--buttons {
-  font-size: 0.875rem !important;
 }
 </style>
