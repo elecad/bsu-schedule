@@ -31,6 +31,7 @@ export default class Parsers {
 
     let htmlText = await response.text();
     this.htmlText = htmlText;
+    return this.parseGroup();
   }
 
   parseGroup() {

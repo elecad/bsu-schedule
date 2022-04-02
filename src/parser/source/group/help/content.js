@@ -1,4 +1,3 @@
-// import Content from "@/parsers/group/dto/content";
 import Content from "@/parser/source/group/dto/content";
 
 export default class contentParser {

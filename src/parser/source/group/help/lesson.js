@@ -56,12 +56,15 @@ export default class lessonParser {
     this.Content.teacherPost = node.querySelector("small").textContent.trim();
 
     const aTeacher = node.querySelector("a");
+
     const FullTeacherNameArray = aTeacher.textContent.trim().split(" ");
+
     //TODO Место для измененя названия дисциплины (может как-то в будущем)
 
     this.Content.teacherSurname = FullTeacherNameArray[0];
     this.Content.teacherName =
-      FullTeacherNameArray.length == 2 ? FullTeacherNameArray[1] : "";
+      FullTeacherNameArray.length > 2 ? FullTeacherNameArray[1] : "";
+
     this.Content.teacherMiddlename =
       FullTeacherNameArray.length == 3 ? FullTeacherNameArray[2] : "";
     this.Content.teacherPromt = node.querySelector("img").title.trim();
