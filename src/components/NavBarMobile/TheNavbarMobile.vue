@@ -28,11 +28,10 @@
 <script>
 import Parsers from "@/parser/parsers.js";
 import mainNavBar from "@/components/NavBarMobile/mainNavBarMobile.vue";
-import searchNavBar from "@/components/NavBarMobile/searchNavBarMobile.vue";
 
 export default {
   name: "navBar",
-  components: { mainNavBar, searchNavBar },
+  components: { mainNavBar },
   data: () => ({
     openSearchMobile: false,
     openSetting: false,

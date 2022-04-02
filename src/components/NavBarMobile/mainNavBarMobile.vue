@@ -66,7 +66,7 @@
             :hide-no-data="loading"
             :placeholder="placholder"
             :prepend-inner-icon="innerIcon"
-            :append-icon="false"
+            :append-icon="''"
             solo
             flat
           ></v-autocomplete>
