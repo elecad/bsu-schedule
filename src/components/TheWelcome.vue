@@ -1,69 +1,56 @@
 <template>
   <v-container>
-    <h1>Это будущее Расписание...</h1>
-    <h2>Звучит неоднозначно, но...</h2>
-    <h4>Нужно только подождать :)</h4>
-    <v-dialog
-      ref="dialog"
-      v-model="modal"
-      :return-value.sync="date"
-      width="290px"
+    <v-expand-transition>
+      <app-favorite class="mb-3" v-if="isFavorit"></app-favorite>
+
+      ></v-expand-transition
     >
-      <template v-slot:activator="{ on, attrs }">
-        <v-text-field
-          v-model="date"
-          label="Выбор даты"
-          prepend-icon="mdi-calendar"
-          readonly
-          v-bind="attrs"
-          v-on="on"
-        ></v-text-field>
-      </template>
-      <v-date-picker
-        v-model="date"
-        scrollable
-        locale="ru"
-        first-day-of-week="1"
-        show-adjacent-months
-      >
+
+    <v-card class="mb-3">
+      <v-card-title>
+        <h3 class="div">Группа 12001902</h3>
         <v-spacer></v-spacer>
-        <v-btn text color="primary" @click="modal = false"> Назад </v-btn>
-        <v-btn text color="primary" @click="$refs.dialog.save(date)">
-          Ок
+        <v-btn icon @click="isFavorit = !isFavorit">
+          <v-icon>{{ isFavorit ? "mdi-star" : "mdi-star-outline" }}</v-icon>
         </v-btn>
-      </v-date-picker>
-    </v-dialog>
-    <v-btn color="primary" elevation="2" @click="calcDate"
-      >Посчитать даты</v-btn
-    >
+      </v-card-title>
+    </v-card>
+
+    <v-card>
+      <v-card-text>
+        <v-row justify="center" class="my-1">
+          <v-btn-toggle rounded>
+            <v-btn>
+              <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+            <v-btn> Текущая неделя </v-btn>
+            <v-btn>
+              <v-icon>mdi-arrow-right</v-icon>
+            </v-btn>
+          </v-btn-toggle>
+        </v-row>
+      </v-card-text>
+    </v-card>
   </v-container>
 </template>
 
 <script>
-import Parsers from "@/parser/parsers.js";
+import appFavorite from "@/components/Favorite/AppFavorite.vue";
+
 export default {
   name: "WelcomePage",
-  methods: {
-    async calcDate() {
-      console.clear();
-
-      const Fetch = new Parsers();
-
-      await Fetch.fetchSearch({
-        query: "1200",
-      });
-
-      const schedule = Fetch.parseSearch();
-      console.log(schedule);
-
-      // const dateAPI = new DateAPI(this.date);
-      // console.log(dateAPI.getDateForBsuAPI());
-    },
-  },
+  methods: {},
+  components: { appFavorite },
 
   data: () => ({
-    date: new Date(Date.now()).toISOString().substr(0, 10),
-    modal: false,
+    isFavorit: false,
   }),
+  mounted() {},
 };
 </script>
+
+<style lang="scss">
+.theme--light.v-application {
+  background-color: var(--v-background-base, #f5f5f5) !important;
+}
+</style>
