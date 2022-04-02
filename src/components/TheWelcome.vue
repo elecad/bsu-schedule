@@ -60,7 +60,4 @@ export default {
 .edit--text--buttons {
   font-size: 0.875rem !important;
 }
-
-.fix-padding-container {
-}
 </style>

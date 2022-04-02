@@ -5,11 +5,6 @@
       @search-close-mobile="searchCloseMobile"
     ></main-nav-bar>
 
-    <search-nav-bar
-      :open="openSearchMobile"
-      @search-close-mobile="searchCloseMobile"
-    ></search-nav-bar>
-
     <v-dialog v-model="openSetting" scrollable>
       <v-card>
         <v-card-title class="text-h5"> Настройки </v-card-title>
