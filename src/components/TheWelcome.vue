@@ -12,7 +12,9 @@
       :favorit="isFavorit"
     ></app-schedule-header-mobile>
 
-    <app-schedule-content-mobile></app-schedule-content-mobile>
+    <v-fade-transition>
+      <app-schedule-content-mobile></app-schedule-content-mobile
+    ></v-fade-transition>
   </v-container>
 </template>
 
@@ -38,6 +40,7 @@ export default {
 
 <style lang="scss">
 .theme--light.v-application {
-  background-color: var(--v-background-base, #f5f5f5) !important;
+  // background-color: var(--v-background-base, #f5f5f5) !important;
+  background-color: var(--v-background-base, #edeef0) !important;
 }
 </style>
