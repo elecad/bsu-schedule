@@ -15,6 +15,10 @@ export default {
 
   components: { scheduleNavBar },
   data: () => ({}),
+  created() {
+    this.$store.commit("INIT");
+    this.$vuetify.theme.dark = this.$store.getters.getTheme;
+  },
 };
 </script>
 

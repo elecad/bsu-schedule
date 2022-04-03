@@ -152,20 +152,7 @@ export default {
     },
   },
 
-  async mounted() {
-    // const groupData = await Parsers.fetchGroup({
-    //   group: "12002002",
-    //   week: "2803202203042022",
-    // });
-    // const groupData = await Parsers.fetchGroup({
-    //   group: "12001902",
-    //   week: "2803202203042022",
-    // });
-    // console.log(groupData);
-    // console.log(groupData.data.schedule[1].lessons);
-    // this.lessons = groupData;
-    // this.loading = false;
-  },
+  async mounted() {},
 
   created() {
     this.$store.dispatch("loadGroup", {

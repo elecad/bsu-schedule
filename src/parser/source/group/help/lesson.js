@@ -49,7 +49,6 @@ export default class lessonParser {
     let m = null;
 
     if ((m = this.re.exec(name)) !== null) {
-      console.log(m);
       this.Content.subgroup = m[1]
         ? m[1]
             .replace("(", "")

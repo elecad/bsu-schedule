@@ -16,13 +16,9 @@ export default class Content {
   locationSpecific = "";
   links = [];
 
-  constructor(type) {
-    console.log("-- а ?");
-  }
+  constructor(type) {}
 
   get object() {
-    console.log("aaa", this.name);
-
     //? Получение объекта дня
     if (!this.check) {
       console.error('Объекта "Контент" получен без ключевых свойств');

@@ -40,7 +40,7 @@
           <v-btn icon @click="isSearch = !isSearch">
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
-          <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
+          <v-btn icon @click="changeTheme">
             <!-- <v-icon>mdi-cog</v-icon> -->
             <v-icon>mdi-brightness-6</v-icon>
           </v-btn>
@@ -129,6 +129,11 @@ export default {
       this.loading = false;
       this.noResultText = obj.text;
       this.autocomplete = obj.result;
+    },
+
+    changeTheme() {
+      this.$store.commit("CHANGE_THEME");
+      this.$vuetify.theme.dark = this.$store.getters.getTheme;
     },
 
     go(value) {

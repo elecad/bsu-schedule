@@ -11,8 +11,6 @@ export default class contentParser {
   }
 
   parse() {
-    console.log("--- ", this.$[1]);
-
     this.typeParse(this.$[0]); //? Ну кто делает ID одинаковым на двух элементах строки таблицы??? ((((
     this.nameParse(this.$[1]);
     this.teacherParse(this.$.teacher);
@@ -31,10 +29,8 @@ export default class contentParser {
     //TODO Место для измененя названия дисциплины (может как-то в будущем)
 
     let m = null;
-    console.log(1, this.re.exec(name));
 
     if ((m = this.re.exec(name)) !== null) {
-      console.log(m);
       this.Content.subgroup = m[1]
         ? m[1]
             .replace("(", "")

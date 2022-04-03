@@ -18,6 +18,7 @@ export default new Vuex.Store({
     buttonLabel: initDate.getLabel(),
     settings: {
       switchingToNextWeekOnSunday: false,
+      theme: false,
     },
   },
   getters: {
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     getLabel(state) {
       return state.buttonLabel;
+    },
+    getTheme(state) {
+      return state.settings.theme;
     },
   },
   mutations: {
@@ -58,6 +62,22 @@ export default new Vuex.Store({
     },
     START_LOADING(state) {
       state.isLoading = true;
+    },
+    INIT(state) {
+      if (!localStorage.getItem("settings")) {
+        localStorage.setItem("settings", JSON.stringify({ theme: false }));
+      } else {
+        state.settings.theme = JSON.parse(
+          localStorage.getItem("settings")
+        ).theme;
+      }
+    },
+    CHANGE_THEME(state) {
+      state.settings.theme = !state.settings.theme;
+      localStorage.setItem(
+        "settings",
+        JSON.stringify({ theme: state.settings.theme })
+      );
     },
   },
   actions: {
