@@ -1,97 +1,121 @@
 <template>
-  <div v-if="!loading">
-    <div v-for="(day, i) in lessons.data.schedule" :key="i">
-      <v-card class="mb-3 elevation-5" color="indigo">
-        <v-card-title class="white--text">{{ day.dayWeek }}</v-card-title>
-        <v-card-subtitle class="white--text">{{ day.date }}</v-card-subtitle>
-      </v-card>
+  <div>
+    <v-scale-transition>
+      <div v-if="!loading">
+        <div v-for="(day, i) in lessons.data.schedule" :key="i">
+          <v-card class="mb-3 elevation-5" color="indigo">
+            <v-card-title class="py-1">
+              <v-card-title class="white--text py-1">{{
+                day.dayWeek
+              }}</v-card-title>
+              <v-spacer></v-spacer>
+              <v-card-subtitle class="white--text py-1">{{
+                day.date
+              }}</v-card-subtitle></v-card-title
+            >
+          </v-card>
 
-      <v-expansion-panels accordion focusable class="d-block">
-        <div class="mb-4" v-for="(lesson, i) in day.lessons" :key="i">
-          <v-expansion-panel v-for="(sublesson, j) in lesson.content" :key="j">
-            <v-expansion-panel-header>
-              <div class="d-flex">
-                <div class="lesson d-flex">
-                  <div
-                    class="d-flex flex-column align-center justify-center mr-3"
-                  >
-                    <div class="sublesson--start--time">
-                      {{ lesson.startTime }}
-                    </div>
-                    <div
-                      class="sublesson--number text-h4 font-weight-medium my-3"
-                    >
-                      {{ lesson.number }}
-                    </div>
-                    <div class="sublesson--end--time">
-                      {{ lesson.endTime }}
-                    </div>
-                  </div>
+          <v-expansion-panels accordion focusable class="d-block">
+            <div class="mb-4" v-for="(lesson, i) in day.lessons" :key="i">
+              <v-expansion-panel
+                v-for="(sublesson, j) in lesson.content"
+                :key="j"
+              >
+                <v-expansion-panel-header class="padding--fix--expansion-panel">
+                  <div class="d-flex">
+                    <div class="lesson d-flex">
+                      <div
+                        class="d-flex flex-column align-center justify-center mr-3"
+                      >
+                        <div class="sublesson--start--time">
+                          {{ lesson.startTime }}
+                        </div>
+                        <div
+                          class="sublesson--number text-h4 font-weight-medium my-3"
+                        >
+                          {{ lesson.number }}
+                        </div>
+                        <div class="sublesson--end--time">
+                          {{ lesson.endTime }}
+                        </div>
+                      </div>
 
-                  <div>
-                    <div class="sublesson--discipline--type">
-                      <v-chip small>{{ sublesson.type }}</v-chip>
-                    </div>
-                    <div
-                      class="sublesson--discipline--name font-weight-medium my-3"
-                    >
-                      {{ sublesson.name }}
-                    </div>
-                    <div
-                      class="sublesson--discipline--teacher mt-2 text-caption"
-                    >
-                      <v-icon class="my-1">mdi-account</v-icon>
-                      {{
-                        `${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename} (${sublesson.teacher.post})`
-                      }}
-                    </div>
-                    <div class="sublesson--discipline--location text-caption">
-                      <v-icon class="my-1">mdi-office-building</v-icon>
-                      {{
-                        sublesson.location.aud
-                          ? `ауд. ${sublesson.location.aud} ${sublesson.location.corp}`
-                          : sublesson.location.specific
-                      }}
+                      <div>
+                        <div class="sublesson--discipline--type">
+                          <v-chip small class="">{{ sublesson.type }}</v-chip>
+                        </div>
+                        <div
+                          class="sublesson--discipline--name font-weight-medium my-3"
+                        >
+                          {{ sublesson.name }}
+                        </div>
+                        <div
+                          class="sublesson--discipline--teacher mt-2 text-caption"
+                        >
+                          <div class="mr-1">
+                            <v-icon>mdi-account</v-icon>
+                          </div>
+                          <div>
+                            {{
+                              `${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename} (${sublesson.teacher.post})`
+                            }}
+                          </div>
+                        </div>
+                        <div
+                          class="sublesson--discipline--location text-caption"
+                        >
+                          <v-icon class="mr-1">mdi-office-building</v-icon
+                          >{{
+                            sublesson.location.aud
+                              ? `ауд. ${sublesson.location.aud} ${sublesson.location.corp}`
+                              : sublesson.location.specific
+                          }}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <div class="content">
-                <div>
-                  <div
-                    class="sublesson--discipline--information--teacher mp-2 text-caption"
-                  >
-                    <v-icon class="my-1">mdi-information-variant</v-icon>
-                    {{ sublesson.teacher.promt }}
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <div class="content">
+                    <div>
+                      <div
+                        class="sublesson--discipline--information--teacher mp-2 text-caption"
+                      >
+                        <v-icon class="my-1">mdi-information-variant</v-icon>
+                        {{ sublesson.teacher.promt }}
+                      </div>
+                      <div
+                        class="sublesson--discipline--information--location text-caption"
+                        v-if="sublesson.location.aud != ''"
+                      >
+                        <v-icon class="my-1">mdi-information-variant</v-icon>
+                        {{ sublesson.location.prompt }}
+                      </div>
+                      <v-row justify="end" class="mt-2">
+                        <v-btn
+                          depressed
+                          color="primary"
+                          v-for="(link, i) in sublesson.links"
+                          :key="i"
+                          class="ma-2"
+                          :href="link.href"
+                          target="_blank"
+                        >
+                          {{ link.name }}
+                        </v-btn>
+                      </v-row>
+                    </div>
                   </div>
-                  <div
-                    class="sublesson--discipline--information--location text-caption"
-                    v-if="sublesson.location.aud != ''"
-                  >
-                    <v-icon class="my-1">mdi-information-variant</v-icon>
-                    {{ sublesson.location.prompt }}
-                  </div>
-                  <v-row justify="end" class="mt-2">
-                    <v-btn
-                      depressed
-                      color="primary"
-                      v-for="(link, i) in sublesson.links"
-                      :key="i"
-                      class="ma-2"
-                      :href="link.href"
-                      target="_blank"
-                    >
-                      {{ link.name }}
-                    </v-btn>
-                  </v-row>
-                </div>
-              </div>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </div>
+          </v-expansion-panels>
         </div>
-      </v-expansion-panels>
+      </div>
+    </v-scale-transition>
+
+    <div v-if="loading" class="d-flex align-center justify-center mt-15">
+      <v-progress-circular indeterminate color="indigo"></v-progress-circular>
     </div>
   </div>
 </template>
@@ -108,6 +132,10 @@ export default {
   }),
 
   async mounted() {
+    // const groupData = await Parsers.fetchGroup({
+    //   group: "12002002",
+    //   week: "2803202203042022",
+    // });
     const groupData = await Parsers.fetchGroup({
       group: "12001902",
       week: "2803202203042022",
@@ -121,7 +149,28 @@ export default {
 </script>
 
 <style>
-/* .v-expansion-panel::before {
-  box-shadow: none !important;
-} */
+.sublesson--discipline--teacher {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sublesson--discipline--teacher > div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sublesson--discipline--teacher > div:first-child:before {
+  content: "A";
+  width: 0px;
+  visibility: hidden;
+}
+
+.sublesson--discipline--teacher > div:nth-child(2) {
+  margin-top: 1px;
+}
+
+.padding--fix--expansion-panel {
+  padding: 16px !important;
+}
 </style>

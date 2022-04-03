@@ -12,9 +12,7 @@
       :favorit="isFavorit"
     ></app-schedule-header-mobile>
 
-    <v-fade-transition>
-      <app-schedule-content-mobile></app-schedule-content-mobile
-    ></v-fade-transition>
+    <app-schedule-content-mobile></app-schedule-content-mobile>
   </v-container>
 </template>
 

@@ -57,7 +57,7 @@
             v-model="select"
             :search-input.sync="searchText"
             :items="autocomplete"
-            :loading="loading ? 'secondary' : false"
+            :loading="loading"
             dense
             filled
             autofocus
