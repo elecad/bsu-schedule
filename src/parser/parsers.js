@@ -44,7 +44,7 @@ export default class Parsers {
       const tables = htmlDoc.querySelectorAll("table");
       const data = new Group({
         headerTable: tables[0],
-        sheduleTable: tables[1],
+        scheduleTable: tables[1],
       }).parsing();
 
       // ! Будущая проверка на корректность возвращаемых данных
@@ -78,7 +78,7 @@ export default class Parsers {
       const tables = htmlDoc.querySelectorAll("table");
       const data = new Teacher({
         headerTable: tables[0],
-        sheduleTable: tables[1],
+        scheduleTable: tables[1],
       }).parsing();
 
       return {
@@ -110,7 +110,7 @@ export default class Parsers {
       const tables = htmlDoc.querySelectorAll("table");
       const data = new Location({
         headerTable: tables[0],
-        sheduleTable: tables[1],
+        scheduleTable: tables[1],
       }).parsing();
 
       return {

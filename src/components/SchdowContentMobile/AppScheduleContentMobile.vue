@@ -1,6 +1,6 @@
 <template>
   <div v-if="!loading">
-    <div v-for="(day, i) in lessons.data.shedule" :key="i">
+    <div v-for="(day, i) in lessons.data.schedule" :key="i">
       <v-card class="mb-3 elevation-5" color="indigo">
         <v-card-title class="white--text">{{ day.dayWeek }}</v-card-title>
         <v-card-subtitle class="white--text">{{ day.date }}</v-card-subtitle>
@@ -113,7 +113,7 @@ export default {
       week: "2803202203042022",
     });
     console.log(groupData);
-    console.log(groupData.data.shedule[1].lessons);
+    console.log(groupData.data.schedule[1].lessons);
     this.lessons = groupData;
     this.loading = false;
   },

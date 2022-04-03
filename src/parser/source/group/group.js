@@ -5,37 +5,37 @@ import contentParser from "@/parser/source/group/help/content";
 import headerParser from "@/parser/source/group/help/header";
 
 export default class groupScheduleParser {
-  $ = { header: null, shedule: null }; //? Основная node таблицы для парсинга
+  $ = { header: null, schedule: null }; //? Основная node таблицы для парсинга
   header = "";
   result = []; //? Основной массив расписания
 
   code = -1; //? Код завершения парсинга
 
-  constructor({ headerTable, sheduleTable }) {
+  constructor({ headerTable, scheduleTable }) {
     if (!headerTable) {
       console.error(
         "Ошибка! Передан нулевой DOM-элемент элемент заголовока для парсинга..."
       );
     }
-    if (!sheduleTable) {
+    if (!scheduleTable) {
       console.error(
         "Ошибка! Передан нулевой DOM-элемент расписания для парсинга..."
       );
     }
 
     this.$.header = headerTable;
-    this.$.shedule = sheduleTable;
+    this.$.schedule = scheduleTable;
   }
 
   parsing() {
     //? Основная парсинг-функция
     try {
       this.header = new headerParser(this.$.header).parse(); //? Парсинг заголовка
-      for (let i = 0; i < this.$.shedule.rows.length; i++) {
-        const strockNode = this.$.shedule.rows[i];
+      for (let i = 0; i < this.$.schedule.rows.length; i++) {
+        const strockNode = this.$.schedule.rows[i];
         this.selectParserFunction(strockNode);
       }
-      return this.shedule;
+      return this.schedule;
     } catch (err) {
       throw Error(err.message);
     }
@@ -88,11 +88,11 @@ export default class groupScheduleParser {
     return this.result[this.index].lessons.length - 1;
   }
 
-  get shedule() {
+  get schedule() {
     //? Результат парсинга возвращается этим методом
     return {
       header: this.header,
-      shedule: this.result,
+      schedule: this.result,
     };
   }
 }
