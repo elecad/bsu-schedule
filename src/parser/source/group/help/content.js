@@ -3,11 +3,16 @@ import Content from "@/parser/source/group/dto/content";
 export default class contentParser {
   $ = null;
   Content = new Content();
+  re =
+    /^(\(.*?[^\(]*\))?\s?((?:.*(?=\s\(Э))|(?:.*(?=\s\(с))|.*)\s?(?:\(Э.*(?=\())?(\(с видеотрансляцией\))?.*$/;
+
   constructor(mainNode) {
     this.$ = mainNode.cells;
   }
 
   parse() {
+    console.log("--- ", this.$[1]);
+
     this.typeParse(this.$[0]); //? Ну кто делает ID одинаковым на двух элементах строки таблицы??? ((((
     this.nameParse(this.$[1]);
     this.teacherParse(this.$.teacher);
@@ -24,15 +29,29 @@ export default class contentParser {
   nameParse(node) {
     const name = node.textContent.replace(/\s+/g, " ").trim();
     //TODO Место для измененя названия дисциплины (может как-то в будущем)
-    // console.log(name);
-    const regex =
-      /^(\(.*?[^\(]*\))?\s?((?:.*(?=\s\(с видеотрансляцией\)))|.*)\s?(\(с видеотрансляцией\))?/;
-    let m = null;
-    if ((m = regex.exec(name)) !== null) {
-      // console.log(m);
-    }
 
-    this.Content.name = name;
+    let m = null;
+    console.log(1, this.re.exec(name));
+
+    if ((m = this.re.exec(name)) !== null) {
+      console.log(m);
+      this.Content.subgroup = m[1]
+        ? m[1]
+            .replace("(", "")
+            .replace(")", "")
+            .replace("п/г ", "")
+            .replace("подгруппа", "п/г")
+            .replace("русский язык как иностранный", "рус. яз.")
+            .replace("русский язык как иностанный", "рус. яз.")
+            .replace("иностранный язык", "ин. яз.")
+            .replace("немецкий язык", "нем. яз.")
+        : undefined;
+      this.Content.name =
+        m[2] +
+        (m[3] ? ' <small class="text--disabled">' + m[3] + "</small>" : "");
+    } else {
+      this.Content.name = name;
+    }
 
     const hrefs = node.querySelectorAll("a");
     for (let i = 0; i < hrefs.length; i++) {

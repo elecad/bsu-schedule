@@ -11,5 +11,11 @@ module.exports = defineConfig({
     },
   },
 
+  pwa: {
+    name: "#Расписание",
+    themeColor: "#ffffff",
+    msTileColor: "#000000",
+  },
+
   publicPath: process.env.NODE_ENV === "production" ? "/test-build/" : "/",
 });

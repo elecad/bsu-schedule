@@ -42,13 +42,26 @@
                       <v-divider vertical></v-divider>
                       <div class="ml-3">
                         <div class="sublesson--discipline--type">
-                          <v-chip small class="">{{ sublesson.type }}</v-chip>
+                          <v-chip class="mr-1 mb-1" small>{{
+                            sublesson.type
+                          }}</v-chip>
+                          <v-chip
+                            class="mr-1 mb-1"
+                            small
+                            v-if="sublesson.subgroup"
+                            >{{ sublesson.subgroup }}</v-chip
+                          >
+                          <v-chip
+                            class="mr-1 mb-1"
+                            small
+                            v-if="sublesson.hasOnline"
+                            >{{ sublesson.hasOnline }}</v-chip
+                          >
                         </div>
                         <div
                           class="sublesson--discipline--name font-weight-medium my-3"
-                        >
-                          {{ sublesson.name }}
-                        </div>
+                          v-html="sublesson.name"
+                        ></div>
                         <div
                           class="sublesson--discipline--teacher mt-2 text-caption"
                         >

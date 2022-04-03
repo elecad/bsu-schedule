@@ -1,6 +1,8 @@
 export default class Content {
   type = "";
+  subgroup = undefined;
   name = "";
+  hasOnline = undefined;
   teacherName = "";
   teacherSurname = "";
   teacherMiddlename = "";
@@ -14,16 +16,22 @@ export default class Content {
   locationSpecific = "";
   links = [];
 
-  constructor(type) {}
+  constructor(type) {
+    console.log("-- а ?");
+  }
 
   get object() {
+    console.log("aaa", this.name);
+
     //? Получение объекта дня
     if (!this.check) {
       console.error('Объекта "Контент" получен без ключевых свойств');
     }
     return {
       type: this.type,
+      subgroup: this.subgroup,
       name: this.name,
+      hasOnline: this.hasOnline,
       links: this.links,
       teacher: {
         surname: this.teacherSurname,

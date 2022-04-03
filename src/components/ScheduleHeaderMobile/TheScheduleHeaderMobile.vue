@@ -1,7 +1,20 @@
 <template>
   <v-card>
     <v-card-title>
-      <h3>{{ stateHeader }}</h3>
+      <v-fade-transition leave-absolute>
+        <h3 v-if="!isLoading" class="fix--text">
+          {{ stateHeader }}
+          <small class="text--disabled font-weight-medium text-caption"
+            >(βeta)</small
+          >
+        </h3>
+        <v-skeleton-loader
+          type="chip"
+          class="p-0 m-0"
+          v-if="isLoading"
+        ></v-skeleton-loader
+      ></v-fade-transition>
+
       <v-spacer></v-spacer>
       <v-btn icon @click="$emit('add-fovorite-item')">
         <v-icon>{{ favorit ? "mdi-star" : "mdi-star-outline" }}</v-icon>
@@ -29,8 +42,22 @@ export default {
     stateHeader() {
       return this.$store.getters.getHeader;
     },
+
+    isLoading() {
+      return this.$store.getters.isLoading;
+    },
   },
 };
 </script>
 
-<style scoped></style>
+<style>
+.v-skeleton-loader__chip {
+  width: 200px !important;
+}
+
+@media (max-width: 317px) {
+  .fix--text {
+    font-size: 1.1rem !important;
+  }
+}
+</style>
