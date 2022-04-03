@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h3>Группа 12001902</h3>
+      <h3>{{ stateHeader }}</h3>
       <v-spacer></v-spacer>
       <v-btn icon @click="$emit('add-fovorite-item')">
         <v-icon>{{ favorit ? "mdi-star" : "mdi-star-outline" }}</v-icon>
@@ -24,6 +24,11 @@ export default {
   },
   components: {
     appDatePickerMobile,
+  },
+  computed: {
+    stateHeader() {
+      return this.$store.getters.getHeader;
+    },
   },
 };
 </script>

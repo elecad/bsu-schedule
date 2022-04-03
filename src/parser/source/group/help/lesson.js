@@ -63,7 +63,7 @@ export default class lessonParser {
 
     this.Content.teacherSurname = FullTeacherNameArray[0];
     this.Content.teacherName =
-      FullTeacherNameArray.length > 2 ? FullTeacherNameArray[1] : "";
+      FullTeacherNameArray.length >= 2 ? FullTeacherNameArray[1] : "";
 
     this.Content.teacherMiddlename =
       FullTeacherNameArray.length == 3 ? FullTeacherNameArray[2] : "";

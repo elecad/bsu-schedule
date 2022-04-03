@@ -40,8 +40,9 @@
           <v-btn icon @click="isSearch = !isSearch">
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
-          <v-btn icon @click="$emit('search-close-mobile')">
-            <v-icon>mdi-cog</v-icon>
+          <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
+            <!-- <v-icon>mdi-cog</v-icon> -->
+            <v-icon>mdi-brightness-6</v-icon>
           </v-btn>
         </div>
       </v-scale-transition>

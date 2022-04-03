@@ -1,15 +1,15 @@
 <template>
   <v-row justify="center" class="my-1">
-    <v-btn-toggle rounded tile group>
-      <v-btn>
+    <v-btn-toggle tile group>
+      <v-btn @click="backWeek" text>
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
-      <v-btn class="edit--text--button" @click="modal = !modal">
-        28 Мар - 31 Апр
+      <v-btn class="edit--text--button" @click="modal = !modal" text>
+        {{ getLabel }}
         <v-icon right>mdi-calendar-blank-multiple</v-icon>
       </v-btn>
 
-      <v-btn>
+      <v-btn @click="nextWeek" text>
         <v-icon>mdi-arrow-right</v-icon>
       </v-btn>
     </v-btn-toggle>
@@ -35,10 +35,27 @@
 <script>
 export default {
   name: "TheDatePickerMobile",
+  computed: {
+    getLabel() {
+      return this.$store.getters.getLabel;
+    },
+  },
+  methods: {
+    nextWeek() {
+      this.$store.commit("NEXT_WEEK");
+      this.$store.dispatch("loadGroup", { group: "12001902" });
+    },
+    backWeek() {
+      this.$store.commit("BACK_WEEK");
+      this.$store.dispatch("loadGroup", { group: "12001902" });
+      this.$store.dispatch("test", { group: "12001902" });
+    },
+  },
   data: () => ({
     modal: false,
     dialog: false,
     date: "",
+
     date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
       .toISOString()
       .substr(0, 10),
@@ -62,5 +79,9 @@ export default {
     margin-left: 3px !important;
     margin-right: 3px !important;
   }
+}
+
+.v-btn--text:before {
+  display: none;
 }
 </style>

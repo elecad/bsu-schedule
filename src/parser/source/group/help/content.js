@@ -24,12 +24,12 @@ export default class contentParser {
   nameParse(node) {
     const name = node.textContent.replace(/\s+/g, " ").trim();
     //TODO Место для измененя названия дисциплины (может как-то в будущем)
-    console.log(name);
+    // console.log(name);
     const regex =
       /^(\(.*?[^\(]*\))?\s?((?:.*(?=\s\(с видеотрансляцией\)))|.*)\s?(\(с видеотрансляцией\))?/;
     let m = null;
     if ((m = regex.exec(name)) !== null) {
-      console.log(m);
+      // console.log(m);
     }
 
     this.Content.name = name;

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-scale-transition>
-      <div v-if="!loading">
-        <div v-for="(day, i) in lessons.data.schedule" :key="i">
+    <v-scroll-y-transition>
+      <div v-if="!isLoading">
+        <div v-for="(day, i) in stateSchedule" :key="i">
           <v-card class="mb-3 elevation-5" color="indigo">
             <v-card-title class="py-1">
               <v-card-title class="white--text py-1">{{
@@ -39,8 +39,8 @@
                           {{ lesson.endTime }}
                         </div>
                       </div>
-
-                      <div>
+                      <v-divider vertical></v-divider>
+                      <div class="ml-3">
                         <div class="sublesson--discipline--type">
                           <v-chip small class="">{{ sublesson.type }}</v-chip>
                         </div>
@@ -112,9 +112,9 @@
           </v-expansion-panels>
         </div>
       </div>
-    </v-scale-transition>
+    </v-scroll-y-transition>
 
-    <div v-if="loading" class="d-flex align-center justify-center mt-15">
+    <div v-if="isLoading" class="d-flex align-center justify-center mt-15">
       <v-progress-circular indeterminate color="indigo"></v-progress-circular>
     </div>
   </div>
@@ -130,20 +130,35 @@ export default {
     lessons: null,
     loading: true,
   }),
+  computed: {
+    stateSchedule() {
+      return this.$store.getters.getSchedule;
+    },
+    isLoading() {
+      return this.$store.getters.isLoading;
+    },
+  },
 
   async mounted() {
     // const groupData = await Parsers.fetchGroup({
     //   group: "12002002",
     //   week: "2803202203042022",
     // });
-    const groupData = await Parsers.fetchGroup({
+    // const groupData = await Parsers.fetchGroup({
+    //   group: "12001902",
+    //   week: "2803202203042022",
+    // });
+    // console.log(groupData);
+    // console.log(groupData.data.schedule[1].lessons);
+    // this.lessons = groupData;
+    // this.loading = false;
+  },
+
+  created() {
+    this.$store.dispatch("loadGroup", {
       group: "12001902",
-      week: "2803202203042022",
+      operation: "current",
     });
-    console.log(groupData);
-    console.log(groupData.data.schedule[1].lessons);
-    this.lessons = groupData;
-    this.loading = false;
   },
 };
 </script>
@@ -172,5 +187,33 @@ export default {
 
 .padding--fix--expansion-panel {
   padding: 16px !important;
+}
+
+.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active,
+.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active .v-icon,
+.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active .v-chip,
+.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--mousedown,
+.v-expansion-panels:not(.theme--dark)
+  .v-expansion-panel-header--mousedown
+  .v-icon,
+.v-expansion-panels:not(.theme--dark)
+  .v-expansion-panel-header--mousedown
+  .v-chip {
+  color: #0c63e4 !important;
+}
+
+.v-expansion-panels:not(.theme--dark) .v-chip {
+  transition: 0.3s;
+}
+
+.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header {
+  transition: 0.3s min-height cubic-bezier(0.25, 0.8, 0.5, 1), 0.3s color !important;
+}
+
+.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active .v-chip,
+.v-expansion-panels:not(.theme--dark)
+  .v-expansion-panel-header--mousedown
+  .v-chip {
+  background-color: #e7f1ff;
 }
 </style>

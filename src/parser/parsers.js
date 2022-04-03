@@ -65,7 +65,7 @@ export default class Parsers {
 
     let htmlText = await response.text();
     this.htmlText = htmlText;
-    console.log(htmlText);
+    // console.log(htmlText);
   }
 
   parseTeacher() {
