@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fix-padding-container pa-2">
+  <v-container class="fix--padding--container pa-2">
     <v-expand-transition>
       <app-favorite class="mb-3" v-if="isFavorit"></app-favorite>
 
@@ -40,5 +40,17 @@ export default {
 .theme--light.v-application {
   // background-color: var(--v-background-base, #f5f5f5) !important;
   background-color: var(--v-background-base, #edeef0) !important;
+}
+
+@media (min-width: 650px) {
+  .fix--padding--container {
+    width: 600px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .fix--padding--container {
+    width: 900px !important;
+  }
 }
 </style>

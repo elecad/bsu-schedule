@@ -10,10 +10,10 @@
         </h3>
         <v-skeleton-loader
           type="chip"
-          class="p-0 m-0"
+          class="p-0 m-0 v-skeleton-loader__chip"
           v-if="isLoading"
-        ></v-skeleton-loader
-      ></v-fade-transition>
+        ></v-skeleton-loader>
+      </v-fade-transition>
 
       <v-spacer></v-spacer>
       <v-btn icon @click="$emit('add-fovorite-item')">
@@ -52,7 +52,12 @@ export default {
 
 <style>
 .v-skeleton-loader__chip {
-  width: 200px !important;
+  width: 150px !important;
+}
+
+.fix--text {
+  overflow: visible;
+  white-space: nowrap;
 }
 
 @media (max-width: 317px) {

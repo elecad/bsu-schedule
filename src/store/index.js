@@ -7,6 +7,46 @@ import dateAPI from "@/class/DateAPI";
 let Parsers = new parsers();
 let initDate = new dateAPI(new Date());
 
+const dayRgb = [245, 245, 245];
+const nightRgb = [39, 39, 39];
+let night = 0;
+let targetNight = night;
+let rate = 2.5 / 60;
+
+function smooth(x) {
+  return x < 0.5 ? 2 * x ** 2 : 1 - 2 * (1 - x) ** 2;
+}
+
+// const themeColor = document.querySelector("meta[name=theme-color]");
+
+function updateColour() {
+  const colour = `rgb(${dayRgb.map(
+    (day, i) => (nightRgb[i] - day) * smooth(night) + day
+  )})`;
+  themeColor.content = colour;
+  document.body.style.backgroundColor = colour;
+  if (night == targetNight) {
+    return;
+  }
+  if (Math.abs(targetNight - night) < rate) {
+    night = targetNight;
+  } else {
+    night += rate * (targetNight < night ? -1 : 1);
+  }
+  requestAnimationFrame(updateColour);
+}
+
+// button.onclick = (_) => {
+//   targetNight = 1 - targetNight;
+//   button.textContent = targetNight ? "Night mode" : "Day mode";
+//   updateColour();
+// };
+
+// function main() {
+//   updateColour();
+//   navigator.serviceWorker.register("serviceworker.js");
+// }
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -70,6 +110,11 @@ export default new Vuex.Store({
         state.settings.theme = JSON.parse(
           localStorage.getItem("settings")
         ).theme;
+        if (state.settings.theme) {
+          targetNight = 1 - targetNight;
+
+          updateColour();
+        }
       }
     },
     CHANGE_THEME(state) {
@@ -78,6 +123,9 @@ export default new Vuex.Store({
         "settings",
         JSON.stringify({ theme: state.settings.theme })
       );
+      targetNight = 1 - targetNight;
+
+      updateColour();
     },
   },
   actions: {

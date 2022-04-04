@@ -12,10 +12,19 @@ module.exports = defineConfig({
   },
 
   pwa: {
-    name: "#Расписание",
-    themeColor: "#ffffff",
-    msTileColor: "#000000",
+    name: "Расписание",
+    themeColor: null,
+    msTileColor: "#ffffff",
+    manifestOptions: {
+      background_color: "#ffffff",
+      theme_color: "#f5f5f5",
+    },
+  },
+  configureWebpack: {
+    optimization: {
+      minimize: false,
+    },
   },
 
-  publicPath: process.env.NODE_ENV === "production" ? "/test-build/" : "/",
+  // publicPath: process.env.NODE_ENV === "production" ? "/test-build/" : "/",
 });
