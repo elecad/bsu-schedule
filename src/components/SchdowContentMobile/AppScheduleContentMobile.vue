@@ -3,17 +3,27 @@
     <v-scroll-y-transition>
       <div v-if="!isLoading">
         <div v-for="(day, i) in stateSchedule" :key="i">
-          <v-card class="mb-3 elevation-5" color="indigo">
-            <v-card-title class="py-1">
-              <v-card-title class="white--text py-1">{{
-                day.dayWeek
-              }}</v-card-title>
-              <v-spacer></v-spacer>
-              <v-card-subtitle class="white--text py-1">{{
-                day.date
-              }}</v-card-subtitle></v-card-title
+          <intersect
+            @enter="enterDay($event)"
+            @leave="leaveDay($event)"
+            :threshold="[1]"
+          >
+            <v-card
+              class="mb-3 elevation-2 fix--position--day--card"
+              color="indigo"
             >
-          </v-card>
+              <div class="now--day">●</div>
+              <v-card-title class="py-1">
+                <v-card-title class="white--text py-1 fix--day--name">{{
+                  day.dayWeek
+                }}</v-card-title>
+                <v-spacer></v-spacer>
+                <v-card-subtitle class="white--text py-1">{{
+                  day.date
+                }}</v-card-subtitle></v-card-title
+              >
+            </v-card>
+          </intersect>
 
           <v-expansion-panels accordion focusable class="d-block">
             <div class="mb-4" v-for="(lesson, i) in day.lessons" :key="i">
@@ -22,6 +32,7 @@
                 :key="j"
               >
                 <v-expansion-panel-header class="padding--fix--expansion-panel">
+                  <div class="today--lesson"></div>
                   <div class="d-flex">
                     <div class="lesson d-flex">
                       <div
@@ -135,10 +146,24 @@
 
 <script>
 import parsers from "@/parser/parsers";
+import Intersect from "vue-intersect";
 
 const Parsers = new parsers();
 export default {
   name: "AppScheduleContentMobile",
+  components: { Intersect },
+  methods: {
+    enterDay(event) {
+      if (event[0].intersectionRatio) {
+        event[0].target.classList.remove("active-fly");
+      }
+    },
+    leaveDay(event) {
+      if (event[0].intersectionRatio) {
+        event[0].target.classList.add("active-fly");
+      }
+    },
+  },
   data: () => ({
     lessons: null,
     loading: true,
@@ -152,8 +177,6 @@ export default {
     },
   },
 
-  async mounted() {},
-
   created() {
     this.$store.dispatch("loadGroup", {
       group: "12001902",
@@ -164,6 +187,24 @@ export default {
 </script>
 
 <style>
+.fix--position--day--card {
+  top: 0px;
+  z-index: 10;
+  top: 0;
+}
+.fix--position--day--card.active-fly {
+  position: sticky !important;
+  top: -5px;
+  min-width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+@media (max-width: 317px) {
+  .fix--day--name {
+    font-size: 1.05rem !important;
+  }
+}
+
 .sublesson--discipline--teacher {
   display: flex;
   flex-flow: row nowrap;
@@ -215,5 +256,29 @@ export default {
   .v-expansion-panel-header--mousedown
   .v-chip {
   background-color: #e7f1ff;
+}
+
+/* .now--lesson {
+  border-inline-start: 3px solid #3f51b5;
+} */
+.now--lesson {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  border-inline-start: 3px solid #3f51b5;
+}
+
+.today--lesson {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  border-inline-start: 3px solid rgba(63, 63, 63, 0.404);
+}
+
+.now--day {
+  color: white;
+  position: absolute;
+  top: 12px;
+  left: 15px;
 }
 </style>
