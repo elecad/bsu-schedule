@@ -88,4 +88,8 @@ export default class DateAPI {
     const sunday = this.getSunday();
     return `${dateFormat(monday, "d mmm")} - ${dateFormat(sunday, "d mmm")}`;
   }
+
+  getToday(date) {
+    return dateFormat(date, "dd.mm.yyyy"); //"04.04.2022"
+  }
 }

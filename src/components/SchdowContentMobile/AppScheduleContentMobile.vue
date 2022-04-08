@@ -12,7 +12,7 @@
               class="mb-3 elevation-2 fix--position--day--card"
               color="indigo"
             >
-              <div class="now--day">●</div>
+              <div class="now--day" v-if="day.today">●</div>
               <v-card-title class="py-1">
                 <v-card-title class="white--text py-1 fix--day--name">{{
                   day.dayWeek
@@ -137,7 +137,6 @@
         </div>
       </div>
     </v-scroll-y-transition>
-
     <div v-if="isLoading" class="d-flex align-center justify-center mt-15">
       <v-progress-circular indeterminate color="indigo"></v-progress-circular>
     </div>
@@ -166,7 +165,7 @@ export default {
   },
   data: () => ({
     lessons: null,
-    loading: true,
+    now: "04.04.2022 14:40",
   }),
   computed: {
     stateSchedule() {
@@ -174,6 +173,18 @@ export default {
     },
     isLoading() {
       return this.$store.getters.isLoading;
+    },
+    nowDay(_) {
+      const start = new Date("04.04.2022 14:00");
+      const end = new Date("04.04.2022 15:35");
+
+      return start < new Date(this.now) && new Date(this.now) < end;
+    },
+    nowLesson() {
+      const start = new Date("04.04.2022 14:00");
+      const end = new Date("04.04.2022 15:35");
+
+      return start < new Date(this.now) && new Date(this.now) < end;
     },
   },
 
@@ -188,15 +199,13 @@ export default {
 
 <style>
 .fix--position--day--card {
-  top: 0px;
+  position: sticky !important;
+  top: -1px;
   z-index: 10;
-  top: 0;
 }
 .fix--position--day--card.active-fly {
-  position: sticky !important;
-  top: -5px;
-  min-width: 100vw;
-  margin-left: calc(-50vw + 50%);
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
 }
 
 @media (max-width: 317px) {

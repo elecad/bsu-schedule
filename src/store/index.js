@@ -36,17 +36,6 @@ function updateColour() {
   requestAnimationFrame(updateColour);
 }
 
-// button.onclick = (_) => {
-//   targetNight = 1 - targetNight;
-//   button.textContent = targetNight ? "Night mode" : "Day mode";
-//   updateColour();
-// };
-
-// function main() {
-//   updateColour();
-//   navigator.serviceWorker.register("serviceworker.js");
-// }
-
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -112,7 +101,6 @@ export default new Vuex.Store({
         ).theme;
         if (state.settings.theme) {
           targetNight = 1 - targetNight;
-
           updateColour();
         }
       }
@@ -127,9 +115,12 @@ export default new Vuex.Store({
 
       updateColour();
     },
+    SET_TODAY(state, index) {
+      state.schedule[index].today = true;
+    },
   },
   actions: {
-    async loadGroup({ commit, state }, { group }) {
+    async loadGroup({ commit, state, dispatch }, { group }) {
       try {
         commit("START_LOADING");
 
@@ -143,13 +134,21 @@ export default new Vuex.Store({
         commit("SET_HEADER", header);
         commit("SET_CONTENT", schedule);
         commit("END_LOADING");
+        dispatch("find_now_lesson");
       } catch (e) {
         console.log(e);
       }
     },
 
-    async test(state) {
+    async find_now_lesson({ commit, state }) {
       console.log(state);
+      const today = state.currentDateAPI.getToday(new Date()); // сегодня
+      state.schedule.forEach((day, index) => {
+        if (day.date == today) {
+          commit("SET_TODAY", index);
+        }
+        console.log(day);
+      });
     },
   },
   modules: {},
