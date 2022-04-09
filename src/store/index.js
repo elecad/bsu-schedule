@@ -152,6 +152,7 @@ export default new Vuex.Store({
 
       console.log(now);
       let min = now.getTime() + 604800000; // Текущая дата + неделя
+
       let interval = 0;
       state.schedule.forEach((day) => {
         let validDate = day.date.split(".");
@@ -188,11 +189,14 @@ export default new Vuex.Store({
       });
       state.hasLessonsToday = findToday;
       console.log("min: ", min);
-      console.log("Сработает: ", new Date(now.getTime() + min));
-      setTimeout(() => {
-        console.log("Обновление!");
-        dispatch("find_now_lesson");
-      }, min);
+      if (min < 604800000) {
+        // 7 суток
+        console.log("Сработает: ", new Date(now.getTime() + min));
+        setTimeout(() => {
+          console.log("Обновление!");
+          dispatch("find_now_lesson");
+        }, min);
+      }
     },
   },
   modules: {},

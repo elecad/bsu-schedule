@@ -65,28 +65,44 @@
                       <v-divider vertical></v-divider>
                       <div class="ml-3">
                         <div class="sublesson--discipline--type">
-                          <v-chip class="mr-1 mb-1" small>{{
-                            sublesson.type
-                          }}</v-chip>
                           <v-chip
-                            class="mr-1 mb-1"
+                            class="mr-1 mb-1 elevation-1"
                             small
+                            :color="selectColorsBodyChip(sublesson.type)"
+                            :text-color="selectColorsTextChip(sublesson.type)"
+                            >{{ sublesson.type }}</v-chip
+                          >
+                          <v-chip
+                            class="mr-1 mb-1 elevation-1"
+                            small
+                            color="teal darken-2"
+                            text-color="white"
                             v-if="sublesson.subgroup"
                             >{{ sublesson.subgroup }}</v-chip
                           >
                           <v-chip
-                            class="mr-1 mb-1"
+                            class="mr-1 mb-1 elevation-1"
                             small
-                            v-if="sublesson.hasOnline"
-                            >{{ sublesson.hasOnline }}</v-chip
+                            v-if="sublesson.online"
+                            color="indigo"
+                            text-color="white"
+                          >
+                            онлайн</v-chip
                           >
                         </div>
                         <div
                           class="sublesson--discipline--name font-weight-medium my-3"
-                          v-html="sublesson.name"
-                        ></div>
+                        >
+                          {{ sublesson.name }}
+                          <small
+                            class="text--disabled"
+                            v-if="sublesson.subname"
+                            >{{ sublesson.subname }}</small
+                          >
+                        </div>
                         <div
                           class="sublesson--discipline--teacher mt-2 text-caption"
+                          v-if="sublesson.teacher.surname"
                         >
                           <div class="mr-1">
                             <v-icon>mdi-account</v-icon>
@@ -99,6 +115,10 @@
                         </div>
                         <div
                           class="sublesson--discipline--location text-caption"
+                          v-if="
+                            sublesson.location.aud ||
+                            sublesson.location.specific
+                          "
                         >
                           <v-icon class="mr-1">mdi-office-building</v-icon
                           >{{
@@ -115,16 +135,25 @@
                   <div class="content">
                     <div>
                       <div
-                        class="sublesson--discipline--information--teacher mp-2 text-caption"
+                        class="sublesson--discipline--information--teacher my-2 text-caption"
+                        v-if="sublesson.teacher.surname"
                       >
-                        <v-icon class="my-1">mdi-information-variant</v-icon>
+                        <v-icon class="my-1"
+                          >mdi-account-question-outline</v-icon
+                        >
                         {{ sublesson.teacher.promt }}
                       </div>
                       <div
                         class="sublesson--discipline--information--location text-caption"
-                        v-if="sublesson.location.aud != ''"
+                        v-if="
+                          (sublesson.location.aud ||
+                            sublesson.location.specific) &&
+                          !sublesson.online
+                        "
                       >
-                        <v-icon class="my-1">mdi-information-variant</v-icon>
+                        <v-icon class="my-1"
+                          >mdi-map-marker-question-outline</v-icon
+                        >
                         {{ sublesson.location.prompt }}
                       </div>
                       <v-row justify="end" class="mt-2">
@@ -166,6 +195,7 @@
 import parsers from "@/parser/parsers";
 import Intersect from "vue-intersect";
 import appFloatingButton from "@/components/ScheduleContentMobile/AppFloatingButton.vue";
+import Colors from "@/class/Colors";
 
 const Parsers = new parsers();
 export default {
@@ -182,27 +212,28 @@ export default {
         event[0].target.classList.add("active-fly");
       }
     },
+    selectColorsBodyChip(text) {
+      return Colors.selectBodyColor(text);
+    },
+    selectColorsTextChip(text) {
+      return Colors.selectTextColor(text);
+    },
     scrollNowDay() {
       console.log(this.$refs);
       if (this.$refs.nowLesson) {
         //? Мотаем до текущей пары
-        this.scroll(this.$refs.todayLesson[0], "now");
-
-        console.log("До текущей!", this.$refs.todayLesson[0]);
+        this.scroll(this.$refs.nowLesson[0], "now");
       } else if (this.$refs.todayLesson) {
         //? Мотаем до сегодняшней пары
-        console.log("До сегодняшней!", this.$refs.todayLesson);
+        // console.log("До сегодняшней!", this.$refs.todayLesson);
         this.scroll(this.$refs.todayLesson[0], "today");
       }
     },
 
     scroll(DOMElement, type) {
       const elementPosition = DOMElement.getBoundingClientRect().top;
-      // const topOffset = 70;
-      // const topOffset = -240;
-      const topOffset = type == "now" ? -240 : 70;
+      const topOffset = type == "now" ? -240 : 65;
       const offsetPosition = elementPosition - topOffset;
-
       window.scrollBy({
         top: offsetPosition,
         behavior: "smooth",
@@ -275,14 +306,10 @@ export default {
 
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active,
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active .v-icon,
-.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active .v-chip,
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--mousedown,
 .v-expansion-panels:not(.theme--dark)
   .v-expansion-panel-header--mousedown
-  .v-icon,
-.v-expansion-panels:not(.theme--dark)
-  .v-expansion-panel-header--mousedown
-  .v-chip {
+  .v-icon {
   color: #0c63e4 !important;
 }
 

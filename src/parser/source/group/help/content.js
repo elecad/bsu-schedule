@@ -29,8 +29,8 @@ export default class contentParser {
     //TODO Место для измененя названия дисциплины (может как-то в будущем)
 
     let m = null;
-
-    if ((m = this.re.exec(name)) !== null) {
+    m = this.re.exec(name);
+    if (m !== null) {
       this.Content.subgroup = m[1]
         ? m[1]
             .replace("(", "")
@@ -41,15 +41,13 @@ export default class contentParser {
             .replace("русский язык как иностанный", "рус. яз.")
             .replace("иностранный язык", "ин. яз.")
             .replace("немецкий язык", "нем. яз.")
-        : undefined;
-      this.Content.name =
-        m[2] +
-        (m[3] ? ' <small class="text--disabled">' + m[3] + "</small>" : "");
+        : "";
+      this.Content.subname = m[3] ? m[3] : "";
+      this.Content.name = m[2] ? m[2] : "";
+      // (m[3] ? ' <small class="text--disabled">' + m[3] + "</small>" : "");
     } else {
       this.Content.name = name;
     }
-
-    console.log(m);
 
     const hrefs = node.querySelectorAll("a");
     for (let i = 0; i < hrefs.length; i++) {
@@ -79,6 +77,8 @@ export default class contentParser {
     if (node.childNodes.length == 1) {
       //? Онлайн курс или что-то другое
       this.Content.locationSpecific = node.textContent.trim();
+      this.Content.online =
+        node.textContent.trim() == "Онлайн курс" ? true : false;
     } else {
       //? Аудитория + корпус
       const aLocation = node.querySelector("a");
