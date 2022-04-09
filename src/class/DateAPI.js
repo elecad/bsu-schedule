@@ -89,7 +89,7 @@ export default class DateAPI {
     return `${dateFormat(monday, "d mmm")} - ${dateFormat(sunday, "d mmm")}`;
   }
 
-  getToday(date) {
+  getTodayBsuAPI(date) {
     return dateFormat(date, "dd.mm.yyyy"); //"04.04.2022"
   }
 }

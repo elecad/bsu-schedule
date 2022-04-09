@@ -49,6 +49,7 @@ export default new Vuex.Store({
       switchingToNextWeekOnSunday: false,
       theme: false,
     },
+    hasLessonsToday: false,
   },
   getters: {
     isLoading(state) {
@@ -65,6 +66,9 @@ export default new Vuex.Store({
     },
     getTheme(state) {
       return state.settings.theme;
+    },
+    getHasLessonsToday(state) {
+      return state.hasLessonsToday;
     },
   },
   mutations: {
@@ -115,12 +119,10 @@ export default new Vuex.Store({
 
       updateColour();
     },
-    SET_TODAY(state, index) {
-      state.schedule[index].today = true;
-    },
   },
   actions: {
     async loadGroup({ commit, state, dispatch }, { group }) {
+      state.hasLessonsToday = false;
       try {
         commit("START_LOADING");
 
@@ -140,15 +142,57 @@ export default new Vuex.Store({
       }
     },
 
-    async find_now_lesson({ commit, state }) {
-      console.log(state);
-      const today = state.currentDateAPI.getToday(new Date()); // сегодня
-      state.schedule.forEach((day, index) => {
+    async find_now_lesson({ commit, state, dispatch }) {
+      const today = state.currentDateAPI.getTodayBsuAPI(new Date()); // сегодня в виже строки
+
+      let findToday = false;
+
+      // const now = new Date("04.08.2022 15:45");
+      const now = new Date();
+
+      console.log(now);
+      let min = now.getTime() + 604800000; // Текущая дата + неделя
+      let interval = 0;
+      state.schedule.forEach((day) => {
+        let validDate = day.date.split(".");
+        [validDate[0], validDate[1]] = [validDate[1], validDate[0]];
+        validDate = validDate.join(".");
+
+        interval = new Date(validDate) - now.getTime();
+        min = interval > 0 && interval < min ? interval : min;
+
         if (day.date == today) {
-          commit("SET_TODAY", index);
+          day.today = true;
+          findToday = true;
+          day.lessons.forEach((lesson) => {
+            const startDate = new Date(`${validDate} ${lesson.startTime}`);
+            const endDate = new Date(`${validDate} ${lesson.endTime}`);
+
+            interval = startDate.getTime() - now.getTime();
+            min = interval > 0 && interval < min ? interval : min;
+            interval = endDate.getTime() - now.getTime();
+            min = interval > 0 && interval < min ? interval : min;
+
+            lesson.isNow = startDate < now && now < endDate;
+            lesson.isToday = true;
+          });
+        } else {
+          day.today = false;
+          day.lessons.forEach((lesson) => {
+            lesson.isNow = false;
+            lesson.isToday = false;
+          });
         }
-        console.log(day);
+
+        //! Поиск задержки для следующего обновления
       });
+      state.hasLessonsToday = findToday;
+      console.log("min: ", min);
+      console.log("Сработает: ", new Date(now.getTime() + min));
+      setTimeout(() => {
+        console.log("Обновление!");
+        dispatch("find_now_lesson");
+      }, min);
     },
   },
   modules: {},

@@ -12,6 +12,7 @@ export default class Day {
     return {
       date: this.date,
       dayWeek: this.dayWeek,
+      today: false,
       lessons: [],
     };
   }

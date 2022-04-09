@@ -30,9 +30,21 @@
               <v-expansion-panel
                 v-for="(sublesson, j) in lesson.content"
                 :key="j"
+                :class="{ 'elevation-10': lesson.isNow }"
               >
                 <v-expansion-panel-header class="padding--fix--expansion-panel">
-                  <div class="today--lesson"></div>
+                  <!-- //!Рендер занятий сегодня / текущего занятия -->
+                  <div
+                    class="now--lesson"
+                    v-if="lesson.isNow"
+                    ref="nowLesson"
+                  ></div>
+                  <div
+                    class="today--lesson"
+                    v-else-if="lesson.isToday"
+                    ref="todayLesson"
+                  ></div>
+
                   <div class="d-flex">
                     <div class="lesson d-flex">
                       <div
@@ -137,20 +149,28 @@
         </div>
       </div>
     </v-scroll-y-transition>
+
     <div v-if="isLoading" class="d-flex align-center justify-center mt-15">
       <v-progress-circular indeterminate color="indigo"></v-progress-circular>
     </div>
+    <v-fab-transition>
+      <app-floating-button
+        @scroll--now--day="scrollNowDay"
+        v-if="hasTodayLessons"
+      ></app-floating-button>
+    </v-fab-transition>
   </div>
 </template>
 
 <script>
 import parsers from "@/parser/parsers";
 import Intersect from "vue-intersect";
+import appFloatingButton from "@/components/ScheduleContentMobile/AppFloatingButton.vue";
 
 const Parsers = new parsers();
 export default {
   name: "AppScheduleContentMobile",
-  components: { Intersect },
+  components: { Intersect, appFloatingButton },
   methods: {
     enterDay(event) {
       if (event[0].intersectionRatio) {
@@ -162,11 +182,34 @@ export default {
         event[0].target.classList.add("active-fly");
       }
     },
+    scrollNowDay() {
+      console.log(this.$refs);
+      if (this.$refs.nowLesson) {
+        //? Мотаем до текущей пары
+        this.scroll(this.$refs.todayLesson[0], "now");
+
+        console.log("До текущей!", this.$refs.todayLesson[0]);
+      } else if (this.$refs.todayLesson) {
+        //? Мотаем до сегодняшней пары
+        console.log("До сегодняшней!", this.$refs.todayLesson);
+        this.scroll(this.$refs.todayLesson[0], "today");
+      }
+    },
+
+    scroll(DOMElement, type) {
+      const elementPosition = DOMElement.getBoundingClientRect().top;
+      // const topOffset = 70;
+      // const topOffset = -240;
+      const topOffset = type == "now" ? -240 : 70;
+      const offsetPosition = elementPosition - topOffset;
+
+      window.scrollBy({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    },
   },
-  data: () => ({
-    lessons: null,
-    now: "04.04.2022 14:40",
-  }),
+  data: () => ({}),
   computed: {
     stateSchedule() {
       return this.$store.getters.getSchedule;
@@ -174,17 +217,8 @@ export default {
     isLoading() {
       return this.$store.getters.isLoading;
     },
-    nowDay(_) {
-      const start = new Date("04.04.2022 14:00");
-      const end = new Date("04.04.2022 15:35");
-
-      return start < new Date(this.now) && new Date(this.now) < end;
-    },
-    nowLesson() {
-      const start = new Date("04.04.2022 14:00");
-      const end = new Date("04.04.2022 15:35");
-
-      return start < new Date(this.now) && new Date(this.now) < end;
+    hasTodayLessons() {
+      return this.$store.getters.getHasLessonsToday;
     },
   },
 
@@ -267,21 +301,18 @@ export default {
   background-color: #e7f1ff;
 }
 
-/* .now--lesson {
-  border-inline-start: 3px solid #3f51b5;
-} */
 .now--lesson {
   position: absolute;
   height: 100%;
   left: 0;
-  border-inline-start: 3px solid #3f51b5;
+  border-inline-start: 4px solid #3f51b5;
 }
 
 .today--lesson {
   position: absolute;
   height: 100%;
   left: 0;
-  border-inline-start: 3px solid rgba(63, 63, 63, 0.404);
+  border-inline-start: 4px solid rgba(134, 134, 134, 0.404);
 }
 
 .now--day {

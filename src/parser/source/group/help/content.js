@@ -49,6 +49,8 @@ export default class contentParser {
       this.Content.name = name;
     }
 
+    console.log(m);
+
     const hrefs = node.querySelectorAll("a");
     for (let i = 0; i < hrefs.length; i++) {
       const aText = hrefs[i].textContent;

@@ -48,7 +48,6 @@ export default {
     backWeek() {
       this.$store.commit("BACK_WEEK");
       this.$store.dispatch("loadGroup", { group: "12001902" });
-      this.$store.dispatch("test", { group: "12001902" });
     },
   },
   data: () => ({
