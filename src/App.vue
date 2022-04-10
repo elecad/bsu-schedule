@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :class="{ 'stop-scrolling': $store.getters.isSearch }">
     <schedule-nav-bar></schedule-nav-bar>
     <v-main>
       <router-view />
@@ -25,5 +25,18 @@ export default {
 <style>
 html {
   overflow-y: auto;
+}
+.stop-scrolling {
+  height: 100vh !important;
+
+  overflow: hidden;
+}
+
+body::-webkit-scrollbar {
+  width: 0 !important;
+}
+body {
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
 }
 </style>

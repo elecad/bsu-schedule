@@ -17,8 +17,6 @@ function smooth(x) {
   return x < 0.5 ? 2 * x ** 2 : 1 - 2 * (1 - x) ** 2;
 }
 
-// const themeColor = document.querySelector("meta[name=theme-color]");
-
 function updateColour() {
   const colour = `rgb(${dayRgb.map(
     (day, i) => (nightRgb[i] - day) * smooth(night) + day
@@ -43,6 +41,7 @@ export default new Vuex.Store({
     header: null,
     schedule: null,
     isLoading: true,
+    isSearch: false,
     currentDateAPI: new dateAPI(new Date()),
     buttonLabel: initDate.getLabel(),
     settings: {
@@ -54,6 +53,9 @@ export default new Vuex.Store({
   getters: {
     isLoading(state) {
       return state.isLoading;
+    },
+    isSearch(state) {
+      return state.isSearch;
     },
     getHeader(state) {
       return state.header;
@@ -95,6 +97,10 @@ export default new Vuex.Store({
     },
     START_LOADING(state) {
       state.isLoading = true;
+    },
+
+    CHANGE_SEARCH(state) {
+      state.isSearch = !state.isSearch;
     },
     INIT(state) {
       if (!localStorage.getItem("settings")) {

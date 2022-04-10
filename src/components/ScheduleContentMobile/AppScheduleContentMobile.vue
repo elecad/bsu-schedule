@@ -134,40 +134,94 @@
                 <v-expansion-panel-content>
                   <div class="content">
                     <div>
-                      <div
-                        class="sublesson--discipline--information--teacher my-2 text-caption"
-                        v-if="sublesson.teacher.surname"
-                      >
-                        <v-icon class="my-1"
-                          >mdi-account-question-outline</v-icon
+                      <div class="px-5">
+                        <div
+                          class="sublesson--discipline--information--teacher my-2 text-caption"
+                          v-if="sublesson.teacher.surname"
                         >
-                        {{ sublesson.teacher.promt }}
+                          <v-icon class="my-1"
+                            >mdi-account-question-outline</v-icon
+                          >
+                          {{ sublesson.teacher.promt }}
+                        </div>
+                        <div
+                          class="sublesson--discipline--information--location text-caption"
+                          v-if="
+                            (sublesson.location.aud ||
+                              sublesson.location.specific) &&
+                            !sublesson.online
+                          "
+                        >
+                          <v-icon class="my-1"
+                            >mdi-map-marker-question-outline</v-icon
+                          >
+                          {{ sublesson.location.prompt }}
+                        </div>
                       </div>
-                      <div
-                        class="sublesson--discipline--information--location text-caption"
-                        v-if="
-                          (sublesson.location.aud ||
-                            sublesson.location.specific) &&
-                          !sublesson.online
-                        "
-                      >
-                        <v-icon class="my-1"
-                          >mdi-map-marker-question-outline</v-icon
+                      <!-- <v-row align="center" justify="end" no-gutters dense>
+                        <v-col>
+                          <v-btn fab dark small color="indigo">
+                            <v-icon dark> mdi-account </v-icon>
+                          </v-btn>
+                        </v-col>
+                        <v-col>
+                          <v-btn fab dark small color="indigo">
+                            <v-icon> mdi-office-building </v-icon>
+                          </v-btn></v-col
                         >
-                        {{ sublesson.location.prompt }}
-                      </div>
-                      <v-row justify="end" class="mt-2">
-                        <v-btn
-                          depressed
-                          color="primary"
-                          v-for="(link, i) in sublesson.links"
-                          :key="i"
-                          class="ma-2"
-                          :href="link.href"
-                          target="_blank"
+
+                        <v-spacer></v-spacer>
+
+                        <v-col v-for="(link, i) in sublesson.links" :key="i">
+                          <v-btn
+                            depressed
+                            color="indigo"
+                            dark
+                            class="fix--font--size--course--buttons ma-2"
+                            :href="link.href"
+                            target="_blank"
+                          >
+                            {{ link.name }}
+                          </v-btn></v-col
                         >
-                          {{ link.name }}
-                        </v-btn>
+                      </v-row> -->
+
+                      <v-row align="center" justify="center" no-gutters dense>
+                        <v-col cols="2" sm="1" v-if="sublesson.teacher.surname">
+                          <v-btn fab dark small color="indigo">
+                            <v-icon dark> mdi-account </v-icon>
+                          </v-btn></v-col
+                        >
+                        <v-col cols="2" sm="1"
+                          ><v-btn
+                            fab
+                            dark
+                            small
+                            color="indigo"
+                            v-if="sublesson.location.aud"
+                          >
+                            <v-icon> mdi-office-building </v-icon>
+                          </v-btn></v-col
+                        >
+                        <v-spacer></v-spacer>
+                        <v-row no-gutters dense justify="end">
+                          <v-col class="d-flex justify-end">
+                            <div class="d-flex flex-column">
+                              <v-btn
+                                v-for="(link, i) in sublesson.links"
+                                :key="i"
+                                depressed
+                                color="indigo"
+                                dark
+                                class="fix--font--size--course--buttons ma-2"
+                                :href="link.href"
+                                target="_blank"
+                              >
+                                {{ link.name }}
+                              </v-btn>
+                            </div>
+                          </v-col>
+                        </v-row>
                       </v-row>
                     </div>
                   </div>
@@ -182,10 +236,11 @@
     <div v-if="isLoading" class="d-flex align-center justify-center mt-15">
       <v-progress-circular indeterminate color="indigo"></v-progress-circular>
     </div>
+
     <v-fab-transition>
       <app-floating-button
         @scroll--now--day="scrollNowDay"
-        v-if="hasTodayLessons"
+        v-if="showFloatingButton"
       ></app-floating-button>
     </v-fab-transition>
   </div>
@@ -219,7 +274,7 @@ export default {
       return Colors.selectTextColor(text);
     },
     scrollNowDay() {
-      console.log(this.$refs);
+      // console.log(this.$refs);
       if (this.$refs.nowLesson) {
         //? Мотаем до текущей пары
         this.scroll(this.$refs.nowLesson[0], "now");
@@ -248,8 +303,10 @@ export default {
     isLoading() {
       return this.$store.getters.isLoading;
     },
-    hasTodayLessons() {
-      return this.$store.getters.getHasLessonsToday;
+    showFloatingButton() {
+      return (
+        this.$store.getters.getHasLessonsToday && !this.$store.getters.isSearch
+      );
     },
   },
 
@@ -266,7 +323,7 @@ export default {
 .fix--position--day--card {
   position: sticky !important;
   top: -1px;
-  z-index: 10;
+  z-index: 6;
 }
 .fix--position--day--card.active-fly {
   border-top-left-radius: 0px !important;
@@ -276,6 +333,15 @@ export default {
 @media (max-width: 317px) {
   .fix--day--name {
     font-size: 1.05rem !important;
+  }
+  .fix--font--size--course--buttons {
+    font-size: 0.7rem !important;
+  }
+}
+
+@media (max-width: 350px) {
+  .fix--font--size--course--buttons {
+    font-size: 0.7rem !important;
   }
 }
 
@@ -348,4 +414,8 @@ export default {
   top: 12px;
   left: 15px;
 }
+
+/* .v-expansion-panel-content__wrap {
+  padding: 0 !important;
+} */
 </style>

@@ -13,6 +13,13 @@
     ></app-schedule-header-mobile>
 
     <app-schedule-content-mobile></app-schedule-content-mobile>
+    <v-overlay
+      :value="isSearch"
+      absolute
+      opacity="0.2"
+      z-index="6"
+      @click="$store.commit('CHANGE_SEARCH')"
+    ></v-overlay>
   </v-container>
 </template>
 
@@ -33,6 +40,11 @@ export default {
   data: () => ({
     isFavorit: false,
   }),
+  computed: {
+    isSearch() {
+      return this.$store.getters.isSearch;
+    },
+  },
 };
 </script>
 

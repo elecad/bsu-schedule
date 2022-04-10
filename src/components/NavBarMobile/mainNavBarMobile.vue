@@ -11,7 +11,7 @@
         <v-icon
           v-if="isSearch"
           style="position: absolute"
-          @click="isSearch = !isSearch"
+          @click="$store.commit('CHANGE_SEARCH')"
         >
           mdi-arrow-left
         </v-icon>
@@ -37,7 +37,7 @@
 
           <v-spacer></v-spacer>
 
-          <v-btn icon @click="isSearch = !isSearch">
+          <v-btn icon @click="$store.commit('CHANGE_SEARCH')">
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
           <v-btn icon @click="changeTheme">
@@ -83,7 +83,6 @@ import SearchAPI from "@/class/SearchAPI";
 export default {
   name: "mainNavBarMobile",
   data: () => ({
-    isSearch: false,
     loading: false,
     heightAppBar: "75px",
     heightInput: "50px",
@@ -96,6 +95,11 @@ export default {
     searchText: null,
     select: null,
   }),
+  computed: {
+    isSearch() {
+      return this.$store.getters.isSearch;
+    },
+  },
   watch: {
     searchText(val) {
       val && val !== this.select && this.search(val);
@@ -144,4 +148,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.fix--overlay--posution {
+  position: absolute;
+  height: 100vh;
+  z-index: 100;
+}
+</style>
