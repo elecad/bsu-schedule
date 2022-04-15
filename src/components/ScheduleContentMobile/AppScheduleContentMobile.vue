@@ -30,7 +30,6 @@
               <v-expansion-panel
                 v-for="(sublesson, j) in lesson.content"
                 :key="j"
-                :class="{ 'elevation-10': lesson.isNow }"
               >
                 <v-expansion-panel-header class="padding--fix--expansion-panel">
                   <!-- //!Рендер занятий сегодня / текущего занятия -->
@@ -158,33 +157,6 @@
                           {{ sublesson.location.prompt }}
                         </div>
                       </div>
-                      <!-- <v-row align="center" justify="end" no-gutters dense>
-                        <v-col>
-                          <v-btn fab dark small color="indigo">
-                            <v-icon dark> mdi-account </v-icon>
-                          </v-btn>
-                        </v-col>
-                        <v-col>
-                          <v-btn fab dark small color="indigo">
-                            <v-icon> mdi-office-building </v-icon>
-                          </v-btn></v-col
-                        >
-
-                        <v-spacer></v-spacer>
-
-                        <v-col v-for="(link, i) in sublesson.links" :key="i">
-                          <v-btn
-                            depressed
-                            color="indigo"
-                            dark
-                            class="fix--font--size--course--buttons ma-2"
-                            :href="link.href"
-                            target="_blank"
-                          >
-                            {{ link.name }}
-                          </v-btn></v-col
-                        >
-                      </v-row> -->
 
                       <v-row align="center" justify="center" no-gutters dense>
                         <v-col cols="2" sm="1" v-if="sublesson.teacher.surname">
@@ -287,7 +259,7 @@ export default {
 
     scroll(DOMElement, type) {
       const elementPosition = DOMElement.getBoundingClientRect().top;
-      const topOffset = type == "now" ? -240 : 65;
+      const topOffset = type == "now" ? 60 : 65;
       const offsetPosition = elementPosition - topOffset;
       window.scrollBy({
         top: offsetPosition,
