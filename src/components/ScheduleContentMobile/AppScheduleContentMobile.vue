@@ -25,11 +25,12 @@
             </v-card>
           </intersect>
 
-          <v-expansion-panels accordion focusable class="d-block">
+          <v-expansion-panels flat accordion focusable class="d-block">
             <div class="mb-4" v-for="(lesson, i) in day.lessons" :key="i">
               <v-expansion-panel
                 v-for="(sublesson, j) in lesson.content"
                 :key="j"
+                class="fix--transition"
               >
                 <v-expansion-panel-header class="padding--fix--expansion-panel">
                   <!-- //!Рендер занятий сегодня / текущего занятия -->
@@ -130,7 +131,8 @@
                     </div>
                   </div>
                 </v-expansion-panel-header>
-                <v-expansion-panel-content>
+
+                <v-expansion-panel-content class="fix--transition">
                   <div class="content">
                     <div>
                       <div class="px-5">
@@ -387,6 +389,9 @@ export default {
   left: 15px;
 }
 
+.fix--transition {
+  transition: none !important;
+}
 /* .v-expansion-panel-content__wrap {
   padding: 0 !important;
 } */

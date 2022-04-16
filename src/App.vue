@@ -1,9 +1,6 @@
 <template>
   <v-app :class="{ 'stop-scrolling': $store.getters.isSearch }">
-    <schedule-nav-bar></schedule-nav-bar>
-    <v-main>
-      <router-view />
-    </v-main>
+    <router-view />
   </v-app>
 </template>
 

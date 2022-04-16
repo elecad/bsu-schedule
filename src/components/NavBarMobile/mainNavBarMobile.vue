@@ -8,31 +8,15 @@
       </v-fade-transition>
 
       <v-fade-transition leave-absolute>
-        <v-icon
-          v-if="isSearch"
-          style="position: absolute"
-          @click="$store.commit('CHANGE_SEARCH')"
-        >
+        <v-icon v-if="isSearch" @click="$store.commit('CHANGE_SEARCH')">
           mdi-arrow-left
         </v-icon>
       </v-fade-transition>
     </div>
 
-    <div
-      style="
-        position: relative;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-      "
-    >
+    <div class="fix--search--position ml-2">
       <v-scale-transition leave-absolute origin="center">
-        <div
-          v-if="!isSearch"
-          class="d-flex align-center"
-          style="position: absolute; width: 100%"
-        >
+        <div v-if="!isSearch" class="d-flex align-center" style="width: 100%">
           <v-toolbar-title>Расписание</v-toolbar-title>
 
           <v-spacer></v-spacer>
@@ -40,9 +24,9 @@
           <v-btn icon @click="$store.commit('CHANGE_SEARCH')">
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
-          <v-btn icon @click="changeTheme">
-            <!-- <v-icon>mdi-cog</v-icon> -->
-            <v-icon>mdi-brightness-6</v-icon>
+          <v-btn icon @click="$emit('open--settings')">
+            <v-icon>mdi-cog</v-icon>
+            <!-- <v-icon>mdi-brightness-6</v-icon> -->
           </v-btn>
         </div>
       </v-scale-transition>
@@ -153,5 +137,12 @@ export default {
   position: absolute;
   height: 100vh;
   z-index: 100;
+}
+.fix--search--position {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 </style>

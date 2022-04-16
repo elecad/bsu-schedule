@@ -1,45 +1,25 @@
 <template>
   <nav class="navbar-mobile">
-    <main-nav-bar
-      @search-open-mobile="searchOpenMobile"
-      @search-close-mobile="searchCloseMobile"
-    ></main-nav-bar>
+    <main-nav-bar @open--settings="settingsOpenMobile"></main-nav-bar>
 
-    <v-dialog v-model="openSetting" scrollable>
-      <v-card>
-        <v-card-title class="text-h5"> Настройки </v-card-title>
-
-        <v-card-text>
-          Здесь будут находится будущие настройки приложения...
-          <h4>Пока тут пусто...</h4>
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="settingsCloseMobile">
-            Закрыть
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <app-settings
+      :openSetting="openSetting"
+      @close--settings="settingsCloseMobile"
+    ></app-settings>
   </nav>
 </template>
 
 <script>
 import Parsers from "@/parser/parsers.js";
 import mainNavBar from "@/components/NavBarMobile/mainNavBarMobile.vue";
+import appSettings from "@/components/Settings/AppSettings.vue";
+import AppSettings from "@/components/Settings/AppSettings.vue";
 
 export default {
   name: "navBar",
-  components: { mainNavBar },
+  components: { mainNavBar, AppSettings },
   data: () => ({
-    openSearchMobile: false,
     openSetting: false,
-    search: [],
-    controller: new AbortController(),
-    timeout: null,
-    debounce: 400,
-    noDataText: "Для поиска нужно более 2 символов",
   }),
   methods: {
     searchOpenMobile() {
