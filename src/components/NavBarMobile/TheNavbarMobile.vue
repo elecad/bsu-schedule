@@ -36,8 +36,6 @@ export default {
       this.openSetting = false;
     },
 
-    async searchMobile(value) {},
-
     goSchedule(value) {
       console.log(value);
       alert(`Переход: ${value.label}(id ${value.id}) на ${value.type}`);

@@ -8,7 +8,7 @@
       </v-fade-transition>
 
       <v-fade-transition leave-absolute>
-        <v-icon v-if="isSearch" @click="$store.commit('CHANGE_SEARCH')">
+        <v-icon v-if="isSearch" @click="isSearch = !isSearch">
           mdi-arrow-left
         </v-icon>
       </v-fade-transition>
@@ -21,7 +21,7 @@
 
           <v-spacer></v-spacer>
 
-          <v-btn icon @click="$store.commit('CHANGE_SEARCH')">
+          <v-btn icon @click="isSearch = !isSearch">
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
           <v-btn icon @click="$emit('open--settings')">
@@ -68,6 +68,7 @@ export default {
   name: "mainNavBarMobile",
   data: () => ({
     loading: false,
+    isSearch: false,
     heightAppBar: "75px",
     heightInput: "50px",
     placholder: "Поиск...",
@@ -79,11 +80,7 @@ export default {
     searchText: null,
     select: null,
   }),
-  computed: {
-    isSearch() {
-      return this.$store.getters.isSearch;
-    },
-  },
+  computed: {},
   watch: {
     searchText(val) {
       val && val !== this.select && this.search(val);
