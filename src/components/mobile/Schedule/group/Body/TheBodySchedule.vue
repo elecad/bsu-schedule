@@ -2,7 +2,7 @@
   <div>
     <v-scroll-y-transition>
       <div v-if="!loading">
-        <div v-for="(day, i) in body" :key="i">
+        <div v-for="(day, k) in body" :key="k">
           <day-header
             :week="day.dayWeek"
             :date="day.date"
@@ -14,7 +14,13 @@
               :key="j"
               class="fix--transition"
             >
-              <card-lesson></card-lesson>
+              <card-lesson
+                @show--cupertiono--lesson="test"
+                class="elevation-2"
+                :lesson="lesson"
+                :sublesson="sublesson"
+                :last="lesson.content.length == j + 1"
+              ></card-lesson>
             </div>
           </div>
         </div>
@@ -31,14 +37,16 @@
         v-if="true"
       ></app-floating-button>
     </v-fab-transition>
+
+    <more-lesson ref="favorite-mobile" :sublesson="selected"></more-lesson>
   </div>
 </template>
 
 <script>
 import appFloatingButton from "@/components/ScheduleContentMobile/AppFloatingButton.vue";
-import Colors from "@/class/Colors";
 import dayHeader from "@/components/mobile/Schedule/group/Body/dayHeader.vue";
 import cardLesson from "@/components/mobile/Schedule/group/Body/cardLesson.vue";
+import moreLesson from "@/components/mobile/Schedule/group/Body/moreLesson.vue";
 
 export default {
   name: "AppScheduleContentMobile",
@@ -46,14 +54,8 @@ export default {
     loading: Boolean,
     body: Array,
   },
-  components: { cardLesson, appFloatingButton, dayHeader },
+  components: { moreLesson, cardLesson, appFloatingButton, dayHeader },
   methods: {
-    selectColorsBodyChip(text) {
-      return Colors.selectBodyColor(text);
-    },
-    selectColorsTextChip(text) {
-      return Colors.selectTextColor(text);
-    },
     scrollNowDay() {
       if (this.$refs.nowLesson) {
         //? Мотаем до текущей пары
@@ -63,7 +65,11 @@ export default {
         this.scroll(this.$refs.todayLesson[0], "today");
       }
     },
-
+    test(sublesson) {
+      console.log(sublesson);
+      this.selected = sublesson;
+      this.$refs["favorite-mobile"].showCupertino();
+    },
     scroll(DOMElement, type) {
       const elementPosition = DOMElement.getBoundingClientRect().top;
       const topOffset = type == "now" ? 60 : 65;
@@ -74,7 +80,9 @@ export default {
       });
     },
   },
-  data: () => ({}),
+  data: () => ({
+    selected: null,
+  }),
   computed: {},
 
   created() {},

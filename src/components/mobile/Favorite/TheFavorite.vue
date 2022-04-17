@@ -6,6 +6,7 @@
     @did-dismiss="didCloseCupertino"
     @backdrop-tap="closeCupertino"
     :drawerOptions="drawerOptions"
+    id="favorite"
   >
     <v-container fluid class="fix--margin--cupertino">
       <div class="text-h5 font-weight-medium mb-5">Избранное</div>
