@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="navbar-mobile--main" height="60px">
+  <v-app-bar height="60px">
     <div class="mr-2" style="positon: relative; width: 24px; height: 24px">
       <v-fade-transition leave-absolute>
         <v-icon v-if="!isSearch" style="position: absolute">
@@ -25,8 +25,8 @@
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
 
-          <v-btn icon @click="$emit('open--settings')">
-            <v-icon>mdi-cog</v-icon>
+          <v-btn icon @click="$emit('open--favorite')">
+            <v-icon>mdi-calendar-star</v-icon>
           </v-btn>
 
           <v-btn icon @click="$emit('open--settings')">
@@ -146,5 +146,19 @@ export default {
   align-items: center;
   width: 100%;
   height: 100%;
+}
+
+.v-toolbar__content {
+  padding-right: 4px !important;
+}
+
+@media (max-width: 315px) {
+  .v-toolbar__content {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+  .v-toolbar__title {
+    font-size: 1.1rem !important;
+  }
 }
 </style>

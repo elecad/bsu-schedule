@@ -1,16 +1,17 @@
 <template>
   <v-app :class="{ 'stop-scrolling': $store.getters.isSearch }">
+    <nav-bar-mobile class="hidden-md-and-up"></nav-bar-mobile>
     <router-view />
   </v-app>
 </template>
 
 <script>
-import scheduleNavBar from "@/components/NavBarMobile/TheNavbarMobile.vue";
+import navBarMobile from "@/components/mobile/NavBar/TheNavbarMobile.vue";
 
 export default {
   name: "App",
 
-  components: { scheduleNavBar },
+  components: { navBarMobile },
   data: () => ({}),
   created() {
     this.$store.commit("INIT");
@@ -19,13 +20,12 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 html {
   overflow-y: auto;
 }
 .stop-scrolling {
   height: 100vh !important;
-
   overflow: hidden;
 }
 
@@ -35,5 +35,9 @@ body::-webkit-scrollbar {
 body {
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
+}
+
+.theme--light.v-application {
+  background-color: var(--v-background-base, #edeef0) !important;
 }
 </style>

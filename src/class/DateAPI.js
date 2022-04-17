@@ -2,11 +2,11 @@ import dateFormat from "dateformat";
 import { i18n } from "dateformat";
 
 i18n.monthNames = [
-  "Янф",
+  "Янв",
   "Фев",
   "Мар",
   "Апр",
-  "Май",
+  "Мая",
   "Июн",
   "Июл",
   "Авг",
@@ -29,12 +29,18 @@ i18n.monthNames = [
 ];
 
 export default class DateAPI {
-  stringDate = "";
   date = null;
   day = 1000 * 60 * 60 * 24; //! Сутки
 
-  constructor(date) {
+  constructor(date, setting) {
     this.date = date;
+    if (
+      this.weekPosition() == 6 &&
+      setting &&
+      this.getTodayBsuAPI(this.date) == this.getTodayBsuAPI(new Date())
+    ) {
+      this.date = new Date(this.date.getTime() + 7 * this.day);
+    }
   }
 
   getMonday() {
@@ -83,6 +89,14 @@ export default class DateAPI {
     return this;
   }
 
+  setDate(date) {
+    this.date = date;
+    return this;
+  }
+
+  getDateISO() {
+    return this.date.toISOString().substr(0, 10);
+  }
   getLabel() {
     const monday = this.getMonday();
     const sunday = this.getSunday();
@@ -91,5 +105,21 @@ export default class DateAPI {
 
   getTodayBsuAPI(date) {
     return dateFormat(date, "dd.mm.yyyy"); //"04.04.2022"
+  }
+
+  getFullArrayWeek() {
+    return [...Array(7)].map((_, index) => {
+      const monday = this.getMonday();
+      return new Date(monday.getTime() + index * this.day)
+        .toISOString()
+        .substr(0, 10);
+    });
+  }
+
+  getDataPickerLabel(arr) {
+    return `${dateFormat(arr[0], "dd mmm")} - ${dateFormat(
+      arr[arr.length - 1],
+      "dd mmm"
+    )}`;
   }
 }

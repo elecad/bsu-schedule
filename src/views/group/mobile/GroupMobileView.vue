@@ -1,16 +1,19 @@
 <template>
   <div>
-    <schedule-nav-bar-mobile></schedule-nav-bar-mobile>
-
-    <v-main> </v-main>
+    <v-main class="px-0">
+      <v-container class="pa-2">
+        <schedule class="mb-3"></schedule>
+      </v-container>
+    </v-main>
   </div>
 </template>
 
 <script>
-import scheduleNavBarMobile from "@/components/NavBarMobile/TheNavbarMobile.vue";
+import schedule from "@/components/mobile/Schedule/group/TheSchedule.vue";
+
 export default {
   name: "GroupMobileView",
-  components: { scheduleNavBarMobile },
+  components: { schedule },
 };
 </script>
 

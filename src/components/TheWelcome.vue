@@ -49,11 +49,6 @@ export default {
 </script>
 
 <style lang="scss">
-.theme--light.v-application {
-  // background-color: var(--v-background-base, #f5f5f5) !important;
-  background-color: var(--v-background-base, #edeef0) !important;
-}
-
 @media (min-width: 650px) {
   .fix--padding--container {
     width: 600px !important;

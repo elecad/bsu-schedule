@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="2">
     <v-card-title>
-      <div class="div">Избранное</div>
+      <div>Избранное</div>
       <v-spacer></v-spacer>
       <v-btn icon @click="changeFavorite">
         <v-icon>{{ editFavirite ? "mdi-check" : "mdi-pencil" }}</v-icon>
