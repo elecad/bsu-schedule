@@ -45,13 +45,13 @@ export default {
 
     nextWeek() {
       this.dataAPI.goNextWeek();
-
+      this.loading();
       console.log("NEXT");
     },
 
     backWeek() {
       this.dataAPI.goBackWeek();
-
+      this.loading();
       console.log("BACK");
     },
 

@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-card
-      class="pa-4 fix--border--radius--card"
+      class="fix--border--radius--card"
       elevation="0"
-      @click="openCupertiono($event, sublesson)"
+      @click.native="openCupertiono($event, sublesson)"
     >
-      <div class="d-flex">
+      <div class="d-flex pa-4">
         <div class="lesson d-flex">
           <div class="d-flex flex-column align-center justify-center mr-3">
             <div class="sublesson--start--time">
@@ -19,7 +19,7 @@
             </div>
           </div>
           <v-divider vertical></v-divider>
-          <div class="ml-3 mr-1">
+          <div class="ml-3 mr-2">
             <div class="sublesson--discipline--type">
               <v-chip
                 class="mr-1 mb-1 elevation-1"
@@ -77,9 +77,11 @@
               }}
             </div>
           </div>
-          <v-icon>mdi-chevron-right</v-icon>
         </div>
       </div>
+      <v-icon v-show="hasMoreInfo" class="fix--position--more--icon"
+        >mdi-chevron-right</v-icon
+      >
     </v-card>
     <v-divider v-if="!last" class="fix--opasity--divider"></v-divider>
   </div>
@@ -95,6 +97,15 @@ export default {
     sublesson: Object,
     last: Boolean,
   },
+  computed: {
+    hasMoreInfo() {
+      return !(
+        this.sublesson.teacher.id == false &&
+        this.sublesson.location.id == false &&
+        this.sublesson.links.length == false
+      );
+    },
+  },
   methods: {
     selectColorsBodyChip(text) {
       return Colors.selectBodyColor(text);
@@ -102,8 +113,10 @@ export default {
     selectColorsTextChip(text) {
       return Colors.selectTextColor(text);
     },
-    openCupertiono($event, sublesson) {
-      this.$emit("show--cupertiono--lesson", sublesson);
+    openCupertiono(_, sublesson) {
+      if (this.hasMoreInfo) {
+        this.$emit("show--cupertiono--lesson", sublesson);
+      }
     },
   },
 };
@@ -122,5 +135,11 @@ export default {
 
 .v-card:before {
   display: none;
+}
+
+.fix--position--more--icon {
+  position: absolute !important;
+  top: calc(50% - 12px);
+  right: 7px;
 }
 </style>

@@ -9,7 +9,10 @@
       :openSetting="openSetting"
       @close--settings="settingsCloseMobile"
     ></app-settings>
-    <favorite-mobile ref="favorite-mobile"></favorite-mobile>
+    <favorite-mobile
+      :isOpen="openFavorite"
+      @close--cupertiono--slider="favoriteCloseMobile"
+    ></favorite-mobile>
   </nav>
 </template>
 
@@ -23,13 +26,18 @@ export default {
   components: { mainNavBar, appSettings, favoriteMobile },
   data: () => ({
     openSetting: false,
+    openFavorite: false,
   }),
   methods: {
     searchOpenMobile() {
       this.openSearchMobile = true;
     },
     favoriteOpenMobile() {
-      this.$refs["favorite-mobile"].showCupertino();
+      this.openFavorite = true;
+      // this.$refs["favorite-mobile"].showCupertino();
+    },
+    favoriteCloseMobile() {
+      this.openFavorite = false;
     },
     searchCloseMobile() {
       this.openSearchMobile = false;

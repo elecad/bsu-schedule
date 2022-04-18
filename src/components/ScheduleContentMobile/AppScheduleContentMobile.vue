@@ -315,7 +315,7 @@ export default {
 
 @media (max-width: 350px) {
   .fix--font--size--course--buttons {
-    font-size: 0.7rem !important;
+    font-size: 0.8rem !important;
   }
 }
 

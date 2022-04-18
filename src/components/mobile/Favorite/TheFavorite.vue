@@ -1,14 +1,10 @@
 <template>
-  <v2-cupertino
-    ref="cupertino-component"
-    :isPresent="false"
-    entryAnimation
-    @did-dismiss="didCloseCupertino"
-    @backdrop-tap="closeCupertino"
-    :drawerOptions="drawerOptions"
-    id="favorite"
+  <CupertinoSlider
+    :id="'favorite'"
+    :isOpen="isOpen"
+    @close--cupertiono--slider="$emit('close--cupertiono--slider')"
   >
-    <v-container fluid class="fix--margin--cupertino">
+    <v-container fluid class="fix--margin--cupertino pa-0">
       <div class="text-h5 font-weight-medium mb-5">Избранное</div>
       <div class="mb-4">
         <app-favorite-chip :edit="editFavirite" type="group"
@@ -34,52 +30,22 @@
         </v-icon>
       </v-btn>
     </v-container>
-  </v2-cupertino>
+  </CupertinoSlider>
 </template>
 
 <script>
 import V2Cupertino from "v2-cupertino";
 import appFavoriteChip from "@/components/mobile/Favorite/AppFavoriteChip.vue";
+import CupertinoSlider from "@/components/mobile/Cupertiono/CupertinoSlider.vue";
 
 export default {
   name: "faviriteMobile",
-  components: { V2Cupertino, appFavoriteChip },
+  components: { CupertinoSlider, V2Cupertino, appFavoriteChip },
+  props: { isOpen: Boolean },
   data: () => ({
-    drawerOptions: {
-      bottomClose: true,
-      fitHeight: true,
-      backdropOpacity: 0.3,
-
-      backdrop: true,
-      breaks: {
-        bottom: {
-          enabled: false,
-        },
-        top: {
-          enabled: false,
-        },
-      },
-    },
     editFavirite: false,
   }),
-  methods: {
-    async showCupertino() {
-      const cupertino = this.$refs["cupertino-component"].cupertino;
-      document.getElementsByTagName("html")[0].style["overscroll-behavior-y"] =
-        "contain";
-      await cupertino.present({ animate: true });
-    },
-    closeCupertino() {
-      const cupertino = this.$refs["cupertino-component"].cupertino;
-      cupertino.hide();
-      document.getElementsByTagName("html")[0].style["overscroll-behavior-y"] =
-        "auto";
-    },
-    didCloseCupertino() {
-      document.getElementsByTagName("html")[0].style["overscroll-behavior-y"] =
-        "auto";
-    },
-  },
+  methods: {},
 };
 </script>
 

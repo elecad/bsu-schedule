@@ -15,7 +15,7 @@
               class="fix--transition"
             >
               <card-lesson
-                @show--cupertiono--lesson="test"
+                @show--cupertiono--lesson="openCupertino"
                 class="elevation-2"
                 :lesson="lesson"
                 :sublesson="sublesson"
@@ -38,7 +38,11 @@
       ></app-floating-button>
     </v-fab-transition>
 
-    <more-lesson ref="favorite-mobile" :sublesson="selected"></more-lesson>
+    <more-lesson
+      :isOpen="openCupertionoLesson"
+      :sublesson="selected"
+      @close--cupertiono--slider="openCupertionoLesson = false"
+    ></more-lesson>
   </div>
 </template>
 
@@ -65,10 +69,10 @@ export default {
         this.scroll(this.$refs.todayLesson[0], "today");
       }
     },
-    test(sublesson) {
-      console.log(sublesson);
+    openCupertino(sublesson) {
       this.selected = sublesson;
-      this.$refs["favorite-mobile"].showCupertino();
+
+      this.openCupertionoLesson = true;
     },
     scroll(DOMElement, type) {
       const elementPosition = DOMElement.getBoundingClientRect().top;
@@ -82,6 +86,7 @@ export default {
   },
   data: () => ({
     selected: null,
+    openCupertionoLesson: false,
   }),
   computed: {},
 
@@ -90,9 +95,15 @@ export default {
 </script>
 
 <style>
-@media (max-width: 350px) {
+@media (max-width: 319px) {
   .fix--font--size--course--buttons {
     font-size: 0.7rem !important;
+  }
+}
+
+@media (max-width: 319px) {
+  .sublesson--discipline--name {
+    font-size: 0.9rem !important;
   }
 }
 
