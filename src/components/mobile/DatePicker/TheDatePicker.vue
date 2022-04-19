@@ -89,7 +89,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .edit--text--button {
   font-size: 0.875rem;
 }

@@ -1,10 +1,8 @@
 <template>
-  <CupertinoSlider
-    :id="'selected'"
-    :isOpen="isOpen"
-    @close--cupertiono--slider="$emit('close--cupertiono--slider')"
-  >
-    <div v-if="sublesson">
+  <v-sheet class="p-0">
+    <div class="pt-2 pb-5"><div class="touch-move"></div></div>
+
+    <div v-if="sublesson" class="px-3 pb-6">
       <div class="sublesson--discipline--type">
         <v-chip
           class="mr-1 mb-1 elevation-1"
@@ -87,7 +85,7 @@
               </div>
             </div>
 
-            <!-- <v-row align="center" justify="center" no-gutters dense>
+            <v-row align="center" justify="center" no-gutters dense>
               <v-col cols="2" sm="1" v-if="sublesson.teacher.surname">
                 <v-btn fab dark small color="indigo">
                   <v-icon dark> mdi-account </v-icon>
@@ -123,23 +121,27 @@
                   </div>
                 </v-col>
               </v-row>
-            </v-row> -->
+            </v-row>
           </div>
         </div>
       </div>
     </div>
-  </CupertinoSlider>
+  </v-sheet>
 </template>
 
 <script>
-import CupertinoSlider from "@/components/mobile/Cupertiono/CupertinoSlider.vue";
 import Colors from "@/class/Colors";
 
 export default {
   name: "moreLesson",
-  components: { CupertinoSlider },
+  components: {},
 
   computed: {},
+  watch: {
+    sublesson() {
+      console.log(JSON.stringify(this.sublesson));
+    },
+  },
   props: {
     sublesson: Object,
     isOpen: Boolean,
@@ -167,6 +169,11 @@ export default {
   bottom: 15px;
 }
 
-.fix--position--cupertino {
+.touch-move {
+  margin: 0 auto;
+  height: 5px;
+  background: #c0c0c0;
+  width: 36px;
+  border-radius: 4px;
 }
 </style>

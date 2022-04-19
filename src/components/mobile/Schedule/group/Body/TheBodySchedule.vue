@@ -38,11 +38,15 @@
       ></app-floating-button>
     </v-fab-transition>
 
-    <more-lesson
-      :isOpen="openCupertionoLesson"
-      :sublesson="selected"
-      @close--cupertiono--slider="openCupertionoLesson = false"
-    ></more-lesson>
+    <v-bottom-sheet v-model="openCupertionoLesson">
+      <more-lesson
+        :sublesson="selected"
+        v-touch="{
+          down: () => {},
+          move: test,
+        }"
+      ></more-lesson>
+    </v-bottom-sheet>
   </div>
 </template>
 
@@ -83,10 +87,28 @@ export default {
         behavior: "smooth",
       });
     },
+    swipe(say) {
+      console.log(say);
+      // alert("123");
+    },
+    test($event) {
+      console.log("START Y", $event.touchstartY);
+      console.log("CURRENT Y", $event.touchmoveY);
+      const start = $event.touchstartY;
+      const end = $event.touchmoveY;
+
+      if (start - end < 0) {
+        console.log("Уменьшить на ", start - end);
+      }
+    },
+    downSwipe($event) {
+      this.openCupertionoLesson = false;
+    },
   },
   data: () => ({
     selected: null,
     openCupertionoLesson: false,
+    hight: 300,
   }),
   computed: {},
 

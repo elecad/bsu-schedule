@@ -9,10 +9,10 @@
       :openSetting="openSetting"
       @close--settings="settingsCloseMobile"
     ></app-settings>
-    <favorite-mobile
-      :isOpen="openFavorite"
-      @close--cupertiono--slider="favoriteCloseMobile"
-    ></favorite-mobile>
+
+    <v-bottom-sheet v-model="openFavorite">
+      <favorite-mobile></favorite-mobile>
+    </v-bottom-sheet>
   </nav>
 </template>
 

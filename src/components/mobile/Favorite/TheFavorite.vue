@@ -1,12 +1,8 @@
 <template>
-  <CupertinoSlider
-    :id="'favorite'"
-    :isOpen="isOpen"
-    @close--cupertiono--slider="$emit('close--cupertiono--slider')"
-  >
-    <v-container fluid class="fix--margin--cupertino pa-0">
+  <v-sheet>
+    <v-container fluid class="pa-0">
       <div class="text-h5 font-weight-medium mb-5">Избранное</div>
-      <div class="mb-4">
+      <div class="fix--padding--cupertino">
         <app-favorite-chip :edit="editFavirite" type="group"
           >12001902</app-favorite-chip
         >
@@ -30,17 +26,15 @@
         </v-icon>
       </v-btn>
     </v-container>
-  </CupertinoSlider>
+  </v-sheet>
 </template>
 
 <script>
-import V2Cupertino from "v2-cupertino";
 import appFavoriteChip from "@/components/mobile/Favorite/AppFavoriteChip.vue";
-import CupertinoSlider from "@/components/mobile/Cupertiono/CupertinoSlider.vue";
 
 export default {
   name: "faviriteMobile",
-  components: { CupertinoSlider, V2Cupertino, appFavoriteChip },
+  components: { appFavoriteChip },
   props: { isOpen: Boolean },
   data: () => ({
     editFavirite: false,
@@ -50,8 +44,8 @@ export default {
 </script>
 
 <style scoped>
-.fix--margin--cupertino {
-  margin-bottom: 90px;
+.fix--padding--cupertino {
+  padding-bottom: 90px;
 }
 
 .v-card:before {
