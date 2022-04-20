@@ -32,20 +32,26 @@
     </div>
 
     <v-fab-transition>
-      <app-floating-button
+      <app-current-button
         @scroll--now--day="scrollNowDay"
         v-if="true"
-      ></app-floating-button>
+      ></app-current-button>
     </v-fab-transition>
 
-    <bottom-sheet v-model="openCupertionoLesson" :id="'lesson--bottom--sheet'">
+    <v-fab-transition>
+      <app-scroll-button v-if="scrollButtonVisible"></app-scroll-button>
+    </v-fab-transition>
+
+    <bottom-sheet v-model="openMoreLesson" :id="'lesson--bottom--sheet'">
       <more-lesson :sublesson="selected"></more-lesson>
     </bottom-sheet>
   </div>
 </template>
 
 <script>
-import appFloatingButton from "@/components/ScheduleContentMobile/AppFloatingButton.vue";
+import appCurrentButton from "@/components/mobile/FloatingButtons/AppCurrentButton.vue";
+import appScrollButton from "@/components/mobile/FloatingButtons/AppScrollButton.vue";
+import { debounce } from "@/plugins/debounce";
 import dayHeader from "@/components/mobile/Schedule/group/Body/dayHeader.vue";
 import cardLesson from "@/components/mobile/Schedule/group/Body/cardLesson.vue";
 import moreLesson from "@/components/mobile/Schedule/group/Body/moreLesson.vue";
@@ -60,9 +66,10 @@ export default {
   components: {
     moreLesson,
     cardLesson,
-    appFloatingButton,
+    appCurrentButton,
     dayHeader,
     bottomSheet,
+    appScrollButton,
   },
   methods: {
     scrollNowDay() {
@@ -74,46 +81,55 @@ export default {
         this.scroll(this.$refs.todayLesson[0], "today");
       }
     },
+
     openCupertino(sublesson) {
       this.selected = sublesson;
 
-      this.openCupertionoLesson = true;
+      this.openMoreLesson = true;
     },
     scroll(DOMElement, type) {
       const elementPosition = DOMElement.getBoundingClientRect().top;
       const topOffset = type == "now" ? 60 : 65;
       const offsetPosition = elementPosition - topOffset;
+      console.log(elementPosition);
       window.scrollBy({
         top: offsetPosition,
         behavior: "smooth",
       });
     },
-    swipe(say) {
-      console.log(say);
-      // alert("123");
-    },
-    test($event) {
-      console.log("START Y", $event.touchstartY);
-      console.log("CURRENT Y", $event.touchmoveY);
-      const start = $event.touchstartY;
-      const end = $event.touchmoveY;
-
-      if (start - end < 0) {
-        console.log("Уменьшить на ", start - end);
-      }
-    },
-    downSwipe($event) {
-      this.openCupertionoLesson = false;
+    onScroll() {
+      console.log("Привет!");
     },
   },
   data: () => ({
     selected: null,
-    openCupertionoLesson: false,
-    hight: 300,
+    openMoreLesson: false,
+    scrollButtonVisible: false,
+    previousTop: 0,
   }),
   computed: {},
 
   created() {},
+  mounted() {
+    this.handleDebouncedScroll = debounce(() => {
+      console.log(this.previousTop, window.scrollY);
+      if (this.previousTop - window.scrollY < -20) {
+        // console.log("user scroll to bottom");
+        this.scrollButtonVisible = false;
+      } else if (window.scrollY < 200) {
+        this.scrollButtonVisible = false;
+      } else if (this.previousTop - window.scrollY > 20) {
+        // console.log("user scroll to top");
+        this.scrollButtonVisible = true;
+      }
+      this.previousTop = window.scrollY;
+    }, 20);
+    window.addEventListener("scroll", this.handleDebouncedScroll);
+  },
+
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.handleDebouncedScroll);
+  },
 };
 </script>
 

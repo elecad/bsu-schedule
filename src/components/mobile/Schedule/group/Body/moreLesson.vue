@@ -88,19 +88,27 @@
           </div>
         </div>
         <v-row align="center" justify="center" no-gutters dense>
-          <v-col cols="2" sm="1" v-if="sublesson.teacher.surname">
-            <!-- <v-btn fab dark small color="indigo">
-              <v-icon dark> mdi-account </v-icon>
-            </v-btn> -->
-            <v-btn fab dark small elevation="0" color="indigo">
+          <v-col cols="2" sm="1">
+            <v-btn
+              fab
+              class="white--text"
+              small
+              elevation="0"
+              color="indigo"
+              :disabled="!sublesson.teacher.surname"
+            >
               <v-icon dark> mdi-account </v-icon>
             </v-btn>
           </v-col>
           <v-col cols="2" sm="2">
-            <!-- <v-btn fab dark small color="indigo" v-if="sublesson.location.aud">
-              <v-icon> mdi-office-building </v-icon>
-            </v-btn> -->
-            <v-btn fab dark small elevation="0" color="indigo">
+            <v-btn
+              class="white--text"
+              fab
+              small
+              elevation="0"
+              color="indigo"
+              :disabled="!sublesson.location.aud"
+            >
               <v-icon> mdi-map-marker </v-icon>
             </v-btn>
           </v-col>

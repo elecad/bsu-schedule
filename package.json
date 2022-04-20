@@ -14,6 +14,7 @@
     "vue": "^2.6.14",
     "vue-intersect": "^1.1.6",
     "vue-router": "^3.5.1",
+    "vue-scroll": "^2.1.13",
     "vuetify": "^2.6.0",
     "vuex": "^3.6.2"
   },
