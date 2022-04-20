@@ -19,7 +19,7 @@
             </div>
           </div>
           <v-divider vertical></v-divider>
-          <div class="ml-3 mr-2">
+          <div class="ml-3 mr-3">
             <div class="sublesson--discipline--type">
               <v-chip
                 class="mr-1 mb-1 elevation-1"

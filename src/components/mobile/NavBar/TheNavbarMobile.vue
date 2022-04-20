@@ -10,9 +10,13 @@
       @close--settings="settingsCloseMobile"
     ></app-settings>
 
-    <v-bottom-sheet v-model="openFavorite">
+    <!-- <v-bottom-sheet v-model="openFavorite">
       <favorite-mobile></favorite-mobile>
-    </v-bottom-sheet>
+    </v-bottom-sheet> -->
+
+    <bottom-sheet id="favorite--bottom--sheet" v-model="openFavorite">
+      <favorite-mobile></favorite-mobile>
+    </bottom-sheet>
   </nav>
 </template>
 
@@ -20,10 +24,11 @@
 import mainNavBar from "@/components/mobile/NavBar/mainNavBarMobile.vue";
 import appSettings from "@/components/Settings/AppSettings.vue";
 import favoriteMobile from "@/components/mobile/Favorite/TheFavorite.vue";
+import bottomSheet from "@/components/mobile/BottomSheet/BottomSheet.vue";
 
 export default {
   name: "navBar",
-  components: { mainNavBar, appSettings, favoriteMobile },
+  components: { mainNavBar, appSettings, favoriteMobile, bottomSheet },
   data: () => ({
     openSetting: false,
     openFavorite: false,
@@ -34,7 +39,6 @@ export default {
     },
     favoriteOpenMobile() {
       this.openFavorite = true;
-      // this.$refs["favorite-mobile"].showCupertino();
     },
     favoriteCloseMobile() {
       this.openFavorite = false;

@@ -38,15 +38,9 @@
       ></app-floating-button>
     </v-fab-transition>
 
-    <v-bottom-sheet v-model="openCupertionoLesson">
-      <more-lesson
-        :sublesson="selected"
-        v-touch="{
-          down: () => {},
-          move: test,
-        }"
-      ></more-lesson>
-    </v-bottom-sheet>
+    <bottom-sheet v-model="openCupertionoLesson" :id="'lesson--bottom--sheet'">
+      <more-lesson :sublesson="selected"></more-lesson>
+    </bottom-sheet>
   </div>
 </template>
 
@@ -55,6 +49,7 @@ import appFloatingButton from "@/components/ScheduleContentMobile/AppFloatingBut
 import dayHeader from "@/components/mobile/Schedule/group/Body/dayHeader.vue";
 import cardLesson from "@/components/mobile/Schedule/group/Body/cardLesson.vue";
 import moreLesson from "@/components/mobile/Schedule/group/Body/moreLesson.vue";
+import bottomSheet from "@/components/mobile/BottomSheet/BottomSheet.vue";
 
 export default {
   name: "AppScheduleContentMobile",
@@ -62,7 +57,13 @@ export default {
     loading: Boolean,
     body: Array,
   },
-  components: { moreLesson, cardLesson, appFloatingButton, dayHeader },
+  components: {
+    moreLesson,
+    cardLesson,
+    appFloatingButton,
+    dayHeader,
+    bottomSheet,
+  },
   methods: {
     scrollNowDay() {
       if (this.$refs.nowLesson) {
@@ -121,37 +122,6 @@ export default {
   .fix--font--size--course--buttons {
     font-size: 0.7rem !important;
   }
-}
-
-@media (max-width: 319px) {
-  .sublesson--discipline--name {
-    font-size: 0.9rem !important;
-  }
-}
-
-.sublesson--discipline--teacher {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.sublesson--discipline--teacher > div:first-child {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.sublesson--discipline--teacher > div:first-child:before {
-  content: "A";
-  width: 0px;
-  visibility: hidden;
-}
-
-.sublesson--discipline--teacher > div:nth-child(2) {
-  margin-top: 1px;
-}
-
-.padding--fix--expansion-panel {
-  padding: 16px !important;
 }
 
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active,

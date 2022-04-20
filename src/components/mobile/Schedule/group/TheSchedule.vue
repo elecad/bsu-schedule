@@ -10,18 +10,20 @@
       @date--week="dateWeek"
     ></schedule-head>
     <schedule-body :loading="isBodyLoading" :body="body"></schedule-body>
+    <schedule-footer></schedule-footer>
   </div>
 </template>
 
 <script>
 import scheduleHead from "@/components/mobile/Schedule/group/Header/TheHeaderSchedule.vue";
 import scheduleBody from "@/components/mobile/Schedule/group/Body/TheBodySchedule.vue";
+import scheduleFooter from "@/components/mobile/Footer/Footer.vue";
 import dateAPI from "@/class/DateAPI";
 import parsers from "@/parser/parsers";
 
 export default {
   name: "Schedule",
-  components: { scheduleHead, scheduleBody },
+  components: { scheduleHead, scheduleBody, scheduleFooter },
   computed: {
     dateISO() {
       return this.dataAPI.getDateISO();

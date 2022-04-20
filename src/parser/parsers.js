@@ -3,6 +3,8 @@ import Teacher from "@/parser/source/teacher/teacher";
 import Location from "@/parser/source/location/location";
 import Search from "@/parser/source/search/search";
 
+import { htmlCode } from "@/class/Mooks";
+
 const links = {
   group: ({ group, week }) => {
     return `/bsu/education/schedule/groups/show_schedule.php?group=${group}&week=${week}`;
@@ -28,9 +30,9 @@ export default class Parsers {
       throw console.error("Данные переданы некорректно!");
     }
     let response = await fetch(links.group({ group, week }));
-
     let htmlText = await response.text();
     this.htmlText = htmlText;
+    // this.htmlText = htmlCode;
     return this.parseGroup();
   }
 
