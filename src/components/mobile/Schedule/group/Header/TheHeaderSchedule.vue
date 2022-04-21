@@ -2,9 +2,29 @@
   <v-card>
     <v-card-title>
       <v-fade-transition leave-absolute>
-        <h3 v-if="!loading" class="fix--text">
-          {{ header }}
-        </h3>
+        <div v-if="!loading">
+          <h3 class="fix--text" v-if="isGroup">
+            {{ header.name }}
+          </h3>
+
+          <div
+            class="fix--text fix--word--break"
+            v-if="isTeacher"
+            @click="tooltipShow = !tooltipShow"
+          >
+            <h3 class="">{{ abbreviation }}</h3>
+            <div class="text--disabled text-body-2">
+              {{ header.post.toLowerCase() }}
+            </div>
+
+            <v-snackbar v-model="tooltipShow" timeout="2000" class="mb-6">
+              <div class="d-flex align-center justify-center">
+                <div>{{ header.fullName }}</div>
+              </div>
+            </v-snackbar>
+          </div>
+        </div>
+
         <v-skeleton-loader
           type="chip"
           class="p-0 m-0 v-skeleton-loader__chip"
@@ -35,9 +55,27 @@ import appDatePickerMobile from "@/components/mobile/DatePicker/TheDatePicker.vu
 export default {
   name: "scheduleHeader",
   props: {
-    header: String,
+    header: Object,
     loading: Boolean,
     dateISO: String,
+  },
+
+  computed: {
+    abbreviation() {
+      const arr = this.header.fullName.split(" ");
+      return `${arr[0]} ${arr[1][0]}.${arr.length == 3 ? arr[2][0] + "." : ""}`;
+    },
+    isGroup() {
+      return this.$router.currentRoute.name == "group";
+    },
+
+    isLocation() {
+      return this.$router.currentRoute.name == "location";
+    },
+
+    isTeacher() {
+      return this.$router.currentRoute.name == "teacher";
+    },
   },
 
   components: {
@@ -45,6 +83,7 @@ export default {
   },
   data: () => ({
     favorit: true,
+    tooltipShow: false,
   }),
   methods: {
     dateWeek(date) {
@@ -54,7 +93,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .v-skeleton-loader__chip {
   width: 150px !important;
 }
@@ -62,6 +101,10 @@ export default {
 .fix--text {
   overflow: visible;
   white-space: nowrap;
+}
+
+.fix--word--break {
+  word-break: break-all;
 }
 
 @media (max-width: 317px) {

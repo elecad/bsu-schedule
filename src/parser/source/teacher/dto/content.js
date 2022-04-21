@@ -1,6 +1,9 @@
 export default class Content {
   type = "";
+  subgroup = undefined;
   name = "";
+  subname = "";
+  online = undefined;
   group = "";
   groupPromt = "";
   groupId = 0; //? Кажется, что не нужно, но вдруг что сломается...
@@ -20,12 +23,15 @@ export default class Content {
     }
     return {
       type: this.type,
+      subgroup: this.subgroup,
+      subname: this.subname,
+      online: this.online,
       name: this.name,
       links: this.links,
       group: {
-        group: this.group,
-        groupPromt: this.groupPromt,
-        groupId: this.groupId,
+        name: this.group,
+        promt: this.groupPromt,
+        id: this.groupId,
       },
       location: {
         aud: this.locationAud,

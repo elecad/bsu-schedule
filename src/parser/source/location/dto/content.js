@@ -1,6 +1,9 @@
 export default class Content {
   type = "";
+  subgroup = undefined;
   name = "";
+  subname = "";
+  online = undefined;
   teacherName = "";
   teacherSurname = "";
   teacherMiddlename = "";
@@ -21,6 +24,9 @@ export default class Content {
     }
     return {
       type: this.type,
+      subgroup: this.subgroup,
+      subname: this.subname,
+      online: this.online,
       name: this.name,
       links: this.links,
       teacher: {

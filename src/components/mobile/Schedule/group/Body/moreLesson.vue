@@ -28,65 +28,110 @@
         >
       </div>
       <div
-        class="sublesson--discipline--name--bottom--sheet font-weight-medium mt-3 mb-5"
+        class="sublesson--discipline--name--bottom--sheet font-weight-medium mt-3 mb-5 mr-2"
       >
+        <div class="now--lesson--bottom--sheet" v-if="isNow">●</div>
         {{ sublesson.name }}
         <small class="text--disabled" v-if="sublesson.subname">{{
           sublesson.subname
         }}</small>
       </div>
-      <div
-        class="sublesson--discipline--teacher mt-2 text-caption"
-        v-if="sublesson.teacher.surname"
-      >
-        <div class="mr-1">
-          <v-icon>mdi-account</v-icon>
-        </div>
-        <div>
-          {{
-            `${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename} (${sublesson.teacher.post})`
-          }}
+
+      <div v-if="!isGroup">
+        <div
+          class="sublesson--discipline--group text-caption"
+          v-if="sublesson.group"
+        >
+          <div class="mr-1">
+            <v-icon>mdi-account-supervisor</v-icon>
+          </div>
+          <div class="">{{ sublesson.group.name }}</div>
         </div>
       </div>
-      <div
-        class="sublesson--discipline--location text-caption"
-        v-if="sublesson.location.aud || sublesson.location.specific"
-      >
-        <v-icon class="mr-1">mdi-map-marker</v-icon
-        >{{
-          sublesson.location.aud
-            ? `ауд. ${sublesson.location.aud} ${sublesson.location.corp}`
-            : sublesson.location.specific
-        }}
+
+      <!-- //! Преподаватель занятия -->
+      <div v-if="!isTeacher">
+        <div
+          class="sublesson--discipline--teacher text-caption"
+          v-if="sublesson.teacher.surname"
+        >
+          <div class="mr-1">
+            <v-icon>mdi-account</v-icon>
+          </div>
+          <div>
+            {{
+              `${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename} (${sublesson.teacher.post})`
+            }}
+          </div>
+        </div>
+      </div>
+
+      <!-- //! Место проведения занятия -->
+      <div v-if="!isLocation">
+        <div
+          class="sublesson--discipline--location text-caption"
+          v-if="sublesson.location.aud || sublesson.location.specific"
+        >
+          <div class="mr-1">
+            <v-icon>mdi-map-marker</v-icon>
+          </div>
+          <div>
+            {{
+              sublesson.location.aud
+                ? `ауд. ${sublesson.location.aud} ${sublesson.location.corp}`
+                : sublesson.location.specific
+            }}
+          </div>
+        </div>
       </div>
 
       <v-divider class="my-4"></v-divider>
 
       <div>
         <div class="mb-5">
-          <div
-            class="sublesson--discipline--information--teacher my-2 text-caption"
-            v-if="sublesson.teacher.surname"
-          >
-            <div class="mr-1">
-              <v-icon>mdi-account-circle-outline</v-icon>
-            </div>
-            <div>{{ sublesson.teacher.promt }}</div>
-          </div>
-          <div
-            class="sublesson--discipline--information--location text-caption"
-            v-if="
-              (sublesson.location.aud || sublesson.location.specific) &&
-              !sublesson.online
-            "
-          >
-            <div class="mr-1">
-              <v-icon>mdi-map-marker-question-outline</v-icon>
-            </div>
+          <!-- //! Дополнительная информация о группе -->
+          <div v-if="!isGroup">
+            <div
+              class="sublesson--discipline--information--group my-2 text-caption"
+              v-if="sublesson.group.promt"
+            >
+              <div class="mr-1">
+                <v-icon>mdi-account-supervisor-circle</v-icon>
+              </div>
 
-            <div>{{ sublesson.location.prompt }}</div>
+              <div>{{ sublesson.group.promt }}</div>
+            </div>
+          </div>
+          <!-- //! Дополнительная информация о преподавателе -->
+          <div v-if="!isTeacher">
+            <div
+              class="sublesson--discipline--information--teacher my-2 text-caption"
+              v-if="sublesson.teacher.surname"
+            >
+              <div class="mr-1">
+                <v-icon>mdi-account-circle-outline</v-icon>
+              </div>
+              <div>{{ sublesson.teacher.promt }}</div>
+            </div>
+          </div>
+          <!-- //! Дополнительная информация о месте проведения -->
+          <div v-if="!isLocation">
+            <div
+              class="sublesson--discipline--information--location text-caption"
+              v-if="
+                (sublesson.location.aud || sublesson.location.specific) &&
+                !sublesson.online
+              "
+            >
+              <div class="mr-1">
+                <v-icon>mdi-map-marker-question-outline</v-icon>
+              </div>
+
+              <div>{{ sublesson.location.prompt }}</div>
+            </div>
           </div>
         </div>
+
         <v-row align="center" justify="center" no-gutters dense>
           <v-col cols="2" sm="1">
             <v-btn
@@ -96,8 +141,20 @@
               elevation="0"
               color="indigo"
               :disabled="!sublesson.teacher.surname"
+              v-if="!isTeacher"
             >
               <v-icon dark> mdi-account </v-icon>
+            </v-btn>
+            <v-btn
+              fab
+              class="white--text"
+              small
+              elevation="0"
+              color="indigo"
+              :disabled="!sublesson.group"
+              v-if="!isGroup"
+            >
+              <v-icon dark> mdi-account-supervisor </v-icon>
             </v-btn>
           </v-col>
           <v-col cols="2" sm="2">
@@ -144,16 +201,24 @@ export default {
   name: "moreLesson",
   components: {},
 
-  computed: {},
-  watch: {
-    sublesson() {
-      console.log(this.sublesson ? this.sublesson.location.aud : false);
-      console.log(this.sublesson.location.aud == false);
+  computed: {
+    isGroup() {
+      return this.$router.currentRoute.name == "group";
+    },
+
+    isLocation() {
+      return this.$router.currentRoute.name == "location";
+    },
+
+    isTeacher() {
+      return this.$router.currentRoute.name == "teacher";
     },
   },
+
   props: {
     sublesson: Object,
     isOpen: Boolean,
+    isNow: Boolean,
   },
   methods: {
     selectColorsBodyChip(text) {
@@ -169,6 +234,12 @@ export default {
 </script>
 
 <style scoped>
+.now--lesson--bottom--sheet {
+  color: #5c6bc0;
+  position: absolute;
+  right: 15px;
+}
+
 .v-card:before {
   display: none;
 }
@@ -247,6 +318,27 @@ export default {
 }
 
 .sublesson--discipline--information--teacher > div:nth-child(2) {
+  margin-top: 1px;
+}
+
+.sublesson--discipline--information--group {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sublesson--discipline--information--group > div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sublesson--discipline--information--group > div:first-child:before {
+  content: "A";
+  width: 0px;
+  visibility: hidden;
+}
+
+.sublesson--discipline--information--group > div:nth-child(2) {
   margin-top: 1px;
 }
 </style>

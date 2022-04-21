@@ -5,6 +5,8 @@
       elevation="0"
       @click.native="openCupertiono($event, sublesson)"
     >
+      <slot></slot>
+
       <div class="d-flex pa-4">
         <div class="lesson d-flex">
           <div class="d-flex flex-column align-center justify-center mr-3">
@@ -20,6 +22,7 @@
           </div>
           <v-divider vertical></v-divider>
           <div class="ml-3 mr-3">
+            <!-- //! Характеристики занятия -->
             <div class="sublesson--discipline--type">
               <v-chip
                 class="mr-1 mb-1 elevation-1"
@@ -46,35 +49,62 @@
                 онлайн</v-chip
               >
             </div>
+
+            <!-- //! Наименование занятия -->
             <div class="sublesson--discipline--name font-weight-medium my-3">
               {{ sublesson.name }}
               <small class="text--disabled" v-if="sublesson.subname">{{
                 sublesson.subname
               }}</small>
             </div>
-            <div
-              class="sublesson--discipline--teacher mt-2 text-caption"
-              v-if="sublesson.teacher.surname"
-            >
-              <div class="mr-1">
-                <v-icon>mdi-account</v-icon>
-              </div>
-              <div>
-                {{
-                  `${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename} (${sublesson.teacher.post})`
-                }}
+
+            <!-- //! Группа -->
+            <div v-if="!isGroup">
+              <div
+                class="sublesson--discipline--group text-caption"
+                v-if="sublesson.group"
+              >
+                <div class="mr-1">
+                  <v-icon>mdi-account-supervisor</v-icon>
+                </div>
+                <div class="">{{ sublesson.group.name }}</div>
               </div>
             </div>
-            <div
-              class="sublesson--discipline--location text-caption"
-              v-if="sublesson.location.aud || sublesson.location.specific"
-            >
-              <v-icon class="mr-1">mdi-office-building</v-icon
-              >{{
-                sublesson.location.aud
-                  ? `ауд. ${sublesson.location.aud} ${sublesson.location.corp}`
-                  : sublesson.location.specific
-              }}
+
+            <!-- //! Преподаватель занятия -->
+            <div v-if="!isTeacher">
+              <div
+                class="sublesson--discipline--teacher text-caption"
+                v-if="sublesson.teacher.surname"
+              >
+                <div class="mr-1">
+                  <v-icon>mdi-account</v-icon>
+                </div>
+                <div>
+                  {{
+                    `${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename} (${sublesson.teacher.post})`
+                  }}
+                </div>
+              </div>
+            </div>
+
+            <!-- //! Место проведения занятия -->
+            <div v-if="!isLocation">
+              <div
+                class="sublesson--discipline--location text-caption"
+                v-if="sublesson.location.aud || sublesson.location.specific"
+              >
+                <div class="mr-1">
+                  <v-icon>mdi-map-marker</v-icon>
+                </div>
+                <div>
+                  {{
+                    sublesson.location.aud
+                      ? `ауд. ${sublesson.location.aud} ${sublesson.location.corp}`
+                      : sublesson.location.specific
+                  }}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -99,11 +129,40 @@ export default {
   },
   computed: {
     hasMoreInfo() {
-      return !(
-        this.sublesson.teacher.id == false &&
-        this.sublesson.location.id == false &&
-        this.sublesson.links.length == false
-      );
+      switch (this.$router.currentRoute.name) {
+        case "group":
+          return !(
+            this.sublesson.teacher.id == false &&
+            this.sublesson.location.id == false &&
+            this.sublesson.links.length == false
+          );
+
+        case "teacher":
+          return !(
+            this.sublesson.group.id == false &&
+            this.sublesson.location.id == false &&
+            this.sublesson.links.length == false
+          );
+          break;
+        case "location":
+          return !(
+            this.sublesson.group.id == false &&
+            this.sublesson.teacher.id == false &&
+            this.sublesson.links.length == false
+          );
+          break;
+      }
+    },
+    isGroup() {
+      return this.$router.currentRoute.name == "group";
+    },
+
+    isLocation() {
+      return this.$router.currentRoute.name == "location";
+    },
+
+    isTeacher() {
+      return this.$router.currentRoute.name == "teacher";
     },
   },
   methods: {
@@ -115,7 +174,7 @@ export default {
     },
     openCupertiono(_, sublesson) {
       if (this.hasMoreInfo) {
-        this.$emit("show--cupertiono--lesson", sublesson);
+        this.$emit("show--cupertiono--lesson", sublesson, this.lesson.isNow);
       }
     },
   },
@@ -141,5 +200,68 @@ export default {
   position: absolute !important;
   top: calc(50% - 12px);
   right: 7px;
+}
+
+.sublesson--discipline--teacher {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sublesson--discipline--teacher > div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sublesson--discipline--teacher > div:first-child:before {
+  content: "A";
+  width: 0px;
+  visibility: hidden;
+}
+
+.sublesson--discipline--teacher > div:nth-child(2) {
+  margin-top: 1px;
+}
+
+.sublesson--discipline--group {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sublesson--discipline--group > div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sublesson--discipline--group > div:first-child:before {
+  content: "A";
+  width: 0px;
+  visibility: hidden;
+}
+
+.sublesson--discipline--group > div:nth-child(2) {
+  margin-top: 1px;
+}
+
+.sublesson--discipline--location {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sublesson--discipline--location > div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sublesson--discipline--location > div:first-child:before {
+  content: "A";
+  width: 0px;
+  visibility: hidden;
+}
+
+.sublesson--discipline--location > div:nth-child(2) {
+  margin-top: 1px;
 }
 </style>

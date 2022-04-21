@@ -15,11 +15,23 @@
               class="fix--transition"
             >
               <card-lesson
-                @show--cupertiono--lesson="openCupertino"
+                @show--cupertiono--lesson="openMoreLessonPanel"
                 class="elevation-2"
                 :lesson="lesson"
                 :sublesson="sublesson"
                 :last="lesson.content.length == j + 1"
+              >
+                <!-- //!Рендер занятий сегодня / текущего занятия -->
+                <div
+                  class="now--lesson"
+                  v-if="lesson.isNow"
+                  ref="nowLesson"
+                ></div>
+                <div
+                  class="today--lesson"
+                  v-else-if="lesson.isToday"
+                  ref="todayLesson"
+                ></div
               ></card-lesson>
             </div>
           </div>
@@ -33,8 +45,8 @@
 
     <v-fab-transition>
       <app-current-button
+        v-if="nowButton"
         @scroll--now--day="scrollNowDay"
-        v-if="true"
       ></app-current-button>
     </v-fab-transition>
 
@@ -42,8 +54,15 @@
       <app-scroll-button v-if="scrollButtonVisible"></app-scroll-button>
     </v-fab-transition>
 
-    <bottom-sheet v-model="openMoreLesson" :id="'lesson--bottom--sheet'">
-      <more-lesson :sublesson="selected"></more-lesson>
+    <bottom-sheet
+      v-model="openMoreLesson"
+      :id="'lesson--bottom--sheet'"
+      :isNow="nowLessonSelected"
+    >
+      <more-lesson
+        :sublesson="selected"
+        :isNow="nowLessonSelected"
+      ></more-lesson>
     </bottom-sheet>
   </div>
 </template>
@@ -62,6 +81,7 @@ export default {
   props: {
     loading: Boolean,
     body: Array,
+    nowButton: Boolean,
   },
   components: {
     moreLesson,
@@ -82,10 +102,10 @@ export default {
       }
     },
 
-    openCupertino(sublesson) {
+    openMoreLessonPanel(sublesson, isNow) {
       this.selected = sublesson;
-
-      this.openMoreLesson = true;
+      this.nowLessonSelected = isNow;
+      this.openMoreLesson = this.openMoreLesson ? false : true;
     },
     scroll(DOMElement, type) {
       const elementPosition = DOMElement.getBoundingClientRect().top;
@@ -97,14 +117,12 @@ export default {
         behavior: "smooth",
       });
     },
-    onScroll() {
-      console.log("Привет!");
-    },
   },
   data: () => ({
     selected: null,
     openMoreLesson: false,
     scrollButtonVisible: false,
+    nowLessonSelected: false,
     previousTop: 0,
   }),
   computed: {},
@@ -112,7 +130,6 @@ export default {
   created() {},
   mounted() {
     this.handleDebouncedScroll = debounce(() => {
-      console.log(this.previousTop, window.scrollY);
       if (this.previousTop - window.scrollY < -20) {
         // console.log("user scroll to bottom");
         this.scrollButtonVisible = false;

@@ -12,6 +12,7 @@ export default {
   props: {
     id: String,
     value: Boolean,
+    isNow: Boolean,
   },
   data: () => ({
     panel: null,
@@ -41,8 +42,8 @@ export default {
         this.$emit("input", true);
       },
       onWillDismiss: (e) => {
-        this.startScroll();
         this.$emit("input", false);
+        this.startScroll();
       },
       onBackdropTap: (e) => {
         this.closeSheetTapBackdrop();
@@ -55,16 +56,19 @@ export default {
   methods: {
     openSheet() {
       this.panel.present({ animate: true });
+      document.getElementsByClassName("move")[0].style.background = this.isNow
+        ? "#5c6bc0"
+        : "#c0c0c0";
     },
     stopScroll() {
-      document.body.style.overflowY = "hidden";
       document.body.style.overscrollBehaviorY = "contain";
       document.querySelector("html").style.overflow = "hidden";
     },
     startScroll() {
-      document.body.style.overflowY = "auto";
-      document.body.style.overscrollBehaviorY = "auto";
-      document.querySelector("html").style.overflow = "auto";
+      setTimeout(() => {
+        document.body.style.overscrollBehaviorY = "auto";
+        document.querySelector("html").style.overflow = "auto";
+      }, 150);
     },
     closeSheet() {
       console.log("Закрытие!");

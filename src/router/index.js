@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import WelcomeView from "../views/WelcomeView.vue";
-import GroupMain from "@/views/group/GroupMainView.vue";
+import Shedule from "@/views/group/GroupMainView.vue";
 import TeacherMain from "@/views/teacher/TeacherMainView.vue";
 import LocationMain from "@/views/location/LocationMainView.vue";
 import NotFound from "@/views/NotFound.vue";
@@ -15,19 +15,19 @@ const routes = [
     component: WelcomeView,
   },
   {
-    path: "/group/:id",
+    path: "/g/:id",
     name: "group",
-    component: GroupMain,
+    component: Shedule,
   },
   {
-    path: "/teacher/:id",
+    path: "/t/:id",
     name: "teacher",
-    component: TeacherMain,
+    component: Shedule,
   },
   {
-    path: "/location/:id",
+    path: "/l/:id",
     name: "location",
-    component: LocationMain,
+    component: Shedule,
   },
   {
     path: "*",

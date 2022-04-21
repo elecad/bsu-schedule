@@ -52,6 +52,7 @@ export default class Parsers {
       // ! Будущая проверка на корректность возвращаемых данных
       return {
         validate: true,
+        type: "group",
         data,
       };
     } catch (err) {
@@ -67,6 +68,8 @@ export default class Parsers {
 
     let htmlText = await response.text();
     this.htmlText = htmlText;
+
+    return this.parseTeacher();
     // console.log(htmlText);
   }
 
@@ -85,6 +88,7 @@ export default class Parsers {
 
       return {
         validate: data.header.fullName && data.header.post ? true : false,
+        type: "teacher",
         data,
       };
     } catch (err) {
@@ -100,6 +104,7 @@ export default class Parsers {
 
     let htmlText = await response.text();
     this.htmlText = htmlText;
+    return this.parseLocation();
   }
 
   parseLocation() {
@@ -117,6 +122,7 @@ export default class Parsers {
 
       return {
         validate: data.header.includes(" "),
+        type: "teacher",
         data,
       };
     } catch (err) {

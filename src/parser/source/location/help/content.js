@@ -3,6 +3,8 @@ import Content from "@/parser/source/location/dto/content";
 export default class contentParser {
   $ = null;
   Content = new Content();
+  re =
+    /^(\(.*?[^\(]*\))?\s?((?:.*(?=\s\(Э))|(?:.*(?=\s\(с))|.*)\s?(?:\(Э.*(?=\())?(\(с видеотрансляцией\))?.*$/;
   constructor(mainNode) {
     this.$ = mainNode.cells;
   }
@@ -24,7 +26,26 @@ export default class contentParser {
   nameParse(node) {
     const name = node.textContent.replace(/\s+/g, " ").trim();
     //TODO Место для измененя названия дисциплины (может как-то в будущем)
-    this.Content.name = name;
+    let m = null;
+    m = this.re.exec(name);
+    if (m !== null) {
+      this.Content.subgroup = m[1]
+        ? m[1]
+            .replace("(", "")
+            .replace(")", "")
+            .replace("п/г ", "")
+            .replace("подгруппа", "п/г")
+            .replace("русский язык как иностранный", "рус. яз.")
+            .replace("русский язык как иностанный", "рус. яз.")
+            .replace("иностранный язык", "ин. яз.")
+            .replace("немецкий язык", "нем. яз.")
+        : "";
+      this.Content.subname = m[3] ? m[3] : "";
+      this.Content.name = m[2] ? m[2] : "";
+      // (m[3] ? ' <small class="text--disabled">' + m[3] + "</small>" : "");
+    } else {
+      this.Content.name = name;
+    }
 
     const hrefs = node.querySelectorAll("a");
     for (let i = 0; i < hrefs.length; i++) {

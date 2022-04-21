@@ -18,6 +18,8 @@ export default class Lesson {
       startTime: this.startTime,
       endTime: this.endTime,
       content: this.content,
+      isNow: false,
+      isToday: false,
     };
   }
 
