@@ -154,8 +154,8 @@ export default class Parsers {
 
       let ids = [];
       return data.filter((el) => {
-        if (ids.indexOf(el.content.id) != -1 || el.content.post == "н/о")
-          return false;
+        // if (ids.indexOf(el.content.id) != -1 || el.content.post == "н/о")
+        if (ids.indexOf(el.content.id) != -1) return false;
 
         ids.push(el.content.id);
         return true;

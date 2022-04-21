@@ -3,9 +3,13 @@
     <v-card-title>
       <v-fade-transition leave-absolute>
         <div v-if="!loading">
-          <h3 class="fix--text" v-if="isGroup">
+          <h3 class="fix--text" v-if="isGroup || isLocation">
             {{ header.name }}
           </h3>
+
+          <!-- <h3 class="fix--text" v-if="isLocation">
+            {{ header.name }}
+          </h3> -->
 
           <div
             class="fix--text fix--word--break"
@@ -58,7 +62,10 @@ export default {
     header: Object,
     loading: Boolean,
     dateISO: String,
+    type: String,
   },
+
+  watch: {},
 
   computed: {
     abbreviation() {

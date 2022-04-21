@@ -152,7 +152,7 @@
               elevation="0"
               color="indigo"
               :disabled="!sublesson.group"
-              v-if="!isGroup"
+              v-if="!(isGroup || isLocation)"
             >
               <v-icon dark> mdi-account-supervisor </v-icon>
             </v-btn>
@@ -165,8 +165,20 @@
               elevation="0"
               color="indigo"
               :disabled="!sublesson.location.aud"
+              v-if="!isLocation"
             >
               <v-icon> mdi-map-marker </v-icon>
+            </v-btn>
+            <v-btn
+              fab
+              class="white--text"
+              small
+              elevation="0"
+              color="indigo"
+              :disabled="!sublesson.group"
+              v-if="!(isGroup || isTeacher)"
+            >
+              <v-icon dark> mdi-account-supervisor </v-icon>
             </v-btn>
           </v-col>
           <v-spacer></v-spacer>
@@ -184,6 +196,15 @@
                   target="_blank"
                 >
                   {{ link.name }}
+                </v-btn>
+                <v-btn
+                  v-if="sublesson.links.length == 0"
+                  depressed
+                  color="indigo"
+                  class="fix--font--size--course--buttons ma-2 white--text"
+                  disabled
+                >
+                  В курс
                 </v-btn>
               </div>
             </v-col>

@@ -13,6 +13,7 @@
       :loading="isBodyLoading"
       :body="body"
       :nowButton="nowButtonVisible"
+      :type="scheduleType"
     ></schedule-body>
     <schedule-footer></schedule-footer>
   </div>
@@ -28,6 +29,11 @@ import parsers from "@/parser/parsers";
 export default {
   name: "Schedule",
   components: { scheduleHead, scheduleBody, scheduleFooter },
+  watch: {
+    $route(to, from) {
+      this.INIT();
+    },
+  },
   computed: {
     dateISO() {
       return this.dataAPI.getDateISO();
@@ -52,6 +58,7 @@ export default {
     isBodyLoading: true,
     Parsers: new parsers(),
     nowButtonVisible: false,
+    scheduleType: null,
   }),
   methods: {
     validate() {
@@ -84,18 +91,21 @@ export default {
         console.log("Route: ", this.$router.currentRoute.name);
         switch (this.$router.currentRoute.name) {
           case "group":
+            this.type = "group";
             groupData = await this.Parsers.fetchGroup({
               group: this.$route.params.id,
               week: dateBsuFormat,
             });
             break;
           case "teacher":
+            this.type = "teacher";
             groupData = await this.Parsers.fetchTeacher({
               teacher: this.$route.params.id,
               week: dateBsuFormat,
             });
             break;
           case "location":
+            this.type = "location";
             groupData = await this.Parsers.fetchLocation({
               location: this.$route.params.id,
               week: dateBsuFormat,
@@ -103,7 +113,7 @@ export default {
             break;
         }
 
-        this.header = this.isGroup
+        this.header = !this.isTeacher
           ? { name: groupData.data.header }
           : groupData.data.header;
         this.body = groupData.data.schedule;
@@ -117,7 +127,9 @@ export default {
         console.log(e);
       }
     },
-
+    INIT() {
+      this.loading();
+    },
     findCurrentLesson() {
       const today = this.dataAPI.getTodayBsuAPI(new Date()); // сегодня в виже строки
       const now = new Date();
@@ -171,12 +183,7 @@ export default {
     },
   },
   created() {
-    this.loading();
-    if (this.validate()) {
-      // this.loading();
-    } else {
-      //! 404
-    }
+    this.INIT();
   },
 };
 </script>

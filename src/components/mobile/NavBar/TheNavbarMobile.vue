@@ -53,12 +53,6 @@ export default {
     settingsCloseMobile() {
       this.openSetting = false;
     },
-
-    goSchedule(value) {
-      console.log(value);
-      alert(`Переход: ${value.label}(id ${value.id}) на ${value.type}`);
-      this.searchCloseMobile();
-    },
   },
 };
 </script>

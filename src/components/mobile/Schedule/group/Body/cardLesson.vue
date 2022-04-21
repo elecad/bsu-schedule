@@ -29,6 +29,7 @@
                 small
                 :color="selectColorsBodyChip(sublesson.type)"
                 :text-color="selectColorsTextChip(sublesson.type)"
+                v-if="sublesson.type"
                 >{{ sublesson.type }}</v-chip
               >
               <v-chip
@@ -62,7 +63,7 @@
             <div v-if="!isGroup">
               <div
                 class="sublesson--discipline--group text-caption"
-                v-if="sublesson.group"
+                v-if="sublesson.group.id"
               >
                 <div class="mr-1">
                   <v-icon>mdi-account-supervisor</v-icon>
@@ -126,6 +127,7 @@ export default {
     lesson: Object,
     sublesson: Object,
     last: Boolean,
+    type: String,
   },
   computed: {
     hasMoreInfo() {

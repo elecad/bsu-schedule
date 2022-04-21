@@ -20,7 +20,7 @@ export default class Content {
   get object() {
     //? Получение объекта дня
     if (!this.check) {
-      console.error('Объекта "Контент" получен без ключевых свойств');
+      console.error('Объект "Контент" получен без ключевых свойств');
     }
     return {
       type: this.type,
@@ -38,9 +38,9 @@ export default class Content {
         promt: this.teacherPromt,
       },
       group: {
-        group: this.group,
-        groupPromt: this.groupPromt,
-        groupId: this.groupId,
+        name: this.group,
+        promt: this.groupPromt,
+        id: this.groupId,
       },
     };
   }

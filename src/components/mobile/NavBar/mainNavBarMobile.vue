@@ -44,6 +44,7 @@
         >
           <v-autocomplete
             class="elevation-2"
+            @change="goNewSchedule"
             v-model="select"
             :search-input.sync="searchText"
             :items="autocomplete"
@@ -90,9 +91,7 @@ export default {
     searchText(val) {
       val && val !== this.select && this.search(val);
     },
-    select(val) {
-      console.log("watch select: ", val);
-    },
+    select(newValue) {},
   },
   methods: {
     search(value) {
@@ -107,10 +106,7 @@ export default {
     },
 
     setResultFunction(obj) {
-      console.log(obj);
-
       if (obj.text == "Идёт поиск..." && !obj.result.length) {
-        // console.log('poesk?');
         this.noResultText = obj.text;
 
         return;
@@ -126,9 +122,8 @@ export default {
       this.$vuetify.theme.dark = this.$store.getters.getTheme;
     },
 
-    go(value) {
-      //? Функция перехода к найденному расписанию
-      console.log(value);
+    goNewSchedule(value) {
+      this.$router.push({ name: value.type, params: { id: value.id } });
     },
   },
 };
