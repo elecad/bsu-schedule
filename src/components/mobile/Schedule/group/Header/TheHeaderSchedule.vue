@@ -1,45 +1,51 @@
 <template>
   <v-card>
     <v-card-title>
-      <v-fade-transition leave-absolute>
-        <div v-if="!loading && type">
-          <h3 class="fix--text" v-if="isGroup || isLocation">
-            {{ header.name }}
-          </h3>
+      <div
+        class="d-flex justify-space-between align-center fix--width--shedule--header"
+      >
+        <div>
+          <v-fade-transition leave-absolute>
+            <div v-if="!loading && type">
+              <h3 class="fix--text" v-if="isGroup || isLocation">
+                {{ header.name }}
+              </h3>
 
-          <!-- <h3 class="fix--text" v-if="isLocation">
+              <!-- <h3 class="fix--text" v-if="isLocation">
             {{ header.name }}
           </h3> -->
 
-          <div
-            class="fix--text fix--word--break"
-            v-if="isTeacher"
-            @click="tooltipShow = !tooltipShow"
-          >
-            <h3 class="">{{ abbreviation }}</h3>
-            <div class="text--disabled text-body-2">
-              {{ header.post.toLowerCase() }}
+              <div
+                class="fix--text fix--word--break"
+                v-if="isTeacher"
+                @click="tooltipShow = !tooltipShow"
+              >
+                <h3 class="">{{ abbreviation }}</h3>
+                <div class="text--disabled text-body-2">
+                  {{ header.post.toLowerCase() }}
+                </div>
+
+                <v-snackbar v-model="tooltipShow" timeout="2000" class="mb-6">
+                  <div class="d-flex align-center justify-center">
+                    <div>{{ header.fullName }}</div>
+                  </div>
+                </v-snackbar>
+              </div>
             </div>
 
-            <v-snackbar v-model="tooltipShow" timeout="2000" class="mb-6">
-              <div class="d-flex align-center justify-center">
-                <div>{{ header.fullName }}</div>
-              </div>
-            </v-snackbar>
-          </div>
+            <v-skeleton-loader
+              type="chip"
+              class="p-0 m-0 v-skeleton-loader__chip"
+              v-if="loading || !type"
+            ></v-skeleton-loader>
+          </v-fade-transition>
         </div>
-
-        <v-skeleton-loader
-          type="chip"
-          class="p-0 m-0 v-skeleton-loader__chip"
-          v-if="loading || !type"
-        ></v-skeleton-loader>
-      </v-fade-transition>
-
-      <v-spacer></v-spacer>
-      <v-btn icon @click="$emit('add-fovorite-item')">
-        <v-icon>{{ favorit ? "mdi-star" : "mdi-star-outline" }}</v-icon>
-      </v-btn>
+        <div>
+          <v-btn icon @click="$emit('add-fovorite-item')">
+            <v-icon>{{ favorit ? "mdi-star" : "mdi-star-outline" }}</v-icon>
+          </v-btn>
+        </div>
+      </div>
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text class="py-1">
@@ -108,12 +114,12 @@ export default {
 }
 
 .fix--text {
-  overflow: visible;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
 }
 
-.fix--word--break {
-  word-break: break-all;
+.fix--width--shedule--header {
+  width: 100%;
 }
 
 @media (max-width: 317px) {

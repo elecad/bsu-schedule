@@ -55,10 +55,10 @@ export default {
   width: 150px !important;
 }
 
-.fix--text {
+/* .fix--text {
   overflow: visible;
   white-space: nowrap;
-}
+} */
 
 @media (max-width: 317px) {
   .fix--text {
