@@ -11,16 +11,19 @@
                 {{ header.name }}
               </h3>
 
-              <!-- <h3 class="fix--text" v-if="isLocation">
-            {{ header.name }}
-          </h3> -->
-
               <div
                 class="fix--text fix--word--break"
                 v-if="isTeacher"
                 @click="tooltipShow = !tooltipShow"
+                di
               >
-                <h3 class="">{{ abbreviation }}</h3>
+                <h3 class="d-flex">
+                  {{ abbreviation }}
+
+                  <div class="ml-2">
+                    <v-icon>mdi-information-variant</v-icon>
+                  </div>
+                </h3>
                 <div class="text--disabled text-body-2">
                   {{ header.post.toLowerCase() }}
                 </div>

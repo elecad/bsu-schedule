@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-scroll-y-transition>
+    <v-scroll-y-transition leave-absolute>
       <div v-if="!loading && type">
         <div v-for="(day, k) in body" :key="k">
           <day-header
@@ -38,6 +38,13 @@
             </div>
           </div>
         </div>
+        <slot></slot>
+      </div>
+    </v-scroll-y-transition>
+
+    <v-scroll-y-transition leave-absolute>
+      <div v-if="body">
+        <not-lesson v-if="body.length == 0"></not-lesson>
       </div>
     </v-scroll-y-transition>
 
@@ -87,6 +94,7 @@ import dayHeader from "@/components/mobile/Schedule/group/Body/dayHeader.vue";
 import cardLesson from "@/components/mobile/Schedule/group/Body/cardLesson.vue";
 import moreLesson from "@/components/mobile/Schedule/group/Body/moreLesson.vue";
 import bottomSheet from "@/components/mobile/BottomSheet/BottomSheet.vue";
+import notLesson from "@/components/NotLesson/NotLesson.vue";
 
 export default {
   name: "AppScheduleContentMobile",
@@ -103,6 +111,7 @@ export default {
     dayHeader,
     bottomSheet,
     appScrollButton,
+    notLesson,
   },
   watch: {
     loading(newValue, oldValue) {

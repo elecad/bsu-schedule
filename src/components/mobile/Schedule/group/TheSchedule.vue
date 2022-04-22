@@ -15,8 +15,14 @@
       :body="body"
       :nowButton="nowButtonVisible"
       :type="scheduleType"
-    ></schedule-body>
-    <schedule-footer></schedule-footer>
+    >
+      <div v-if="body">
+        <schedule-footer
+          :loading="isBodyLoading"
+          v-if="body.length != 0"
+        ></schedule-footer>
+      </div>
+    </schedule-body>
   </div>
 </template>
 

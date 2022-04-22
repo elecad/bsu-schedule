@@ -168,7 +168,7 @@ export default {
 .fix--overlay--posution {
   position: absolute;
   height: 100vh;
-  z-index: 100;
+  z-index: 9;
 }
 .fix--search--position {
   position: relative;
@@ -179,7 +179,7 @@ export default {
 }
 
 .z--index--app--bar--fix {
-  z-index: 20 !important;
+  z-index: 10 !important;
 }
 
 .v-toolbar__content {
