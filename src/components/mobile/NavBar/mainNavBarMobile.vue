@@ -123,7 +123,20 @@ export default {
     },
 
     goNewSchedule(value) {
-      this.$router.push({ name: value.type, params: { id: value.id } });
+      if (value) {
+        if (
+          !(
+            this.$router.currentRoute.name == value.type &&
+            this.$router.currentRoute.params.id == value.id
+          )
+        ) {
+          this.$router.push({ name: value.type, params: { id: value.id } });
+        }
+        this.isSearch = false;
+        this.select = "";
+        this.searchText = "";
+        this.autocomplete = [];
+      }
     },
   },
 };

@@ -1,12 +1,13 @@
 <template>
   <div>
     <v-scroll-y-transition>
-      <div v-if="!loading">
+      <div v-if="!loading && type">
         <div v-for="(day, k) in body" :key="k">
           <day-header
             :week="day.dayWeek"
             :date="day.date"
             :today="day.today"
+            :type="type"
           ></day-header>
           <div class="mb-4" v-for="(lesson, i) in day.lessons" :key="i">
             <div
@@ -20,6 +21,7 @@
                 :lesson="lesson"
                 :sublesson="sublesson"
                 :last="lesson.content.length == j + 1"
+                :type="type"
               >
                 <!-- //!Рендер занятий сегодня / текущего занятия -->
                 <div
@@ -39,7 +41,10 @@
       </div>
     </v-scroll-y-transition>
 
-    <div v-if="loading" class="d-flex align-center justify-center mt-15">
+    <div
+      v-if="loading || !type"
+      class="d-flex align-center justify-center mt-15"
+    >
       <v-progress-circular indeterminate color="indigo"></v-progress-circular>
     </div>
 
@@ -62,6 +67,7 @@
       <more-lesson
         :sublesson="selected"
         :isNow="nowLessonSelected"
+        :type="type"
       ></more-lesson>
     </bottom-sheet>
   </div>
@@ -82,6 +88,7 @@ export default {
     loading: Boolean,
     body: Array,
     nowButton: Boolean,
+    type: String,
   },
   components: {
     moreLesson,

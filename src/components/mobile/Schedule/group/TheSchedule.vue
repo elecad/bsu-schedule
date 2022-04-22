@@ -8,6 +8,7 @@
       @next--week="nextWeek"
       @back--week="backWeek"
       @date--week="dateWeek"
+      :type="scheduleType"
     ></schedule-head>
     <schedule-body
       :loading="isBodyLoading"
@@ -31,6 +32,7 @@ export default {
   components: { scheduleHead, scheduleBody, scheduleFooter },
   watch: {
     $route(to, from) {
+      this.scheduleType = this.$router.currentRoute.name;
       this.INIT();
     },
   },
@@ -39,15 +41,15 @@ export default {
       return this.dataAPI.getDateISO();
     },
     isGroup() {
-      return this.$router.currentRoute.name == "group";
+      return this.scheduleType == "group";
     },
 
     isLocation() {
-      return this.$router.currentRoute.name == "location";
+      return this.scheduleType == "location";
     },
 
     isTeacher() {
-      return this.$router.currentRoute.name == "teacher";
+      return this.scheduleType == "teacher";
     },
   },
   data: () => ({
@@ -70,13 +72,13 @@ export default {
 
     nextWeek() {
       this.dataAPI.goNextWeek();
-      this.loading();
+      this.loading({ full: false });
       console.log("NEXT");
     },
 
     backWeek() {
       this.dataAPI.goBackWeek();
-      this.loading();
+      this.loading({ full: false });
       console.log("BACK");
     },
 
@@ -84,12 +86,18 @@ export default {
       console.log(date);
     },
 
-    async loading() {
+    async loading({ full } = { full: true }) {
       try {
+        this.scheduleType = this.$router.currentRoute.name;
+        if (full) {
+          this.isHeaderLoading = true;
+        }
+
+        this.isBodyLoading = true;
+
         const dateBsuFormat = this.dataAPI.getDateForBsuAPI();
         let groupData = {};
-        console.log("Route: ", this.$router.currentRoute.name);
-        switch (this.$router.currentRoute.name) {
+        switch (this.scheduleType) {
           case "group":
             this.type = "group";
             groupData = await this.Parsers.fetchGroup({
@@ -113,13 +121,17 @@ export default {
             break;
         }
 
-        this.header = !this.isTeacher
-          ? { name: groupData.data.header }
-          : groupData.data.header;
+        if (full) {
+          this.header = !this.isTeacher
+            ? { name: groupData.data.header }
+            : groupData.data.header;
+        }
+
         this.body = groupData.data.schedule;
 
         this.isHeaderLoading = false;
         this.isBodyLoading = false;
+        this.scheduleType = this.$router.currentRoute.name;
         this.findCurrentLesson();
         console.log("HEADER: ", groupData.data.header);
         console.log("BODY: ", groupData.data.schedule);

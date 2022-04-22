@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>
       <v-fade-transition leave-absolute>
-        <div v-if="!loading">
+        <div v-if="!loading && type">
           <h3 class="fix--text" v-if="isGroup || isLocation">
             {{ header.name }}
           </h3>
@@ -32,7 +32,7 @@
         <v-skeleton-loader
           type="chip"
           class="p-0 m-0 v-skeleton-loader__chip"
-          v-if="loading"
+          v-if="loading || !type"
         ></v-skeleton-loader>
       </v-fade-transition>
 
@@ -69,19 +69,21 @@ export default {
 
   computed: {
     abbreviation() {
+      // console.log(this.header);
       const arr = this.header.fullName.split(" ");
       return `${arr[0]} ${arr[1][0]}.${arr.length == 3 ? arr[2][0] + "." : ""}`;
+      // return "test";
     },
     isGroup() {
-      return this.$router.currentRoute.name == "group";
+      return this.type == "group";
     },
 
     isLocation() {
-      return this.$router.currentRoute.name == "location";
+      return this.type == "location";
     },
 
     isTeacher() {
-      return this.$router.currentRoute.name == "teacher";
+      return this.type == "teacher";
     },
   },
 

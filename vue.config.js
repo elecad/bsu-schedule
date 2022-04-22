@@ -19,15 +19,7 @@ module.exports = defineConfig({
       background_color: "#ffffff",
       theme_color: "#f5f5f5",
 
-      start_url: "https://ef49-46-172-22-12.eu.ngrok.io",
-      scope: "https://ef49-46-172-22-12.eu.ngrok.io",
+      start_url: "/",
     },
   },
-  configureWebpack: {
-    optimization: {
-      minimize: false,
-    },
-  },
-
-  // publicPath: process.env.NODE_ENV === "production" ? "/test-build/" : "/",
 });

@@ -224,15 +224,15 @@ export default {
 
   computed: {
     isGroup() {
-      return this.$router.currentRoute.name == "group";
+      return this.type == "group";
     },
 
     isLocation() {
-      return this.$router.currentRoute.name == "location";
+      return this.type == "location";
     },
 
     isTeacher() {
-      return this.$router.currentRoute.name == "teacher";
+      return this.type == "teacher";
     },
   },
 
@@ -240,6 +240,7 @@ export default {
     sublesson: Object,
     isOpen: Boolean,
     isNow: Boolean,
+    type: String,
   },
   methods: {
     selectColorsBodyChip(text) {
