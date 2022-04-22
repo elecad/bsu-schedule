@@ -25,7 +25,7 @@ const routes = [
     component: Shedule,
   },
   {
-    path: "/l/:id",
+    path: "/a/:id",
     name: "location",
     component: Shedule,
   },

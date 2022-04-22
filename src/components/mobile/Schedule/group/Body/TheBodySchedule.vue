@@ -65,11 +65,17 @@
       :isNow="nowLessonSelected"
     >
       <more-lesson
-        :sublesson="selected"
-        :isNow="nowLessonSelected"
-        :type="type"
+        :more="selected"
+        :loading="loading"
+        @open--snakbar--subgroup="tooltipSubgroupShow = !tooltipSubgroupShow"
       ></more-lesson>
     </bottom-sheet>
+
+    <v-snackbar v-model="tooltipSubgroupShow" timeout="2000">
+      <div class="d-flex align-center justify-center">
+        <div v-if="selected">{{ selected.sublesson.subgroup }}</div>
+      </div>
+    </v-snackbar>
   </div>
 </template>
 
@@ -98,20 +104,32 @@ export default {
     bottomSheet,
     appScrollButton,
   },
+  watch: {
+    loading(newValue, oldValue) {
+      console.log("Loading: ", newValue);
+      if (newValue) {
+        // this.selected = null;
+        this.openMoreLesson = false;
+      }
+    },
+  },
   methods: {
     scrollNowDay() {
-      if (this.$refs.nowLesson) {
-        //? Мотаем до текущей пары
-        this.scroll(this.$refs.nowLesson[0], "now");
-      } else if (this.$refs.todayLesson) {
-        //? Мотаем до сегодняшней пары
-        this.scroll(this.$refs.todayLesson[0], "today");
+      let scrollLesson = document.querySelector(".now--lesson");
+      let type = "now";
+      if (scrollLesson == null) {
+        scrollLesson = document.querySelector(".today--lesson");
+        type = "today";
       }
+      this.scroll(scrollLesson, type);
     },
 
     openMoreLessonPanel(sublesson, isNow) {
-      this.selected = sublesson;
-      this.nowLessonSelected = isNow;
+      this.selected = {
+        type: this.$router.currentRoute.name,
+        isNow,
+        sublesson,
+      };
       this.openMoreLesson = this.openMoreLesson ? false : true;
     },
     scroll(DOMElement, type) {
@@ -131,6 +149,7 @@ export default {
     scrollButtonVisible: false,
     nowLessonSelected: false,
     previousTop: 0,
+    tooltipSubgroupShow: false,
   }),
   computed: {},
 

@@ -1,5 +1,9 @@
 <template>
-  <v-chip :color="colors[type]" text-color="white" class="ma-1">
+  <v-chip
+    :color="colors[type]"
+    text-color="white"
+    class="ma-1 fix--width--chip"
+  >
     <v-avatar left>
       <v-icon>{{ `mdi-${icons[type]}` }}</v-icon>
     </v-avatar>

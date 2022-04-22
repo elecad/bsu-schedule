@@ -4,7 +4,7 @@
       <div
         class="d-flex justify-space-between align-center fix--width--shedule--header"
       >
-        <div>
+        <div class="flex-grow-1">
           <v-fade-transition leave-absolute>
             <div v-if="!loading && type">
               <h3 class="fix--text" v-if="isGroup || isLocation">

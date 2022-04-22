@@ -91,9 +91,11 @@ export default {
         this.scheduleType = this.$router.currentRoute.name;
         if (full) {
           this.isHeaderLoading = true;
+          this.header = null;
         }
 
         this.isBodyLoading = true;
+        this.body = null;
 
         const dateBsuFormat = this.dataAPI.getDateForBsuAPI();
         let groupData = {};
@@ -126,12 +128,13 @@ export default {
             ? { name: groupData.data.header }
             : groupData.data.header;
         }
+        this.scheduleType = this.$router.currentRoute.name;
 
         this.body = groupData.data.schedule;
 
         this.isHeaderLoading = false;
         this.isBodyLoading = false;
-        this.scheduleType = this.$router.currentRoute.name;
+
         this.findCurrentLesson();
         console.log("HEADER: ", groupData.data.header);
         console.log("BODY: ", groupData.data.schedule);

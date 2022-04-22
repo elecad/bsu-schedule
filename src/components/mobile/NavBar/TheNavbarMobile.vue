@@ -34,9 +34,6 @@ export default {
     openFavorite: false,
   }),
   methods: {
-    searchOpenMobile() {
-      this.openSearchMobile = true;
-    },
     favoriteOpenMobile() {
       this.openFavorite = true;
     },

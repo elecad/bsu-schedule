@@ -1,26 +1,32 @@
 <template>
   <div class="p-0">
-    <div v-if="sublesson" class="px-3 py-4 fix--padding--more--lesson">
+    <div v-if="more" class="px-3 py-4 fix--padding--more--lesson">
       <div class="sublesson--discipline--type">
         <v-chip
           class="mr-1 mb-1 elevation-1"
           small
-          :color="selectColorsBodyChip(sublesson.type)"
-          :text-color="selectColorsTextChip(sublesson.type)"
-          >{{ sublesson.type }}</v-chip
+          :color="selectColorsBodyChip(more.sublesson.type)"
+          :text-color="selectColorsTextChip(more.sublesson.type)"
+          >{{ more.sublesson.type }}</v-chip
         >
         <v-chip
           class="mr-1 mb-1 elevation-1"
           small
           color="teal darken-2"
           text-color="white"
-          v-if="sublesson.subgroup"
-          >{{ sublesson.subgroup }}</v-chip
+          v-if="more.sublesson.subgroup"
+          :ripple="more.sublesson.subgroup.length > 14"
+          @click.native="showSnackBar"
         >
+          <span class="fix--width--chip--subgrpup"
+            >{{ more.sublesson.subgroup }}
+          </span></v-chip
+        >
+
         <v-chip
           class="mr-1 mb-1 elevation-1"
           small
-          v-if="sublesson.online"
+          v-if="more.sublesson.online"
           color="indigo"
           text-color="white"
         >
@@ -31,21 +37,22 @@
         class="sublesson--discipline--name--bottom--sheet font-weight-medium mt-3 mb-5 mr-2"
       >
         <div class="now--lesson--bottom--sheet" v-if="isNow">●</div>
-        {{ sublesson.name }}
-        <small class="text--disabled" v-if="sublesson.subname">{{
-          sublesson.subname
+        {{ more.sublesson.name }}
+        <small class="text--disabled" v-if="more.sublesson.subname">{{
+          more.sublesson.subname
         }}</small>
       </div>
 
+      <!-- //! Группа занятия -->
       <div v-if="!isGroup">
         <div
           class="sublesson--discipline--group text-caption"
-          v-if="sublesson.group"
+          v-if="more.sublesson.group"
         >
           <div class="mr-1">
             <v-icon>mdi-account-supervisor</v-icon>
           </div>
-          <div class="">{{ sublesson.group.name }}</div>
+          <div class="">{{ more.sublesson.group.name }}</div>
         </div>
       </div>
 
@@ -53,14 +60,14 @@
       <div v-if="!isTeacher">
         <div
           class="sublesson--discipline--teacher text-caption"
-          v-if="sublesson.teacher.surname"
+          v-if="more.sublesson.teacher.surname"
         >
           <div class="mr-1">
             <v-icon>mdi-account</v-icon>
           </div>
           <div>
             {{
-              `${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename} (${sublesson.teacher.post})`
+              `${more.sublesson.teacher.surname} ${more.sublesson.teacher.name} ${more.sublesson.teacher.middlename} (${more.sublesson.teacher.post})`
             }}
           </div>
         </div>
@@ -70,16 +77,16 @@
       <div v-if="!isLocation">
         <div
           class="sublesson--discipline--location text-caption"
-          v-if="sublesson.location.aud || sublesson.location.specific"
+          v-if="more.sublesson.location.aud || more.sublesson.location.specific"
         >
           <div class="mr-1">
             <v-icon>mdi-map-marker</v-icon>
           </div>
           <div>
             {{
-              sublesson.location.aud
-                ? `ауд. ${sublesson.location.aud} ${sublesson.location.corp}`
-                : sublesson.location.specific
+              more.sublesson.location.aud
+                ? `ауд. ${more.sublesson.location.aud} ${more.sublesson.location.corp}`
+                : more.sublesson.location.specific
             }}
           </div>
         </div>
@@ -93,25 +100,25 @@
           <div v-if="!isGroup">
             <div
               class="sublesson--discipline--information--group my-2 text-caption"
-              v-if="sublesson.group.promt"
+              v-if="more.sublesson.group.promt"
             >
               <div class="mr-1">
                 <v-icon>mdi-account-supervisor-circle</v-icon>
               </div>
 
-              <div>{{ sublesson.group.promt }}</div>
+              <div>{{ more.sublesson.group.promt }}</div>
             </div>
           </div>
           <!-- //! Дополнительная информация о преподавателе -->
           <div v-if="!isTeacher">
             <div
               class="sublesson--discipline--information--teacher my-2 text-caption"
-              v-if="sublesson.teacher.surname"
+              v-if="more.sublesson.teacher.surname"
             >
               <div class="mr-1">
                 <v-icon>mdi-account-circle-outline</v-icon>
               </div>
-              <div>{{ sublesson.teacher.promt }}</div>
+              <div>{{ more.sublesson.teacher.promt }}</div>
             </div>
           </div>
           <!-- //! Дополнительная информация о месте проведения -->
@@ -119,64 +126,73 @@
             <div
               class="sublesson--discipline--information--location text-caption"
               v-if="
-                (sublesson.location.aud || sublesson.location.specific) &&
-                !sublesson.online
+                (more.sublesson.location.aud ||
+                  more.sublesson.location.specific) &&
+                !more.sublesson.online
               "
             >
               <div class="mr-1">
                 <v-icon>mdi-map-marker-question-outline</v-icon>
               </div>
 
-              <div>{{ sublesson.location.prompt }}</div>
+              <div>{{ more.sublesson.location.prompt }}</div>
             </div>
           </div>
         </div>
 
         <v-row align="center" justify="center" no-gutters dense>
           <v-col cols="2" sm="1">
+            <!-- //! Переход к расписанию преподавателя -->
             <v-btn
               fab
               class="white--text"
               small
               elevation="0"
               color="indigo"
-              :disabled="!sublesson.teacher.surname"
+              :disabled="!more.sublesson.teacher.surname"
               v-if="!isTeacher"
+              @click="goNewShedule($event, 'teacher')"
             >
               <v-icon dark> mdi-account </v-icon>
             </v-btn>
+            <!-- //! Переход к расписанию группы -->
             <v-btn
               fab
               class="white--text"
               small
               elevation="0"
               color="indigo"
-              :disabled="!sublesson.group"
+              :disabled="!more.sublesson.group"
               v-if="!(isGroup || isLocation)"
+              @click="goNewShedule($event, 'group')"
             >
               <v-icon dark> mdi-account-supervisor </v-icon>
             </v-btn>
           </v-col>
           <v-col cols="2" sm="2">
+            <!-- //! Переход к расписанию аудитории -->
             <v-btn
+              v-if="!isLocation"
               class="white--text"
               fab
               small
               elevation="0"
               color="indigo"
-              :disabled="!sublesson.location.aud"
-              v-if="!isLocation"
+              :disabled="!more.sublesson.location.aud"
+              @click="goNewShedule($event, 'location')"
             >
               <v-icon> mdi-map-marker </v-icon>
             </v-btn>
+            <!-- //! Переход к расписанию группы -->
             <v-btn
               fab
               class="white--text"
               small
               elevation="0"
               color="indigo"
-              :disabled="!sublesson.group"
+              :disabled="!more.sublesson.group"
               v-if="!(isGroup || isTeacher)"
+              @click="goNewShedule($event, 'group')"
             >
               <v-icon dark> mdi-account-supervisor </v-icon>
             </v-btn>
@@ -186,7 +202,7 @@
             <v-col class="d-flex justify-end">
               <div class="d-flex flex-column">
                 <v-btn
-                  v-for="(link, i) in sublesson.links"
+                  v-for="(link, i) in more.sublesson.links"
                   :key="i"
                   depressed
                   color="indigo"
@@ -198,7 +214,7 @@
                   {{ link.name }}
                 </v-btn>
                 <v-btn
-                  v-if="sublesson.links.length == 0"
+                  v-if="more.sublesson.links.length == 0"
                   depressed
                   color="indigo"
                   class="fix--font--size--course--buttons ma-2 white--text"
@@ -224,23 +240,25 @@ export default {
 
   computed: {
     isGroup() {
-      return this.type == "group";
+      return this.more.type == "group";
     },
 
     isLocation() {
-      return this.type == "location";
+      return this.more.type == "location";
     },
 
     isTeacher() {
-      return this.type == "teacher";
+      return this.more.type == "teacher";
+    },
+    isNow() {
+      return this.more.isNow;
     },
   },
 
   props: {
-    sublesson: Object,
+    more: Object,
     isOpen: Boolean,
-    isNow: Boolean,
-    type: String,
+    loading: Boolean,
   },
   methods: {
     selectColorsBodyChip(text) {
@@ -249,8 +267,31 @@ export default {
     selectColorsTextChip(text) {
       return Colors.selectTextColor(text);
     },
+    goNewShedule(_, type) {
+      let obj = null;
+      switch (type) {
+        case "group":
+          obj = { name: type, params: { id: this.more.sublesson.group.id } };
+          break;
+        case "teacher":
+          obj = { name: type, params: { id: this.more.sublesson.teacher.id } };
+          break;
+        case "location":
+          obj = { name: type, params: { id: this.more.sublesson.location.id } };
+          break;
+      }
+      this.$router.push(obj);
+      window.scrollTo({ top: 0, behavior: "auto" });
+    },
+    showSnackBar() {
+      if (this.more.sublesson.subgroup.length > 14) {
+        this.$emit("open--snakbar--subgroup");
+      }
+    },
   },
-  data: () => ({}),
+  data: () => ({
+    tooltipShow: false,
+  }),
   mounted() {},
 };
 </script>

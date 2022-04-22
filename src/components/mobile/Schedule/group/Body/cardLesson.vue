@@ -32,14 +32,19 @@
                 v-if="sublesson.type"
                 >{{ sublesson.type }}</v-chip
               >
+
               <v-chip
                 class="mr-1 mb-1 elevation-1"
                 small
                 color="teal darken-2"
                 text-color="white"
                 v-if="sublesson.subgroup"
-                >{{ sublesson.subgroup }}</v-chip
               >
+                <span class="fix--width--chip--subgrpup"
+                  >{{ sublesson.subgroup }}
+                </span></v-chip
+              >
+
               <v-chip
                 class="mr-1 mb-1 elevation-1"
                 small
@@ -186,6 +191,12 @@ export default {
 <style>
 .fix--border--radius--card {
   border-radius: 0px !important;
+}
+
+.fix--width--chip--subgrpup {
+  max-width: 86px !important;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
 }
 .fix--opasity--divider {
   opacity: 0.2 !important;
