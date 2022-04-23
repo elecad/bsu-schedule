@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import groupMobileView from "@/views/group/mobile/GroupMobileView.vue";
-import groupDesktopView from "@/views/group/desktop/GroupDesktopView.vue";
+import groupMobileView from "@/views/mobile/GroupMobileView.vue";
+import groupDesktopView from "@/views/desktop/GroupDesktopView.vue";
 export default {
   name: "GroupMain",
   components: { groupMobileView, groupDesktopView },

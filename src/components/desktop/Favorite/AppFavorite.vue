@@ -9,12 +9,12 @@
     </v-card-title>
 
     <v-card-text>
-      <!-- <app-favorite-chip
+      <app-favorite-chip
         :edit="editFavirite"
         type="teacher"
         @remove-favorite-schedule="test"
         >Бурданова Е.В.</app-favorite-chip
-      > -->
+      >
 
       <app-favorite-chip
         :edit="editFavirite"
@@ -23,12 +23,12 @@
         >12001902</app-favorite-chip
       >
 
-      <!-- <app-favorite-chip
+      <app-favorite-chip
         :edit="editFavirite"
         type="location"
         @remove-favorite-schedule="test"
         >4-17, Учебный корпус №15</app-favorite-chip
-      > -->
+      >
     </v-card-text>
   </v-card>
 </template>

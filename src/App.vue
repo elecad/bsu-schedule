@@ -1,6 +1,7 @@
 <template>
   <v-app :class="{ 'stop-scrolling': $store.getters.isSearch }">
     <nav-bar-mobile class="hidden-md-and-up"></nav-bar-mobile>
+
     <router-view />
   </v-app>
 </template>
@@ -39,5 +40,9 @@ body {
 
 .theme--light.v-application {
   background-color: var(--v-background-base, #edeef0) !important;
+}
+
+.v-navigation-drawer.theme--light {
+  background-color: var(--v-background-base, #f5f5f5) !important;
 }
 </style>

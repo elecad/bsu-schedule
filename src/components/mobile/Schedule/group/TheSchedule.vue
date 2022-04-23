@@ -106,6 +106,7 @@ export default {
         this.isBodyLoading = true;
         this.body = null;
 
+        let t = new Date();
         const dateBsuFormat = this.dataAPI.getDateForBsuAPI();
         let groupData = {};
         switch (this.scheduleType) {
@@ -135,11 +136,18 @@ export default {
             break;
         }
 
+        if (+new Date() - t < 250) {
+          await new Promise((resolve) => {
+            setTimeout(() => resolve(), 250 - (+new Date() - t));
+          });
+        }
+
         if (full) {
           this.header = this.isGroup
             ? { name: groupData.data.header }
             : groupData.data.header;
         }
+        this.body = null; //? Оптимизация
         this.scheduleType = this.$router.currentRoute.name;
 
         this.body = groupData.data.schedule;
