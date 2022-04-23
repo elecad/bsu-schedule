@@ -223,7 +223,7 @@
 <script>
 import parsers from "@/parser/parsers";
 import Intersect from "vue-intersect";
-import appFloatingButton from "@/components/ScheduleContentMobile/AppFloatingButton.vue";
+import appFloatingButton from "@/components/ScheduleContentMobile-/AppFloatingButton.vue";
 import Colors from "@/class/Colors";
 
 const Parsers = new parsers();

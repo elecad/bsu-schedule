@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import appFavorite from "@/components/Favorite/AppFavorite.vue";
-import appScheduleHeaderMobile from "@/components/ScheduleHeaderMobile/TheScheduleHeaderMobile";
-import appScheduleContentMobile from "@/components/ScheduleContentMobile/AppScheduleContentMobile";
+import appFavorite from "@/components/Favorite-/AppFavorite.vue";
+import appScheduleHeaderMobile from "@/components/ScheduleHeaderMobile-/TheScheduleHeaderMobile";
+import appScheduleContentMobile from "@/components/ScheduleContentMobile-/AppScheduleContentMobile";
 
 export default {
   name: "WelcomePage",

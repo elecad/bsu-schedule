@@ -1,7 +1,5 @@
 <template>
-  <v-app :class="{ 'stop-scrolling': $store.getters.isSearch }">
-    <nav-bar-mobile class="hidden-md-and-up"></nav-bar-mobile>
-
+  <v-app>
     <router-view />
   </v-app>
 </template>
@@ -24,10 +22,6 @@ export default {
 <style lang="scss">
 html {
   overflow-y: auto;
-}
-.stop-scrolling {
-  height: 100vh !important;
-  overflow: hidden;
 }
 
 body::-webkit-scrollbar {

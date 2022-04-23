@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import appDatePickerMobile from "@/components/ScheduleHeaderMobile/TheDatePickerMobile";
+import appDatePickerMobile from "@/components/ScheduleHeaderMobile-/TheDatePickerMobile";
 
 export default {
   name: "TheScheduleHeaderMobile",
