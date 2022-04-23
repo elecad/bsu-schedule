@@ -15,6 +15,9 @@ const links = {
   location: ({ location, week }) => {
     return `/bsu/education/schedule/auditories/show_schedule.php?aud=${location}&week=${week}`;
   },
+  loationAud: ({ location }) => {
+    return `/bsu/education/schedule/auditories/index.php?auditory=${location}`;
+  },
   search: ({ query }) => {
     return `/bsu/education/schedule/search/index.php?query=${query}`;
   },
@@ -23,13 +26,15 @@ const links = {
 export default class Parsers {
   htmlText = "";
 
+  audHtmlText = ""; //! Грязно, но быстро
+
   constructor() {}
 
-  async fetchGroup({ group, week }) {
+  async fetchGroup({ group, week, signal }) {
     if (!(group && week.length == 16)) {
       throw console.error("Данные переданы некорректно!");
     }
-    let response = await fetch(links.group({ group, week }));
+    let response = await fetch(links.group({ group, week }), { signal });
     let htmlText = await response.text();
     this.htmlText = htmlText;
     // this.htmlText = htmlCode;
@@ -60,11 +65,11 @@ export default class Parsers {
     }
   }
 
-  async fetchTeacher({ teacher, week }) {
+  async fetchTeacher({ teacher, week, signal }) {
     if (!(teacher && week.length == 16)) {
       throw console.error("Данные переданы некорректно!");
     }
-    let response = await fetch(links.teacher({ teacher, week }));
+    let response = await fetch(links.teacher({ teacher, week }), { signal });
 
     let htmlText = await response.text();
     this.htmlText = htmlText;
@@ -96,14 +101,20 @@ export default class Parsers {
     }
   }
 
-  async fetchLocation({ location, week }) {
+  async fetchLocation({ location, week, signal }) {
     if (!(location && week.length == 16)) {
       throw console.error("Данные переданы некорректно!");
     }
-    let response = await fetch(links.location({ location, week }));
+    let response = await fetch(links.location({ location, week }), { signal });
 
     let htmlText = await response.text();
     this.htmlText = htmlText;
+
+    //! Грязно, но быстро
+    response = await fetch(links.loationAud({ location }));
+    htmlText = await response.text();
+    this.audHtmlText = htmlText;
+
     return this.parseLocation();
   }
 
@@ -115,13 +126,23 @@ export default class Parsers {
       let $ = new DOMParser();
       let htmlDoc = $.parseFromString(this.htmlText, "text/html");
       const tables = htmlDoc.querySelectorAll("table");
-      const data = new Location({
+      const location = new Location({
         headerTable: tables[0],
         scheduleTable: tables[1],
-      }).parsing();
+      });
+      const data = location.parsing();
 
+      const check = data.header.includes(" ");
+
+      // data.header += location.parsingAud(this.audHtmlText);
+      data.header = {
+        name: data.header,
+        corp: location.parsingAud(this.audHtmlText),
+      };
+
+      console.log(data);
       return {
-        validate: data.header.includes(" "),
+        validate: check,
         type: "teacher",
         data,
       };

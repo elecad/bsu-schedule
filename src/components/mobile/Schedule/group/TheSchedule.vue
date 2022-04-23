@@ -67,6 +67,7 @@ export default {
     Parsers: new parsers(),
     nowButtonVisible: false,
     scheduleType: null,
+    controller: new AbortController(),
   }),
   methods: {
     validate() {
@@ -94,6 +95,8 @@ export default {
 
     async loading({ full } = { full: true }) {
       try {
+        this.controller.abort();
+        this.controller = new AbortController();
         this.scheduleType = this.$router.currentRoute.name;
         if (full) {
           this.isHeaderLoading = true;
@@ -111,6 +114,7 @@ export default {
             groupData = await this.Parsers.fetchGroup({
               group: this.$route.params.id,
               week: dateBsuFormat,
+              signal: this.controller.signal,
             });
             break;
           case "teacher":
@@ -118,6 +122,7 @@ export default {
             groupData = await this.Parsers.fetchTeacher({
               teacher: this.$route.params.id,
               week: dateBsuFormat,
+              signal: this.controller.signal,
             });
             break;
           case "location":
@@ -125,12 +130,13 @@ export default {
             groupData = await this.Parsers.fetchLocation({
               location: this.$route.params.id,
               week: dateBsuFormat,
+              signal: this.controller.signal,
             });
             break;
         }
 
         if (full) {
-          this.header = !this.isTeacher
+          this.header = this.isGroup
             ? { name: groupData.data.header }
             : groupData.data.header;
         }
@@ -152,7 +158,7 @@ export default {
       this.loading();
     },
     findCurrentLesson() {
-      const today = this.dataAPI.getTodayBsuAPI(new Date()); // сегодня в виже строки
+      const today = this.dataAPI.getTodayBsuAPI(new Date()); // сегодня строкой
       const now = new Date();
 
       let findToday = false;

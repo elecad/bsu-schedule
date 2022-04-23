@@ -82,6 +82,14 @@ export default class locationScheduleParser {
     );
   }
 
+  parsingAud(audHtml) {
+    //! Грязно, но быстро
+    const re =
+      /<select id='build' onchange='loadAuds\(\);'>.*?<option id="\d+\" selected>(.*?)<\/option>.*?<\/select>/s;
+    const m = re.exec(audHtml);
+    return m[1] ? " " + m[1].trim() : "";
+  }
+
   get index() {
     //? Индекс крайнего дня
     return this.result.length - 1;

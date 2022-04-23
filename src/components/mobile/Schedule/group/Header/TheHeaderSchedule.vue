@@ -7,9 +7,18 @@
         <div class="flex-grow-1">
           <v-fade-transition leave-absolute>
             <div v-if="!loading && type">
-              <h3 class="fix--text" v-if="isGroup || isLocation">
+              <h3 class="fix--text" v-if="isGroup">
                 {{ header.name }}
               </h3>
+
+              <div class="fix--text fix--word--break" v-if="isLocation">
+                <h3 class="d-flex">
+                  {{ header.name }}
+                </h3>
+                <div class="text--disabled text-body-2">
+                  {{ header.corp }}
+                </div>
+              </div>
 
               <div
                 class="fix--text fix--word--break"
