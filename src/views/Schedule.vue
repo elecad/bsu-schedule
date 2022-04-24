@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-resize="onResize">
     <div v-if="isMobile" class="navbar--mobile">
       <nav-bar-mobile></nav-bar-mobile>
     </div>
@@ -41,7 +41,10 @@
         </schedule-body-mobile>
       </v-container>
 
-      <v-container v-if="!isMobile" class="schedule--desktop pa-2">
+      <v-container
+        v-if="!isMobile"
+        class="schedule--desktop pa-2 fix--width--schedule--desktop"
+      >
         <scheduleHeaderDesktop
           :header="header"
           :loading="isHeaderLoading"
@@ -57,6 +60,12 @@
           :body="body"
           :nowButton="nowButtonVisible"
           :type="scheduleType"
+        >
+          <div v-if="body">
+            <schedule-footer
+              :loading="isBodyLoading"
+              v-if="body.length != 0"
+            ></schedule-footer></div
         ></scheduleBodyDesktop>
       </v-container>
     </v-main>
@@ -156,6 +165,8 @@ export default {
     },
 
     dateWeek(date) {
+      // this.dataAPI.setDate(new Date(date));
+      // this.loading({ full: false });
       console.log(date);
     },
 
@@ -278,9 +289,20 @@ export default {
   },
   created() {
     this.INIT();
-    window.addEventListener("resize", this.onResize);
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.fix--width--schedule--desktop {
+  width: 100%;
+  max-width: 1000px;
+}
+
+/* @media (max-width: 1150px) {
+  .fix--width--schedule--desktop {
+    width: calc(100% - 150px);
+    max-width: 1000px;
+  }
+} */
+</style>

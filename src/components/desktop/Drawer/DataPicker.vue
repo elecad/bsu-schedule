@@ -14,7 +14,6 @@
     header-color="indigo"
     full-width
     elevation="2"
-    reactive
     class="pb-7"
   >
     <!-- <v-spacer></v-spacer>
@@ -54,14 +53,17 @@ export default {
       this.events = this.date.filter(
         (el) => el == new Date().toISOString().substr(0, 10)
       );
+
+      // if (new Date().toISOString().substr(0, 10) != data[0]) {
+      this.$emit("date--week", data[0]);
+      // }
     },
     submit() {
-      this.$emit("date--week", this.date[0]);
-      this.modal = false;
+      console.log(123);
+      console.log(new Date().toISOString().substr(0, 10), this.date[0]);
     },
     submitCurrentWeek() {
       this.$emit("date--week", new Date().toISOString().substr(0, 10));
-      this.modal = false;
     },
   },
   data: () => ({
@@ -70,6 +72,7 @@ export default {
     dialog: false,
     events: [],
     date: [],
+    multiplay: false,
   }),
 };
 </script>

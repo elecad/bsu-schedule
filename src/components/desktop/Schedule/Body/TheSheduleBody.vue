@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-scroll-y-transition leave-absolute>
-      <div v-if="!loading && type">
+      <div v-if="!loading && type" class="fix--position--schedule--body">
         <div v-for="(day, k) in body" :key="k">
           <day-header
             :week="day.dayWeek"
@@ -11,10 +11,14 @@
           ></day-header>
           <v-expansion-panels flat accordion focusable class="d-block">
             <div class="mb-4" v-for="(lesson, i) in day.lessons" :key="i">
-              <v-expansion-panel
+              <!--//! <v-expansion-panel
                 v-for="(sublesson, j) in lesson.content"
                 :key="j"
                 class="fix--transition"
+              > -->
+              <v-expansion-panel
+                v-for="(sublesson, j) in lesson.content"
+                :key="j"
               >
                 <v-expansion-panel-header class="padding--fix--expansion-panel">
                   <!-- //!Рендер занятий сегодня / текущего занятия -->
@@ -36,161 +40,15 @@
                       ref="todayLesson"
                     ></div
                   ></panel-header>
-
-                  <!-- <div class="d-flex">
-                    <div class="lesson d-flex">
-                      <div
-                        class="d-flex flex-column align-center justify-center mr-3"
-                      >
-                        <div class="sublesson--start--time">
-                          {{ lesson.startTime }}
-                        </div>
-                        <div
-                          class="sublesson--number text-h4 font-weight-medium my-3"
-                        >
-                          {{ lesson.number }}
-                        </div>
-                        <div class="sublesson--end--time">
-                          {{ lesson.endTime }}
-                        </div>
-                      </div>
-                      <v-divider vertical></v-divider>
-                      <div class="ml-3">
-                        <div class="sublesson--discipline--type">
-                          <v-chip
-                            class="mr-1 mb-1 elevation-1"
-                            small
-                            :color="selectColorsBodyChip(sublesson.type)"
-                            :text-color="selectColorsTextChip(sublesson.type)"
-                            >{{ sublesson.type }}</v-chip
-                          >
-                          <v-chip
-                            class="mr-1 mb-1 elevation-1"
-                            small
-                            color="teal darken-2"
-                            text-color="white"
-                            v-if="sublesson.subgroup"
-                            >{{ sublesson.subgroup }}</v-chip
-                          >
-                          <v-chip
-                            class="mr-1 mb-1 elevation-1"
-                            small
-                            v-if="sublesson.online"
-                            color="indigo"
-                            text-color="white"
-                          >
-                            онлайн</v-chip
-                          >
-                        </div>
-                        <div
-                          class="sublesson--discipline--name font-weight-medium my-3"
-                        >
-                          {{ sublesson.name }}
-                          <small
-                            class="text--disabled"
-                            v-if="sublesson.subname"
-                            >{{ sublesson.subname }}</small
-                          >
-                        </div>
-                        <div
-                          class="sublesson--discipline--teacher mt-2 text-caption"
-                          v-if="sublesson.teacher.surname"
-                        >
-                          <div class="mr-1">
-                            <v-icon>mdi-account</v-icon>
-                          </div>
-                          <div>
-                            {{
-                              `${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename} (${sublesson.teacher.post})`
-                            }}
-                          </div>
-                        </div>
-                        <div
-                          class="sublesson--discipline--location text-caption"
-                          v-if="
-                            sublesson.location.aud ||
-                            sublesson.location.specific
-                          "
-                        >
-                          <v-icon class="mr-1">mdi-office-building</v-icon
-                          >{{
-                            sublesson.location.aud
-                              ? `ауд. ${sublesson.location.aud} ${sublesson.location.corp}`
-                              : sublesson.location.specific
-                          }}
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
                 </v-expansion-panel-header>
 
-                <v-expansion-panel-content class="fix--transition">
-                  <div class="content">
-                    <div>
-                      <div class="px-5">
-                        <div
-                          class="sublesson--discipline--information--teacher my-2 text-caption"
-                          v-if="sublesson.teacher.surname"
-                        >
-                          <v-icon class="my-1"
-                            >mdi-account-question-outline</v-icon
-                          >
-                          {{ sublesson.teacher.promt }}
-                        </div>
-                        <div
-                          class="sublesson--discipline--information--location text-caption"
-                          v-if="
-                            (sublesson.location.aud ||
-                              sublesson.location.specific) &&
-                            !sublesson.online
-                          "
-                        >
-                          <v-icon class="my-1"
-                            >mdi-map-marker-question-outline</v-icon
-                          >
-                          {{ sublesson.location.prompt }}
-                        </div>
-                      </div>
-
-                      <v-row align="center" justify="center" no-gutters dense>
-                        <v-col cols="2" sm="1" v-if="sublesson.teacher.surname">
-                          <v-btn fab dark small color="indigo">
-                            <v-icon dark> mdi-account </v-icon>
-                          </v-btn></v-col
-                        >
-                        <v-col cols="2" sm="1"
-                          ><v-btn
-                            fab
-                            dark
-                            small
-                            color="indigo"
-                            v-if="sublesson.location.aud"
-                          >
-                            <v-icon> mdi-office-building </v-icon>
-                          </v-btn></v-col
-                        >
-                        <v-spacer></v-spacer>
-                        <v-row no-gutters dense justify="end">
-                          <v-col class="d-flex justify-end">
-                            <div class="d-flex flex-column">
-                              <v-btn
-                                v-for="(link, i) in sublesson.links"
-                                :key="i"
-                                depressed
-                                color="indigo"
-                                dark
-                                class="fix--font--size--course--buttons ma-2"
-                                :href="link.href"
-                                target="_blank"
-                              >
-                                {{ link.name }}
-                              </v-btn>
-                            </div>
-                          </v-col>
-                        </v-row>
-                      </v-row>
-                    </div>
-                  </div>
+                <!--//! <v-expansion-panel-content class="fix--transition"> -->
+                <v-expansion-panel-content>
+                  <panel-content
+                    :more="sublesson"
+                    :loading="loading"
+                    :type="type"
+                  ></panel-content>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </div>
@@ -213,7 +71,7 @@
       <v-progress-circular indeterminate color="indigo"></v-progress-circular>
     </div>
 
-    <!-- <v-fab-transition>
+    <v-fab-transition>
       <app-current-button
         v-if="nowButton"
         @scroll--now--day="scrollNowDay"
@@ -221,14 +79,19 @@
     </v-fab-transition>
 
     <v-fab-transition>
-      <app-scroll-button v-if="scrollButtonVisible"></app-scroll-button>
-    </v-fab-transition> -->
+      <app-scroll-button
+        v-if="scrollButtonVisible"
+        :hasCurrentButton="nowButton"
+      ></app-scroll-button>
+    </v-fab-transition>
+
+    <div></div>
   </div>
 </template>
 
 <script>
-// import appCurrentButton from "@/components/mobile/FloatingButtons/AppCurrentButton.vue";
-// import appScrollButton from "@/components/mobile/FloatingButtons/AppScrollButton.vue";
+import appCurrentButton from "@/components/desktop/FloatingButtons/AppCurrentButton.vue";
+import appScrollButton from "@/components/desktop/FloatingButtons/AppScrollButton.vue";
 import { debounce } from "@/plugins/debounce";
 import dayHeader from "@/components/general/dayHeader.vue";
 // import cardLesson from "@/components/mobile/Schedule/group/Body/cardLesson.vue";
@@ -236,6 +99,7 @@ import dayHeader from "@/components/general/dayHeader.vue";
 // import bottomSheet from "@/components/mobile/BottomSheet/BottomSheet.vue";
 import notLesson from "@/components/NotLesson/NotLesson.vue";
 import panelHeader from "@/components/desktop/Schedule/Body/PanelHeader.vue";
+import panelContent from "@/components/desktop/Schedule/Body/PanelContent.vue";
 import Colors from "@/class/Colors";
 
 export default {
@@ -250,6 +114,9 @@ export default {
     dayHeader,
     notLesson,
     panelHeader,
+    panelContent,
+    appCurrentButton,
+    appScrollButton,
   },
   watch: {
     loading(newValue, oldValue) {
@@ -334,6 +201,11 @@ export default {
   .fix--font--size--course--buttons {
     font-size: 0.7rem !important;
   }
+}
+
+.testttt {
+  position: sticky;
+  top: 0px;
 }
 
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active,

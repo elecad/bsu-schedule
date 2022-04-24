@@ -20,16 +20,34 @@ export default {
 </script>
 
 <style lang="scss">
-html {
-  overflow-y: auto;
+@media (max-width: 959px) {
+  html {
+    overflow-y: auto;
+  }
+
+  body::-webkit-scrollbar {
+    width: 0 !important;
+  }
+  body {
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+  }
 }
 
 body::-webkit-scrollbar {
-  width: 0 !important;
+  width: 9px;
+
+  background-color: #f9f9fd;
 }
-body {
-  overflow: -moz-scrollbars-none;
-  -ms-overflow-style: none;
+
+body::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: gray;
+}
+
+body::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: #edeef0;
 }
 
 .theme--light.v-application {

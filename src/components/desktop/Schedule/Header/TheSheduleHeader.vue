@@ -27,21 +27,21 @@
                 di
               >
                 <h3 class="d-flex">
-                  {{ abbreviation }}
+                  {{ header.fullName }}
 
-                  <div class="ml-2">
+                  <!-- <div class="ml-2">
                     <v-icon>mdi-information-variant</v-icon>
-                  </div>
+                  </div> -->
                 </h3>
                 <div class="text--disabled text-body-2">
                   {{ header.post.toLowerCase() }}
                 </div>
 
-                <v-snackbar v-model="tooltipShow" timeout="2000" class="mb-6">
+                <!-- <v-snackbar v-model="tooltipShow" timeout="2000" class="mb-6">
                   <div class="d-flex align-center justify-center">
                     <div>{{ header.fullName }}</div>
                   </div>
-                </v-snackbar>
+                </v-snackbar> -->
               </div>
             </div>
 

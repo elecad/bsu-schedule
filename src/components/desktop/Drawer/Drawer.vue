@@ -2,7 +2,7 @@
   <v-navigation-drawer
     permanent
     app
-    width="370"
+    width="400"
     class="fix--navigation--drawer elevation-1ы"
   >
     <div class="logo mt-4 mb-6">
@@ -23,7 +23,10 @@
       <div class="mb-5 mx-3"><desktop-search></desktop-search></div>
 
       <div class="mb-5 mx-3">
-        <desktop-datapicker :dateISO="dateISO"></desktop-datapicker>
+        <desktop-datapicker
+          :dateISO="dateISO"
+          @date--week="dateWeek"
+        ></desktop-datapicker>
       </div>
 
       <div class="mx-3"><desktop-favorite></desktop-favorite></div>
@@ -42,6 +45,11 @@ export default {
     dateISO: String,
   },
   components: { desktopSearch, desktopFavorite, desktopDatapicker },
+  methods: {
+    dateWeek(date) {
+      this.$emit("date--week", date);
+    },
+  },
 };
 </script>
 
