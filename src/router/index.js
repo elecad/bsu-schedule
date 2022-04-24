@@ -11,7 +11,7 @@ const routes = [
   {
     path: "/",
     name: "main",
-    component: WelcomeView,
+    redirect: "/g/12001902",
   },
   {
     path: "/g/:id",

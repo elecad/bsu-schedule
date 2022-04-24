@@ -1,33 +1,62 @@
 <template>
-  <v-navigation-drawer permanent app width="320">
+  <v-navigation-drawer
+    permanent
+    app
+    width="370"
+    class="fix--navigation--drawer elevation-1ы"
+  >
     <div class="logo mt-4 mb-6">
-      <div class="d-flex align-center justify-center">
-        <div class="fix--position--icon">
+      <div
+        class="d-flex align-center justify-center fix--position--up--block--icon"
+      >
+        <div class="fix--position--icon--logo">
           <v-icon>mdi-school-outline</v-icon>
         </div>
-        <v-toolbar-title>Расписание</v-toolbar-title>
+        <v-toolbar-title> Расписание</v-toolbar-title>
+        <v-btn class="fix--position--icon--settings" icon>
+          <v-icon>mdi-cog</v-icon>
+        </v-btn>
       </div>
     </div>
 
-    <div class="mb-5 mx-3"><schedule-search></schedule-search></div>
+    <div>
+      <div class="mb-5 mx-3"><desktop-search></desktop-search></div>
 
-    <div class="mb-5 mx-3"><schedule-favorite></schedule-favorite></div>
+      <div class="mb-5 mx-3">
+        <desktop-datapicker :dateISO="dateISO"></desktop-datapicker>
+      </div>
+
+      <div class="mx-3"><desktop-favorite></desktop-favorite></div>
+    </div>
   </v-navigation-drawer>
 </template>
 
 <script>
-import scheduleSearch from "@/components/desktop/Drawer/Search.vue";
-import scheduleFavorite from "@/components/desktop/Favorite/AppFavorite.vue";
+import desktopSearch from "@/components/desktop/Drawer/Search.vue";
+import desktopFavorite from "@/components/desktop/Favorite/AppFavorite.vue";
+import desktopDatapicker from "@/components/desktop/Drawer/DataPicker.vue";
 
 export default {
   name: "Drawer",
-  components: { scheduleSearch, scheduleFavorite },
+  props: {
+    dateISO: String,
+  },
+  components: { desktopSearch, desktopFavorite, desktopDatapicker },
 };
 </script>
 
 <style scoped>
-.fix--position--icon {
+.fix--position--up--block--icon {
+  position: relative;
+}
+.fix--position--icon--logo {
   position: absolute;
-  left: 60px;
+  left: 100px;
+}
+
+.fix--position--icon--settings {
+  position: absolute;
+  right: 10px;
+  top: calc(50% - 18px);
 }
 </style>

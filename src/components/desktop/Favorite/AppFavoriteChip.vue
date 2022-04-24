@@ -30,9 +30,9 @@ export default {
   },
   data: () => ({
     colors: {
-      group: "red",
-      location: "green",
-      teacher: "indigo",
+      group: "purple darken-1",
+      location: "light-blue darken-1",
+      teacher: "teal darken-1",
     },
     icons: {
       group: "account-multiple",

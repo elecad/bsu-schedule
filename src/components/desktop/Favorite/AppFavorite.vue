@@ -1,6 +1,6 @@
 <template>
-  <v-card elevation="2">
-    <v-card-title>
+  <v-card elevation="2" class="fix--favorite--height">
+    <v-card-title class="pb-2">
       <div>Избранное</div>
       <v-spacer></v-spacer>
       <v-btn icon @click="changeFavorite">
@@ -8,7 +8,7 @@
       </v-btn>
     </v-card-title>
 
-    <v-card-text>
+    <v-card-text class="favorite--card--fix pt-0">
       <app-favorite-chip
         :edit="editFavirite"
         type="teacher"
@@ -36,6 +36,9 @@
 <script>
 import AppFavoriteChip from "@/components/desktop/Favorite/AppFavoriteChip.vue";
 
+import simplebar from "simplebar-vue";
+import "simplebar/dist/simplebar.min.css";
+
 export default {
   name: "appFavorite",
   methods: {
@@ -51,8 +54,29 @@ export default {
   }),
   components: {
     AppFavoriteChip,
+    simplebar,
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.favorite--card--fix {
+  overflow: auto;
+  max-height: calc(100vh - 650px) !important;
+}
+
+.favorite--card--fix::-webkit-scrollbar {
+  width: 5px;
+  background-color: #f9f9fd;
+}
+
+.favorite--card--fix::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #cccccc;
+}
+
+.favorite--card--fix::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: white;
+}
+</style>

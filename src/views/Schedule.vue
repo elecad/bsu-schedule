@@ -1,16 +1,21 @@
 <template>
   <div>
-    <div class="navbar--mobile hidden-md-and-up">
+    <div v-if="isMobile" class="navbar--mobile">
       <nav-bar-mobile></nav-bar-mobile>
     </div>
-    <div class="navigation--drawer--desktop hidden-sm-and-down">
-      <nav-drawer-desktop></nav-drawer-desktop>
+
+    <div v-if="!isMobile" class="navigation--drawer--desktop">
+      <nav-drawer-desktop
+        :dateISO="dateISO"
+        @next--week="nextWeek"
+        @back--week="backWeek"
+        @date--week="dateWeek"
+      ></nav-drawer-desktop>
     </div>
 
-    <v-main class="px-0">
-      <v-container class="schedule--mobile hidden-md-and-up pa-2">
-        <schedule-head
-          class="mb-3"
+    <v-main>
+      <v-container v-if="isMobile" class="schedule--mobile pa-2">
+        <schedule-head-mobile
           :header="header"
           :loading="isHeaderLoading"
           :dateISO="dateISO"
@@ -18,8 +23,10 @@
           @back--week="backWeek"
           @date--week="dateWeek"
           :type="scheduleType"
-        ></schedule-head>
-        <schedule-body
+          class="mb-3"
+        ></schedule-head-mobile>
+
+        <schedule-body-mobile
           :loading="isBodyLoading"
           :body="body"
           :nowButton="nowButtonVisible"
@@ -31,38 +38,55 @@
               v-if="body.length != 0"
             ></schedule-footer>
           </div>
-        </schedule-body>
+        </schedule-body-mobile>
       </v-container>
 
-      <v-container
-        class="schedule--desktop hidden-sm-and-down pa-2"
-      ></v-container>
+      <v-container v-if="!isMobile" class="schedule--desktop pa-2">
+        <scheduleHeaderDesktop
+          :header="header"
+          :loading="isHeaderLoading"
+          :dateISO="dateISO"
+          @next--week="nextWeek"
+          @back--week="backWeek"
+          @date--week="dateWeek"
+          :type="scheduleType"
+          class="mb-3"
+        ></scheduleHeaderDesktop>
+        <scheduleBodyDesktop
+          :loading="isBodyLoading"
+          :body="body"
+          :nowButton="nowButtonVisible"
+          :type="scheduleType"
+        ></scheduleBodyDesktop>
+      </v-container>
     </v-main>
 
-    <h3 class="hidden-sm-and-down">PC</h3>
-    <h3 class="hidden-md-and-up">Mobile</h3>
-    -->
+    <!-- <h3 class="hidden-sm-and-down">PC</h3>
+    <h3 class="hidden-md-and-up">Mobile</h3> -->
   </div>
 </template>
 
 <script>
 import navBarMobile from "@/components/mobile/NavBar/TheNavbarMobile.vue";
 import navDrawerDesktop from "@/components/desktop/Drawer/Drawer.vue";
-
-import scheduleHead from "@/components/mobile/Schedule/group/Header/TheHeaderSchedule.vue";
-import scheduleBody from "@/components/mobile/Schedule/group/Body/TheBodySchedule.vue";
+import scheduleHeadMobile from "@/components/mobile/Schedule/group/Header/TheHeaderSchedule.vue";
+import scheduleBodyMobile from "@/components/mobile/Schedule/group/Body/TheBodySchedule.vue";
 import scheduleFooter from "@/components/mobile/Footer/Footer.vue";
 import dateAPI from "@/class/DateAPI";
 import parsers from "@/parser/parsers";
+import scheduleHeaderDesktop from "@/components/desktop/Schedule/Header/TheSheduleHeader.vue";
+import scheduleBodyDesktop from "@/components/desktop/Schedule/Body/TheSheduleBody.vue";
 
 export default {
   name: "ScheduleView",
   components: {
     navBarMobile,
     navDrawerDesktop,
-    scheduleHead,
-    scheduleBody,
+    scheduleHeadMobile,
+    scheduleBodyMobile,
     scheduleFooter,
+    scheduleHeaderDesktop,
+    scheduleBodyDesktop,
   },
   data: () => ({
     dataAPI: new dateAPI(new Date(), true),
@@ -74,6 +98,8 @@ export default {
     nowButtonVisible: false,
     scheduleType: null,
     controller: new AbortController(),
+    isMobile: window.innerWidth > 959 ? false : true,
+    test: new Date(),
   }),
   watch: {
     $route(to, from) {
@@ -105,6 +131,18 @@ export default {
       );
     },
 
+    onResize() {
+      if (window.innerWidth > 959) {
+        console.log("ПК ВЕРСИЯ!");
+        this.isMobile = false;
+      } else {
+        console.log("МОБИЛЬНАЯ ВЕРСИЯ ВЕРСИЯ!");
+        this.isMobile = true;
+      }
+      console.log(new Date().getTime() - this.test.getTime());
+      this.test = new Date();
+    },
+
     nextWeek() {
       this.dataAPI.goNextWeek();
       this.loading({ full: false });
@@ -134,7 +172,6 @@ export default {
         this.isBodyLoading = true;
         this.body = null;
 
-        let t = new Date();
         const dateBsuFormat = this.dataAPI.getDateForBsuAPI();
         let groupData = {};
         switch (this.scheduleType) {
@@ -162,12 +199,6 @@ export default {
               signal: this.controller.signal,
             });
             break;
-        }
-
-        if (+new Date() - t < 250) {
-          await new Promise((resolve) => {
-            setTimeout(() => resolve(), 250 - (+new Date() - t));
-          });
         }
 
         if (full) {
@@ -247,6 +278,7 @@ export default {
   },
   created() {
     this.INIT();
+    window.addEventListener("resize", this.onResize);
   },
 };
 </script>
