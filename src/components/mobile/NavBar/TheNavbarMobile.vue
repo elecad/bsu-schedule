@@ -22,7 +22,7 @@
 
 <script>
 import mainNavBar from "@/components/mobile/NavBar/mainNavBarMobile.vue";
-import appSettings from "@/components/general/Settings/AppSettings.vue";
+import appSettings from "@/components/general/AppSettings.vue";
 import favoriteMobile from "@/components/mobile/Favorite/TheFavorite.vue";
 import bottomSheet from "@/components/mobile/BottomSheet/BottomSheet.vue";
 

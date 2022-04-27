@@ -94,7 +94,7 @@ import dayHeader from "@/components/mobile/Schedule/group/Body/dayHeader.vue";
 import cardLesson from "@/components/mobile/Schedule/group/Body/cardLesson.vue";
 import moreLesson from "@/components/mobile/Schedule/group/Body/moreLesson.vue";
 import bottomSheet from "@/components/mobile/BottomSheet/BottomSheet.vue";
-import notLesson from "@/components/general/NotLesson/NotLesson.vue";
+import notLesson from "@/components/general/NotLesson.vue";
 
 export default {
   name: "AppScheduleContentMobile",

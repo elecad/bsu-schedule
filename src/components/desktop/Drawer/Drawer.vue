@@ -43,7 +43,7 @@
 import desktopSearch from "@/components/desktop/Drawer/Search.vue";
 import desktopFavorite from "@/components/desktop/Favorite/AppFavorite.vue";
 import desktopDatapicker from "@/components/desktop/Drawer/DataPicker.vue";
-import appSettings from "@/components/general/Settings/AppSettings.vue";
+import appSettings from "@/components/general/AppSettings.vue";
 
 export default {
   name: "Drawer",
