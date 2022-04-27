@@ -7,6 +7,7 @@
     <div v-if="!isMobile" class="navigation--drawer--desktop">
       <nav-drawer-desktop
         :dateISO="dateISO"
+        :dateAPI="dateAPI"
         @next--week="nextWeek"
         @back--week="backWeek"
         @date--week="dateWeek"
@@ -98,7 +99,7 @@ export default {
     scheduleBodyDesktop,
   },
   data: () => ({
-    dataAPI: new dateAPI(new Date(), true),
+    dateAPI: new dateAPI(new Date(), true),
     header: null,
     body: null,
     isHeaderLoading: true,
@@ -118,7 +119,7 @@ export default {
   },
   computed: {
     dateISO() {
-      return this.dataAPI.getDateISO();
+      return this.dateAPI.getDateISO();
     },
     isGroup() {
       return this.scheduleType == "group";
@@ -153,13 +154,14 @@ export default {
     },
 
     nextWeek() {
-      this.dataAPI.goNextWeek();
+      this.dateAPI.goNextWeek();
+
       this.loading({ full: false });
       console.log("NEXT");
     },
 
     backWeek() {
-      this.dataAPI.goBackWeek();
+      this.dateAPI.goBackWeek();
       this.loading({ full: false });
       console.log("BACK");
     },
@@ -167,7 +169,7 @@ export default {
     dateWeek(date) {
       console.log(date);
 
-      this.dataAPI.setDate(new Date(date));
+      this.dateAPI.setDate(new Date(date));
       this.loading({ full: false });
     },
 
@@ -184,7 +186,7 @@ export default {
         this.isBodyLoading = true;
         this.body = null;
 
-        const dateBsuFormat = this.dataAPI.getDateForBsuAPI();
+        const dateBsuFormat = this.dateAPI.getDateForBsuAPI();
         let groupData = {};
         switch (this.scheduleType) {
           case "group":
@@ -237,7 +239,7 @@ export default {
       this.loading();
     },
     findCurrentLesson() {
-      const today = this.dataAPI.getTodayBsuAPI(new Date()); // сегодня строкой
+      const today = this.dateAPI.getTodayBsuAPI(new Date()); // сегодня строкой
       const now = new Date();
 
       let findToday = false;

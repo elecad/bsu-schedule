@@ -30,51 +30,42 @@ import dateAPI from "@/class/DateAPI";
 
 export default {
   name: "TheDatePickerDesktop",
-  props: { dateISO: String },
+  props: { dateISO: String, dateAPI: dateAPI },
   computed: {
     getDataPickerLabel() {
       return this.dateAPI.getDataPickerLabel(this.date);
     },
   },
   created() {
-    this.dateAPI.setDate(new Date(this.dateISO));
-    this.date = this.dateAPI.getFullArrayWeek();
-    this.pickerDate = this.date[0];
+    this.setDate();
   },
   watch: {
-    dateISO(newValue, oldValue) {
-      console.log("dateISO", newValue);
-
-      this.dateAPI.setDate(new Date(newValue));
-      this.date = this.dateAPI.getFullArrayWeek();
-      this.pickerDate = this.date[0];
+    dateAPI: {
+      handler(newValue, oldValue) {
+        this.setDate();
+      },
+      deep: true,
     },
   },
   methods: {
-    input(data) {
+    input() {
       if (!this.date.length) return;
-
-      this.dateAPI.setDate(new Date(data[0]));
+      this.$emit("date--week", this.date[0]);
+      this.setDate();
+    },
+    setDate() {
       this.date = this.dateAPI.getFullArrayWeek();
       this.pickerDate = this.date[0];
-      // this.dateISO = this.pickerDate;
-
       this.events = this.date.filter(
         (el) => el == new Date().toISOString().substr(0, 10)
       );
-
-      this.$emit("date--week", this.date[0]);
-    },
-    submit() {
-      console.log(123);
-      console.log(new Date().toISOString().substr(0, 10), this.date[0]);
     },
     submitCurrentWeek() {
       this.$emit("date--week", new Date().toISOString().substr(0, 10));
     },
   },
   data: () => ({
-    dateAPI: new dateAPI(new Date(), false),
+    // dateAPI: new dateAPI(new Date(), false),
     modal: false,
     dialog: false,
     events: [],

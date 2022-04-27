@@ -28,20 +28,10 @@
               >
                 <h3 class="d-flex">
                   {{ header.fullName }}
-
-                  <!-- <div class="ml-2">
-                    <v-icon>mdi-information-variant</v-icon>
-                  </div> -->
                 </h3>
                 <div class="text--disabled text-body-2">
                   {{ header.post.toLowerCase() }}
                 </div>
-
-                <!-- <v-snackbar v-model="tooltipShow" timeout="2000" class="mb-6">
-                  <div class="d-flex align-center justify-center">
-                    <div>{{ header.fullName }}</div>
-                  </div>
-                </v-snackbar> -->
               </div>
             </div>
 
@@ -65,7 +55,13 @@
         <v-btn @click="$emit('back--week')" text>
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
-        <v-btn class="edit--text--button" text> Текущая неделя </v-btn>
+        <v-btn
+          class="edit--text--button"
+          text
+          @click="$emit('date--week', new Date().toISOString().substr(0, 10))"
+        >
+          Текущая неделя
+        </v-btn>
 
         <v-btn @click="$emit('next--week')" text>
           <v-icon>mdi-arrow-right</v-icon>

@@ -244,4 +244,15 @@ export default {
 .fix--transition {
   transition: none !important;
 }
+
+.v-expansion-panel-header .sublesson--discipline--teacher,
+.v-expansion-panel-header .sublesson--discipline--location,
+.v-expansion-panel-header
+  .v-expansion-panel-header.sublesson--discipline--group {
+  font-size: 0.8rem !important;
+}
+
+.v-expansion-panel-header .sublesson--discipline--name {
+  font-size: 1rem !important;
+}
 </style>
