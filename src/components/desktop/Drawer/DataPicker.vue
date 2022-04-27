@@ -8,6 +8,7 @@
     show-current
     :events="events"
     :selected-items-text="getDataPickerLabel"
+    :picker-date.sync="pickerDate"
     event-color="teal"
     range
     flat
@@ -39,24 +40,33 @@ export default {
     },
   },
   created() {
-    this.input([this.dateISO]);
+    this.dateAPI.setDate(new Date(this.dateISO));
+    this.date = this.dateAPI.getFullArrayWeek();
+    this.pickerDate = this.date[0];
   },
   watch: {
-    dateISO(newValue) {
-      this.input([newValue]);
+    dateISO(newValue, oldValue) {
+      console.log("dateISO", newValue);
+
+      this.dateAPI.setDate(new Date(newValue));
+      this.date = this.dateAPI.getFullArrayWeek();
+      this.pickerDate = this.date[0];
     },
   },
   methods: {
     input(data) {
+      if (!this.date.length) return;
+
       this.dateAPI.setDate(new Date(data[0]));
       this.date = this.dateAPI.getFullArrayWeek();
+      this.pickerDate = this.date[0];
+      // this.dateISO = this.pickerDate;
+
       this.events = this.date.filter(
         (el) => el == new Date().toISOString().substr(0, 10)
       );
 
-      // if (new Date().toISOString().substr(0, 10) != data[0]) {
-      this.$emit("date--week", data[0]);
-      // }
+      this.$emit("date--week", this.date[0]);
     },
     submit() {
       console.log(123);
@@ -73,6 +83,7 @@ export default {
     events: [],
     date: [],
     multiplay: false,
+    pickerDate: "",
   }),
 };
 </script>

@@ -165,9 +165,10 @@ export default {
     },
 
     dateWeek(date) {
-      // this.dataAPI.setDate(new Date(date));
-      // this.loading({ full: false });
       console.log(date);
+
+      this.dataAPI.setDate(new Date(date));
+      this.loading({ full: false });
     },
 
     async loading({ full } = { full: true }) {

@@ -25,6 +25,7 @@
         show-current
         :events="events"
         :selected-items-text="getDataPickerLabel"
+        :picker-date.sync="pickerDate"
         event-color="teal"
         range
         flat
@@ -66,6 +67,8 @@ export default {
     input(data) {
       this.dateAPI.setDate(new Date(data[0]));
       this.date = this.dateAPI.getFullArrayWeek();
+      this.pickerDate = this.date[0];
+
       this.events = this.date.filter(
         (el) => el == new Date().toISOString().substr(0, 10)
       );
@@ -85,6 +88,7 @@ export default {
     dialog: false,
     events: [],
     date: [],
+    pickerDate: "",
   }),
 };
 </script>
