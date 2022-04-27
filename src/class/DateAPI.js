@@ -31,6 +31,7 @@ i18n.monthNames = [
 export default class DateAPI {
   date = null;
   day = 1000 * 60 * 60 * 24; //! Сутки
+  autoNextWeek = false;
 
   constructor(date, setting) {
     this.date = date;
@@ -40,6 +41,7 @@ export default class DateAPI {
       this.getTodayBsuAPI(this.date) == this.getTodayBsuAPI(new Date())
     ) {
       this.date = new Date(this.date.getTime() + 7 * this.day);
+      this.autoNextWeek = true;
     }
   }
 
@@ -74,22 +76,29 @@ export default class DateAPI {
     return this.date;
   }
 
+  getMainDataISO() {
+    return this.date.toISOString().substr(0, 10);
+  }
   goNextWeek() {
+    this.autoNextWeek = false;
     this.date = new Date(this.date.getTime() + 7 * this.day);
     return this;
   }
 
   goBackWeek() {
+    this.autoNextWeek = false;
     this.date = new Date(this.date.getTime() - 7 * this.day);
     return this;
   }
 
   resetDate() {
+    this.autoNextWeek = false;
     this.date = new Date();
     return this;
   }
 
   setDate(date) {
+    this.autoNextWeek = false;
     this.date = date;
     return this;
   }
