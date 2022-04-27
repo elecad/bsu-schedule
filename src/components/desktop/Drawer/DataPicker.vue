@@ -29,7 +29,7 @@ import dateAPI from "@/class/DateAPI";
 
 export default {
   name: "TheDatePickerDesktop",
-  props: { dateISO: String, dateAPI: dateAPI },
+  props: { dateAPI: dateAPI },
   computed: {
     getDataPickerLabel() {
       return this.dateAPI.getDataPickerLabel(this.date);

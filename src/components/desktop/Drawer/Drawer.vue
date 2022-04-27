@@ -29,7 +29,6 @@
 
       <div class="mb-5 mx-3">
         <desktop-datapicker
-          :dateISO="dateISO"
           :dateAPI="dateAPI"
           @date--week="dateWeek"
         ></desktop-datapicker>
@@ -49,7 +48,6 @@ import appSettings from "@/components/general/AppSettings.vue";
 export default {
   name: "Drawer",
   props: {
-    dateISO: String,
     dateAPI: Object,
   },
   components: {

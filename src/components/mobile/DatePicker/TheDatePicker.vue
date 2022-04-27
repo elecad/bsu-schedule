@@ -47,7 +47,7 @@ import dateAPI from "@/class/DateAPI";
 
 export default {
   name: "TheDatePickerMobile",
-  props: { dateISO: String, dateAPI: Object },
+  props: { dateAPI: Object },
   computed: {
     getLabel() {
       return this.dateAPI.getLabel();

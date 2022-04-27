@@ -4,7 +4,6 @@
       class="mb-3"
       :header="header"
       :loading="isHeaderLoading"
-      :dateISO="dateISO"
       @next--week="nextWeek"
       @back--week="backWeek"
       @date--week="dateWeek"
