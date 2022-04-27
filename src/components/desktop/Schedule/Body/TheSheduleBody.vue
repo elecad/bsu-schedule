@@ -92,7 +92,7 @@ import dayHeader from "@/components/general/dayHeader.vue";
 // import cardLesson from "@/components/mobile/Schedule/group/Body/cardLesson.vue";
 // import moreLesson from "@/components/mobile/Schedule/group/Body/moreLesson.vue";
 // import bottomSheet from "@/components/mobile/BottomSheet/BottomSheet.vue";
-import notLesson from "@/components/NotLesson/NotLesson.vue";
+import notLesson from "@/components/general/NotLesson/NotLesson.vue";
 import panelHeader from "@/components/desktop/Schedule/Body/PanelHeader.vue";
 import panelContent from "@/components/desktop/Schedule/Body/PanelContent.vue";
 import Colors from "@/class/Colors";

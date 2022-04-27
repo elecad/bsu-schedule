@@ -16,6 +16,10 @@
         <v-btn class="fix--position--icon--settings" icon>
           <v-icon>mdi-cog</v-icon>
         </v-btn>
+        <!-- <app-settings
+          :openSetting="openSetting"
+          @close--settings="settingsCloseMobile"
+        ></app-settings> -->
       </div>
     </div>
 
@@ -39,6 +43,7 @@
 import desktopSearch from "@/components/desktop/Drawer/Search.vue";
 import desktopFavorite from "@/components/desktop/Favorite/AppFavorite.vue";
 import desktopDatapicker from "@/components/desktop/Drawer/DataPicker.vue";
+import appSettings from "@/components/general/Settings/AppSettings.vue";
 
 export default {
   name: "Drawer",
@@ -46,7 +51,12 @@ export default {
     dateISO: String,
     dateAPI: Object,
   },
-  components: { desktopSearch, desktopFavorite, desktopDatapicker },
+  components: {
+    desktopSearch,
+    desktopFavorite,
+    desktopDatapicker,
+    appSettings,
+  },
   methods: {
     dateWeek(date) {
       this.$emit("date--week", date);

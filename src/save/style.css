@@ -1,0 +1,176 @@
+.fix--overlay--posution {
+  position: absolute;
+  height: 100vh;
+  z-index: 100;
+}
+.fix--search--position {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.navbar-mobile--search {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: 0.3s;
+}
+
+.navbar-mobile--search.search-mobile-active {
+  top: 0;
+  left: 0;
+  z-index: 6;
+}
+
+.fix--button--floating {
+  position: fixed;
+  z-index: 10;
+  bottom: 15px;
+  right: 20px;
+}
+
+.fix--button--floating::before {
+  display: none;
+}
+
+.fix--position--day--card {
+  position: sticky !important;
+  top: -1px;
+  z-index: 6;
+}
+.fix--position--day--card.active-fly {
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
+@media (max-width: 317px) {
+  .fix--day--name {
+    font-size: 1.05rem !important;
+  }
+  .fix--font--size--course--buttons {
+    font-size: 0.7rem !important;
+  }
+}
+
+@media (max-width: 350px) {
+  .fix--font--size--course--buttons {
+    font-size: 0.8rem !important;
+  }
+}
+
+.sublesson--discipline--teacher {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sublesson--discipline--teacher > div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sublesson--discipline--teacher > div:first-child:before {
+  content: "A";
+  width: 0px;
+  visibility: hidden;
+}
+
+.sublesson--discipline--teacher > div:nth-child(2) {
+  margin-top: 1px;
+}
+
+.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active,
+.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active .v-icon,
+.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--mousedown,
+.v-expansion-panels:not(.theme--dark)
+  .v-expansion-panel-header--mousedown
+  .v-icon {
+  color: #0c63e4 !important;
+}
+
+.v-expansion-panels:not(.theme--dark) .v-chip {
+  transition: 0.3s;
+}
+
+.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header {
+  transition: 0.3s min-height cubic-bezier(0.25, 0.8, 0.5, 1), 0.3s color !important;
+}
+
+.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active .v-chip,
+.v-expansion-panels:not(.theme--dark)
+  .v-expansion-panel-header--mousedown
+  .v-chip {
+  background-color: #e7f1ff;
+}
+
+.now--lesson {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  border-inline-start: 4px solid #3f51b5;
+}
+
+.today--lesson {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  border-inline-start: 4px solid rgba(134, 134, 134, 0.404);
+}
+
+.now--day {
+  color: white;
+  position: absolute;
+  top: 12px;
+  left: 15px;
+}
+
+.fix--transition {
+  transition: none !important;
+}
+
+.edit--text--button {
+  font-size: 0.875rem;
+}
+
+@media (max-width: 315px) {
+  .edit--text--button {
+    font-size: 0.6rem !important;
+  }
+}
+
+@media (max-width: 320px) {
+  .v-dialog.v-dialog--active {
+    margin-left: 3px !important;
+    margin-right: 3px !important;
+  }
+}
+
+.v-btn--text:before {
+  display: none;
+}
+
+.v-skeleton-loader__chip {
+  width: 150px !important;
+}
+
+@media (max-width: 317px) {
+  .fix--text {
+    font-size: 1.1rem !important;
+  }
+}
+
+@media (min-width: 650px) {
+  .fix--padding--container {
+    width: 600px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .fix--padding--container {
+    width: 900px !important;
+  }
+}

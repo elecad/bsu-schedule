@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import WelcomeView from "../views/WelcomeView.vue";
+
 import Shedule from "@/views/Schedule.vue";
 
 import NotFound from "@/views/NotFound.vue";
