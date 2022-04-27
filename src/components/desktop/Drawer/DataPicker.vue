@@ -15,7 +15,6 @@
     header-color="indigo"
     full-width
     elevation="2"
-    class="pb-7"
   >
     <!-- <v-spacer></v-spacer>
     <v-btn text color="indigo" @click="submitCurrentWeek" class="">

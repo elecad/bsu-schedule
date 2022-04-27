@@ -1,7 +1,7 @@
 <template>
   <v-dialog
-    v-model="openSetting"
-    @click:outside="$emit('close--settings')"
+    v-model="value"
+    @click:outside="$emit('input', false)"
     scrollable
     max-width="500px"
   >
@@ -37,18 +37,33 @@
             <v-switch hide-details inset color="indigo"></v-switch>
           </div>
         </div>
-        <div class="hidden-sm-and-down">
-          <div class="d-flex justify-space-between align-start mt-4">
-            <div class="">
-              <div class="text-subtitle-1">Отключение анимации на ПК:</div>
-              <div class="text-caption text--secondary">
-                Если у вас слабое устройство, воспользуетесь этой настройкой для
-                увеличения производительности приложения
-              </div>
+
+        <div class="d-flex justify-space-between align-start mt-4">
+          <div class="">
+            <div class="text-subtitle-1">Отключение анимации на ПК:</div>
+            <div class="text-caption text--secondary">
+              Если у вас слабое устройство, воспользуетесь этой настройкой для
+              увеличения производительности приложения
             </div>
-            <div class="pl-5 py-2">
-              <v-switch hide-details inset color="indigo"></v-switch>
+          </div>
+
+          <div class="pl-5 py-2">
+            <v-switch hide-details inset color="indigo"></v-switch>
+          </div>
+        </div>
+
+        <div class="d-flex justify-space-between align-start mt-4">
+          <div class="">
+            <div class="text-subtitle-1">
+              Упрощённая версия для мобильных устройств:
             </div>
+            <div class="text-caption text--secondary">
+              Если у вас слабое мобильное устройство, воспользуетесь этой
+              настройкой для увеличения производительности приложения
+            </div>
+          </div>
+          <div class="pl-5 py-2">
+            <v-switch hide-details inset color="indigo"></v-switch>
           </div>
         </div>
 
@@ -61,7 +76,7 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="indigo" text @click="$emit('close--settings')">
+        <v-btn color="indigo" text @click="$emit('input', false)">
           Закрыть
         </v-btn>
       </v-card-actions>
@@ -73,7 +88,7 @@
 export default {
   name: "Settings",
   props: {
-    openSetting: Boolean,
+    value: Boolean,
   },
 };
 </script>
@@ -86,5 +101,12 @@ export default {
 
 .fix--width--about--button {
   width: 100%;
+}
+
+@media (max-width: 320px) {
+  * >>> .v-dialog.v-dialog--active {
+    margin-left: 3px !important;
+    margin-right: 3px !important;
+  }
 }
 </style>

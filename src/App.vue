@@ -13,8 +13,9 @@ export default {
   components: { navBarMobile },
   data: () => ({}),
   created() {
-    this.$store.commit("INIT");
-    this.$vuetify.theme.dark = this.$store.getters.getTheme;
+    // this.$store.commit("INIT");
+    // this.$vuetify.theme.dark = this.$store.getters.getTheme;
+    this.$vuetify.theme.dark = false;
   },
 };
 </script>

@@ -13,13 +13,14 @@
           <v-icon>mdi-school-outline</v-icon>
         </div>
         <v-toolbar-title> Расписание</v-toolbar-title>
-        <v-btn class="fix--position--icon--settings" icon>
+        <v-btn
+          class="fix--position--icon--settings"
+          icon
+          @click="settingsOpen = true"
+        >
           <v-icon>mdi-cog</v-icon>
         </v-btn>
-        <!-- <app-settings
-          :openSetting="openSetting"
-          @close--settings="settingsCloseMobile"
-        ></app-settings> -->
+        <app-settings v-model="settingsOpen"></app-settings>
       </div>
     </div>
 
@@ -62,6 +63,10 @@ export default {
       this.$emit("date--week", date);
     },
   },
+
+  data: () => ({
+    settingsOpen: false,
+  }),
 };
 </script>
 

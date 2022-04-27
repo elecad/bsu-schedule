@@ -5,10 +5,7 @@
       @open--favorite="favoriteOpenMobile"
     ></main-nav-bar>
 
-    <app-settings
-      :openSetting="openSetting"
-      @close--settings="settingsCloseMobile"
-    ></app-settings>
+    <app-settings v-model="openSetting"></app-settings>
 
     <!-- <v-bottom-sheet v-model="openFavorite">
       <favorite-mobile></favorite-mobile>
