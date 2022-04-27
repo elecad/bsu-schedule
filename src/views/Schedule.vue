@@ -111,6 +111,7 @@ export default {
   }),
   watch: {
     $route(to, from) {
+      this.scrollUp();
       this.scheduleType = this.$router.currentRoute.name;
       this.INIT();
     },
@@ -153,22 +154,26 @@ export default {
 
     nextWeek() {
       this.dateAPI.goNextWeek();
-
+      this.scrollUp();
       this.loading({ full: false });
       console.log("NEXT");
     },
 
     backWeek() {
       this.dateAPI.goBackWeek();
+      this.scrollUp();
       this.loading({ full: false });
       console.log("BACK");
     },
 
     dateWeek(date) {
-      console.log(date);
-
       this.dateAPI.setDate(new Date(date));
+      this.scrollUp();
       this.loading({ full: false });
+    },
+
+    scrollUp() {
+      window.scrollTo({ top: 0, behavior: "auto" });
     },
 
     async loading({ full } = { full: true }) {
@@ -213,12 +218,20 @@ export default {
             break;
         }
 
+        if (!groupData.validate) {
+          this.$router.push({ name: "notFound" });
+          return;
+        }
+        this.$store.commit("SET_LAST", {
+          type: this.$router.currentRoute.name,
+          id: this.$route.params.id,
+        });
         if (full) {
           this.header = this.isGroup
             ? { name: groupData.data.header }
             : groupData.data.header;
         }
-        this.body = null; //? Оптимизация
+
         this.scheduleType = this.$router.currentRoute.name;
 
         this.body = groupData.data.schedule;
@@ -227,8 +240,6 @@ export default {
         this.isBodyLoading = false;
 
         this.findCurrentLesson();
-        console.log("HEADER: ", groupData.data.header);
-        console.log("BODY: ", groupData.data.schedule);
       } catch (e) {
         console.log(e);
       }

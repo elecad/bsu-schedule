@@ -10,36 +10,41 @@
               class="sublesson--discipline--information--group my-2 text-caption"
               v-if="more.group.promt"
             >
-              <div class="mr-1"></div>
-              <v-icon>mdi-account-supervisor-circle</v-icon>
-            </div>
+              <div class="mr-1">
+                <v-icon>mdi-account-supervisor-circle</v-icon>
+              </div>
 
-            <div>{{ more.group.promt }}</div>
-          </div>
-        </div>
-        <!-- //! Дополнительная информация о преподавателе -->
-        <div v-if="!isTeacher">
-          <div
-            class="sublesson--discipline--information--teacher my-2 text-caption"
-            v-if="more.teacher.surname"
-          >
-            <div class="mr-1">
-              <v-icon>mdi-account-circle-outline</v-icon>
+              <div>{{ more.group.promt }}</div>
             </div>
-            <div>{{ more.teacher.promt }}</div>
           </div>
-        </div>
-        <!-- //! Дополнительная информация о месте проведения -->
-        <div v-if="!isLocation">
-          <div
-            class="sublesson--discipline--information--location text-caption"
-            v-if="(more.location.aud || more.location.specific) && !more.online"
-          >
-            <div class="mr-1">
-              <v-icon>mdi-map-marker-question-outline</v-icon>
-            </div>
 
-            <div>{{ more.location.prompt }}</div>
+          <!-- //! Дополнительная информация о преподавателе -->
+          <div v-if="!isTeacher">
+            <div
+              class="sublesson--discipline--information--teacher my-2 text-caption"
+              v-if="more.teacher.surname"
+            >
+              <div class="mr-1">
+                <v-icon>mdi-account-circle-outline</v-icon>
+              </div>
+
+              <div>{{ more.teacher.promt }}</div>
+            </div>
+          </div>
+          <!-- //! Дополнительная информация о месте проведения -->
+          <div v-if="!isLocation">
+            <div
+              class="sublesson--discipline--information--location text-caption"
+              v-if="
+                (more.location.aud || more.location.specific) && !more.online
+              "
+            >
+              <div class="mr-1">
+                <v-icon>mdi-map-marker-question-outline</v-icon>
+              </div>
+
+              <div>{{ more.location.prompt }}</div>
+            </div>
           </div>
         </div>
       </div>

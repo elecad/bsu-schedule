@@ -13,9 +13,9 @@ export default {
   components: { navBarMobile },
   data: () => ({}),
   created() {
-    // this.$store.commit("INIT");
-    // this.$vuetify.theme.dark = this.$store.getters.getTheme;
-    this.$vuetify.theme.dark = false;
+    this.$store.commit("INIT");
+    // const last = this.$store.getters.getLast;
+    // this.$router.push({ name: last.type, params: { id: last.id } });
   },
 };
 </script>

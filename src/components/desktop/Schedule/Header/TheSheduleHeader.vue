@@ -43,7 +43,7 @@
           </v-fade-transition>
         </div>
         <div>
-          <v-btn icon @click="$emit('add-fovorite-item')">
+          <v-btn icon @click="favoritAction">
             <v-icon>{{ favorit ? "mdi-star" : "mdi-star-outline" }}</v-icon>
           </v-btn>
         </div>
@@ -112,6 +112,9 @@ export default {
     tooltipShow: false,
   }),
   methods: {
+    favoritAction() {
+      console.log("КЛИК!");
+    },
     dateWeek(date) {
       this.$emit("date--week", date);
     },

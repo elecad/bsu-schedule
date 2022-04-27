@@ -2,8 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Shedule from "@/views/Schedule.vue";
-
 import NotFound from "@/views/NotFound.vue";
+import Last from "@/views/LastRedirect.vue";
 
 Vue.use(VueRouter);
 
@@ -11,7 +11,7 @@ const routes = [
   {
     path: "/",
     name: "main",
-    redirect: "/g/12001902",
+    component: Last,
   },
   {
     path: "/g/:id",
@@ -29,8 +29,13 @@ const routes = [
     component: Shedule,
   },
   {
+    path: "/404",
+    name: "notFound",
+    component: NotFound,
+  },
+  {
     path: "*",
-    name: "404",
+    name: "notFoundv2",
     component: NotFound,
   },
 ];
