@@ -20,6 +20,7 @@
           :header="header"
           :loading="isHeaderLoading"
           :dateISO="dateISO"
+          :dateAPI="dateAPI"
           @next--week="nextWeek"
           @back--week="backWeek"
           @date--week="dateWeek"

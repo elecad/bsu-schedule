@@ -16,6 +16,7 @@
 
     <v-dialog v-model="modal" class="dialog--fix">
       <v-date-picker
+        full-width
         @input="input"
         v-model="date"
         scrollable
@@ -46,7 +47,7 @@ import dateAPI from "@/class/DateAPI";
 
 export default {
   name: "TheDatePickerMobile",
-  props: { dateISO: String },
+  props: { dateISO: String, dateAPI: Object },
   computed: {
     getLabel() {
       return this.dateAPI.getLabel();
@@ -56,17 +57,12 @@ export default {
     },
   },
   created() {
-    this.input([this.dateISO]);
-  },
-  watch: {
-    dateISO(newValue) {
-      this.input([newValue]);
-    },
+    this.input([this.dateAPI.getMainDataISO()]);
   },
   methods: {
     input(data) {
-      this.dateAPI.setDate(new Date(data[0]));
-      this.date = this.dateAPI.getFullArrayWeek();
+      this.localeDateAPI.setDate(new Date(data[0]));
+      this.date = this.localeDateAPI.getFullArrayWeek();
       this.pickerDate = this.date[0];
 
       this.events = this.date.filter(
@@ -83,7 +79,7 @@ export default {
     },
   },
   data: () => ({
-    dateAPI: new dateAPI(new Date(), false),
+    localeDateAPI: new dateAPI(new Date(), false),
     modal: false,
     dialog: false,
     events: [],
@@ -104,8 +100,12 @@ export default {
   }
 }
 
+* >>> .v-dialog.v-dialog--active {
+  max-width: 350px !important;
+}
+
 @media (max-width: 320px) {
-  .v-dialog.v-dialog--active {
+  * >>> .v-dialog.v-dialog--active {
     margin-left: 3px !important;
     margin-right: 3px !important;
   }
