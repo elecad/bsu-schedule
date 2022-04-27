@@ -20,36 +20,31 @@
                 v-for="(sublesson, j) in lesson.content"
                 :key="j"
               >
-                <v-expansion-panel-header class="padding--fix--expansion-panel">
-                  <!-- //!Рендер занятий сегодня / текущего занятия -->
-                  <panel-header
-                    @show--cupertiono--lesson="openMoreLessonPanel"
-                    :lesson="lesson"
-                    :sublesson="sublesson"
-                    :last="lesson.content.length == j + 1"
-                    :type="type"
-                  >
-                    <div
-                      class="now--lesson"
-                      v-if="lesson.isNow"
-                      ref="nowLesson"
-                    ></div>
-                    <div
-                      class="today--lesson"
-                      v-else-if="lesson.isToday"
-                      ref="todayLesson"
-                    ></div
-                  ></panel-header>
-                </v-expansion-panel-header>
+                <!-- //!Рендер занятий сегодня / текущего занятия -->
+                <panel-header
+                  @show--cupertiono--lesson="openMoreLessonPanel"
+                  :lesson="lesson"
+                  :sublesson="sublesson"
+                  :last="lesson.content.length == j + 1"
+                  :type="type"
+                >
+                  <div
+                    class="now--lesson"
+                    v-if="lesson.isNow"
+                    ref="nowLesson"
+                  ></div>
+                  <div
+                    class="today--lesson"
+                    v-else-if="lesson.isToday"
+                    ref="todayLesson"
+                  ></div
+                ></panel-header>
 
-                <!--//! <v-expansion-panel-content class="fix--transition"> -->
-                <v-expansion-panel-content>
-                  <panel-content
-                    :more="sublesson"
-                    :loading="loading"
-                    :type="type"
-                  ></panel-content>
-                </v-expansion-panel-content>
+                <panel-content
+                  :more="sublesson"
+                  :loading="loading"
+                  :type="type"
+                ></panel-content>
               </v-expansion-panel>
             </div>
           </v-expansion-panels>

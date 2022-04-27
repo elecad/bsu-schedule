@@ -340,10 +340,6 @@ export default {
   margin-top: 1px;
 }
 
-.padding--fix--expansion-panel {
-  padding: 16px !important;
-}
-
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active,
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active .v-icon,
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--mousedown,

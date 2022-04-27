@@ -32,9 +32,6 @@ export default {
   name: "TheDatePickerDesktop",
   props: { dateISO: String },
   computed: {
-    getLabel() {
-      return this.dateAPI.getLabel();
-    },
     getDataPickerLabel() {
       return this.dateAPI.getDataPickerLabel(this.date);
     },

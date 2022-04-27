@@ -10,7 +10,6 @@
         :loading="loading"
         dense
         filled
-        autofocus
         :no-data-text="noResultText"
         hide-details
         :hide-no-data="loading"

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-expansion-panel-header class="padding--fix--expansion-panel">
     <slot></slot>
 
     <div class="d-flex">
@@ -110,7 +110,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </v-expansion-panel-header>
 </template>
 
 <script>
@@ -177,4 +177,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.padding--fix--expansion-panel {
+  padding: 16px !important;
+}
+</style>
