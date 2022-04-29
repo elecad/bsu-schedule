@@ -55,6 +55,8 @@
         <v-btn @click="$emit('back--week')" text>
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
+        <v-badge color="indigo" overlap content="АВТО" class="auto--badge">
+        </v-badge>
         <v-btn
           class="edit--text--button"
           text
@@ -86,10 +88,8 @@ export default {
 
   computed: {
     abbreviation() {
-      // console.log(this.header);
       const arr = this.header.fullName.split(" ");
       return `${arr[0]} ${arr[1][0]}.${arr.length == 3 ? arr[2][0] + "." : ""}`;
-      // return "test";
     },
 
     isFavorite() {
@@ -181,5 +181,11 @@ export default {
   .fix--text {
     font-size: 1.1rem !important;
   }
+}
+
+.auto--badge {
+  position: absolute;
+  left: calc(50% - 13px);
+  top: -6px;
 }
 </style>

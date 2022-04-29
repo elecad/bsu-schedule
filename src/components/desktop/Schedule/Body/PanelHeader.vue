@@ -50,12 +50,21 @@
           </div>
 
           <!-- //! Наименование занятия -->
-          <div class="sublesson--discipline--name font-weight-medium my-3">
-            {{ sublesson.name }}
-            <small class="text--disabled" v-if="sublesson.subname">{{
-              sublesson.subname
-            }}</small>
-          </div>
+          <v-tooltip right open-delay="200">
+            <template v-slot:activator="{ on }">
+              <div
+                class="sublesson--discipline--name font-weight-medium my-3"
+                v-on="on"
+                @click.stop="copyValue($event, sublesson.name, 'discipline')"
+              >
+                {{ sublesson.name }}
+                <small class="text--disabled" v-if="sublesson.subname">{{
+                  sublesson.subname
+                }}</small>
+              </div>
+            </template>
+            <span class="tooltip--text">{{ copyDiscipline }}</span>
+          </v-tooltip>
 
           <!-- //! Группа -->
           <div v-if="!isGroup">
@@ -71,19 +80,34 @@
           </div>
 
           <!-- //! Преподаватель занятия -->
+
           <div v-if="!isTeacher">
             <div
               class="sublesson--discipline--teacher text-caption"
               v-if="sublesson.teacher.surname"
             >
-              <div class="mr-1">
-                <v-icon>mdi-account</v-icon>
-              </div>
-              <div>
-                {{
-                  `${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename} (${sublesson.teacher.post})`
-                }}
-              </div>
+              <v-tooltip right open-delay="200">
+                <template v-slot:activator="{ on }">
+                  <div class="mr-1">
+                    <v-icon>mdi-account</v-icon>
+                  </div>
+                  <div
+                    v-on="on"
+                    @click.stop="
+                      copyValue(
+                        $event,
+                        `${sublesson.teacher.post} ${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename}`,
+                        'teacher'
+                      )
+                    "
+                  >
+                    {{
+                      `${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename} (${sublesson.teacher.post})`
+                    }}
+                  </div>
+                </template>
+                <span class="tooltip--text">{{ copyTeacher }}</span>
+              </v-tooltip>
             </div>
           </div>
 
@@ -159,6 +183,11 @@ export default {
       return this.type == "teacher";
     },
   },
+  data: () => ({
+    copyDiscipline: "Нажмите, чтобы скопировать",
+    copyTeacher: "Нажмите, чтобы скопировать",
+  }),
+
   methods: {
     selectColorsBodyChip(text) {
       return Colors.selectBodyColor(text);
@@ -171,6 +200,27 @@ export default {
         this.$emit("show--cupertiono--lesson", sublesson, this.lesson.isNow);
       }
     },
+    copyValue($event, value, type) {
+      if (!navigator.clipboard) {
+        return;
+      }
+      navigator.clipboard
+        .writeText(value)
+        .then(() => {
+          if (type == "discipline") {
+            this.copyDiscipline = "Скопировано!";
+          } else {
+            this.copyTeacher = "Скопировано!";
+          }
+          setTimeout(() => {
+            this.copyDiscipline = "Нажмите, чтобы скопировать";
+            this.copyTeacher = "Нажмите, чтобы скопировать";
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error(`Ошибка копирования: ${err}`);
+        });
+    },
   },
 };
 </script>
@@ -182,11 +232,16 @@ export default {
 
 .v-expansion-panel-header .sublesson--discipline--teacher,
 .v-expansion-panel-header .sublesson--discipline--location,
-.v-expansion-panel-header .v-expansion-panel-header.sublesson--discipline--group {
+.v-expansion-panel-header
+  .v-expansion-panel-header.sublesson--discipline--group {
   font-size: 0.8rem !important;
 }
 
 .v-expansion-panel-header .sublesson--discipline--name {
   font-size: 1rem !important;
+}
+
+.tooltip--text {
+  font-size: 0.7rem !important;
 }
 </style>

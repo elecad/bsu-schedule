@@ -4,6 +4,12 @@
       <v-btn @click="$emit('back--week')" text>
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
+      <v-badge
+        color="indigo"
+        overlap
+        content="АВТО"
+        class="auto--badge"
+      ></v-badge>
       <v-btn class="edit--text--button" @click="modal = !modal" text>
         {{ getLabel }}
         <v-icon right>mdi-calendar-blank-multiple</v-icon>
@@ -113,5 +119,11 @@ export default {
 
 .v-btn--text:before {
   display: none;
+}
+
+.auto--badge {
+  position: absolute;
+  left: calc(50% - 13px);
+  top: -10px;
 }
 </style>
