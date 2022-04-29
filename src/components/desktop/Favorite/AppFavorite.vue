@@ -10,17 +10,17 @@
 
     <v-card-text class="favorite--card--fix pt-0">
       <div v-if="favorite.length != 0">
-        <v-scale-transition v-for="fav in favorite" :key="fav.id">
-          <app-favorite-chip
-            :edit="editFavirite"
-            :type="fav.type"
-            :id="fav.id"
-            >{{ fav.label }}</app-favorite-chip
-          >
-        </v-scale-transition>
+        <app-favorite-chip
+          v-for="fav in favorite"
+          :key="fav.id"
+          :edit="editFavirite"
+          :type="fav.type"
+          :id="fav.id"
+          >{{ fav.label }}</app-favorite-chip
+        >
       </div>
 
-      <div v-else class="d-flex flex-column align-center justify-content">
+      <div v-else class="d-flex flex-column align-center justify-content py-2">
         <div class="text--disabled subtitle-2">Здесь пока ничего нет...</div>
         <div class="text--disabled subtitle-2">Может, стоит добавить?</div>
       </div>
