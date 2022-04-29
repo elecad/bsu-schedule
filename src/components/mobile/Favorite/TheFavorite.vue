@@ -54,9 +54,6 @@ export default {
 </script>
 
 <style scoped>
-.v-card:before {
-  display: none;
-}
 .fix--edit--favorite--button--position {
   position: absolute;
   right: 10px;

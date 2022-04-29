@@ -72,26 +72,34 @@
 </template>
 
 <script>
-import navBarMobile from "@/components/mobile/NavBar/TheNavbarMobile.vue";
-import navDrawerDesktop from "@/components/desktop/Drawer/Drawer.vue";
-import scheduleHeadMobile from "@/components/mobile/Schedule/group/Header/TheHeaderSchedule.vue";
-import scheduleBodyMobile from "@/components/mobile/Schedule/group/Body/TheBodySchedule.vue";
-import scheduleFooter from "@/components/mobile/Footer/Footer.vue";
+// import navBarMobile from "@/components/mobile/NavBar/TheNavbarMobile.vue";
+// import navDrawerDesktop from "@/components/desktop/Drawer/Drawer.vue";
+// import scheduleHeadMobile from "@/components/mobile/Schedule/group/Header/TheHeaderSchedule.vue";
+// import scheduleBodyMobile from "@/components/mobile/Schedule/group/Body/TheBodySchedule.vue";
+// import scheduleFooter from "@/components/mobile/Footer/Footer.vue";
 import dateAPI from "@/class/DateAPI";
 import parsers from "@/parser/parsers";
-import scheduleHeaderDesktop from "@/components/desktop/Schedule/Header/TheSheduleHeader.vue";
-import scheduleBodyDesktop from "@/components/desktop/Schedule/Body/TheSheduleBody.vue";
+// import scheduleHeaderDesktop from "@/components/desktop/Schedule/Header/TheSheduleHeader.vue";
+// import scheduleBodyDesktop from "@/components/desktop/Schedule/Body/TheSheduleBody.vue";
 
 export default {
   name: "ScheduleView",
   components: {
-    navBarMobile,
-    navDrawerDesktop,
-    scheduleHeadMobile,
-    scheduleBodyMobile,
-    scheduleFooter,
-    scheduleHeaderDesktop,
-    scheduleBodyDesktop,
+    // navBarMobile,
+    // navDrawerDesktop,
+    // scheduleHeadMobile,
+    // scheduleBodyMobile,
+    // scheduleFooter,
+    // scheduleHeaderDesktop,
+    // scheduleBodyDesktop,
+    'nav-bar-mobile': () => import('@/components/mobile/NavBar/TheNavbarMobile.vue'),
+    'nav-drawer-desktop': () => import('@/components/desktop/Drawer/Drawer.vue'),
+    'schedule-head-mobile': () => import('@/components/mobile/Schedule/group/Header/TheHeaderSchedule.vue'),
+    'schedule-body-mobile': () => import('@/components/mobile/Schedule/group/Body/TheBodySchedule.vue'),
+    'schedule-footer': () => import('@/components/mobile/Footer/Footer.vue'),
+    'scheduleHeaderDesktop': () => import('@/components/desktop/Schedule/Header/TheSheduleHeader.vue'),
+    'scheduleBodyDesktop': () => import('@/components/desktop/Schedule/Body/TheSheduleBody.vue'),
+    'scheduleBodyDesktop': () => import('@/components/desktop/Schedule/Body/TheSheduleBody.vue'),
   },
   data: () => ({
     dateAPI: new dateAPI(new Date(), true),
@@ -322,9 +330,174 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .fix--width--schedule--desktop {
   width: 100%;
   max-width: 1000px;
+}
+
+.now--lesson {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  border-inline-start: 4px solid #3f51b5;
+}
+
+.today--lesson {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  border-inline-start: 4px solid rgba(134, 134, 134, 0.404);
+}
+
+.sublesson--discipline--information--location {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sublesson--discipline--information--location > div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sublesson--discipline--information--location > div:first-child:before {
+  content: "A";
+  width: 0px;
+  visibility: hidden;
+}
+
+.sublesson--discipline--information--location > div:nth-child(2) {
+  margin-top: 1px;
+}
+
+.sublesson--discipline--information--teacher {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sublesson--discipline--information--teacher > div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sublesson--discipline--information--teacher > div:first-child:before {
+  content: "A";
+  width: 0px;
+  visibility: hidden;
+}
+
+.sublesson--discipline--information--teacher > div:nth-child(2) {
+  margin-top: 1px;
+}
+
+.sublesson--discipline--information--group {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sublesson--discipline--information--group > div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sublesson--discipline--information--group > div:first-child:before {
+  content: "A";
+  width: 0px;
+  visibility: hidden;
+}
+
+.sublesson--discipline--information--group > div:nth-child(2) {
+  margin-top: 1px;
+}
+
+.sublesson--discipline--location {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sublesson--discipline--location > div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sublesson--discipline--location > div:first-child:before {
+  content: "A";
+  width: 0px;
+  visibility: hidden;
+}
+
+.sublesson--discipline--location > div:nth-child(2) {
+  margin-top: 1px;
+}
+
+.sublesson--discipline--teacher {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sublesson--discipline--teacher > div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sublesson--discipline--teacher > div:first-child:before {
+  content: "A";
+  width: 0px;
+  visibility: hidden;
+}
+
+.sublesson--discipline--teacher > div:nth-child(2) {
+  margin-top: 1px;
+}
+
+.sublesson--discipline--group {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sublesson--discipline--group > div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sublesson--discipline--group > div:first-child:before {
+  content: "A";
+  width: 0px;
+  visibility: hidden;
+}
+
+.sublesson--discipline--group > div:nth-child(2) {
+  margin-top: 1px;
+}
+
+.sublesson--discipline--location {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.sublesson--discipline--location > div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sublesson--discipline--location > div:first-child:before {
+  content: "A";
+  width: 0px;
+  visibility: hidden;
+}
+
+.sublesson--discipline--location > div:nth-child(2) {
+  margin-top: 1px;
+}
+
+.fix--transition {
+  transition: none !important;
 }
 </style>

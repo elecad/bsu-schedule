@@ -303,15 +303,6 @@ export default {
   right: 15px;
 }
 
-.v-card:before {
-  display: none;
-}
-.fix--edit--favorite--button--position {
-  position: absolute;
-  right: 10px;
-  bottom: 15px;
-}
-
 .fix--padding--more--lesson {
   margin-bottom: 70px;
 }
@@ -321,87 +312,4 @@ export default {
   line-height: 1;
 }
 
-.sublesson--discipline--teacher {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.sublesson--discipline--teacher > div:first-child {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.sublesson--discipline--teacher > div:first-child:before {
-  content: "A";
-  width: 0px;
-  visibility: hidden;
-}
-
-.sublesson--discipline--teacher > div:nth-child(2) {
-  margin-top: 1px;
-}
-
-.sublesson--discipline--information--location {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.sublesson--discipline--information--location > div:first-child {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.sublesson--discipline--information--location > div:first-child:before {
-  content: "A";
-  width: 0px;
-  visibility: hidden;
-}
-
-.sublesson--discipline--information--location > div:nth-child(2) {
-  margin-top: 1px;
-}
-
-.sublesson--discipline--information--teacher {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.sublesson--discipline--information--teacher > div:first-child {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.sublesson--discipline--information--teacher > div:first-child:before {
-  content: "A";
-  width: 0px;
-  visibility: hidden;
-}
-
-.sublesson--discipline--information--teacher > div:nth-child(2) {
-  margin-top: 1px;
-}
-
-.sublesson--discipline--information--group {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.sublesson--discipline--information--group > div:first-child {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.sublesson--discipline--information--group > div:first-child:before {
-  content: "A";
-  width: 0px;
-  visibility: hidden;
-}
-
-.sublesson--discipline--information--group > div:nth-child(2) {
-  margin-top: 1px;
-}
 </style>
