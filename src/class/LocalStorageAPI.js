@@ -65,12 +65,17 @@ class LocalStorageAPI {
   }
 
   get favorite() {
+    console.log(123);
     try {
       const data = JSON.parse(this.LS.favorite);
       let result = [];
-      if (data.isArray) {
+      if (Array.isArray(data)) {
         result = data.filter((fav) => {
-          fav.id && fav.label && fav.type;
+          return (
+            fav.hasOwnProperty("id") &&
+            fav.hasOwnProperty("label") &&
+            fav.hasOwnProperty("type")
+          );
         });
       }
       return result;

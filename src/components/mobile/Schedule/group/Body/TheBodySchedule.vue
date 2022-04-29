@@ -115,9 +115,7 @@ export default {
   },
   watch: {
     loading(newValue, oldValue) {
-      console.log("Loading: ", newValue);
       if (newValue) {
-        // this.selected = null;
         this.openMoreLesson = false;
       }
     },

@@ -1,34 +1,29 @@
 <template>
   <v-card elevation="2" class="fix--favorite--height">
-    <v-card-title class="pb-2">
+    <v-card-title class="pb-2 fix--favorite--title--height">
       <div>Избранное</div>
       <v-spacer></v-spacer>
-      <v-btn icon @click="changeFavorite">
+      <v-btn icon @click="changeFavorite" v-if="favorite.length != 0">
         <v-icon>{{ editFavirite ? "mdi-check" : "mdi-pencil" }}</v-icon>
       </v-btn>
     </v-card-title>
 
     <v-card-text class="favorite--card--fix pt-0">
-      <app-favorite-chip
-        :edit="editFavirite"
-        type="teacher"
-        @remove-favorite-schedule="test"
-        >Бурданова Е.В.</app-favorite-chip
-      >
+      <div v-if="favorite.length != 0">
+        <v-scale-transition v-for="fav in favorite" :key="fav.id">
+          <app-favorite-chip
+            :edit="editFavirite"
+            :type="fav.type"
+            :id="fav.id"
+            >{{ fav.label }}</app-favorite-chip
+          >
+        </v-scale-transition>
+      </div>
 
-      <app-favorite-chip
-        :edit="editFavirite"
-        type="group"
-        @remove-favorite-schedule="test"
-        >12001902</app-favorite-chip
-      >
-
-      <app-favorite-chip
-        :edit="editFavirite"
-        type="location"
-        @remove-favorite-schedule="test"
-        >4-17, Учебный корпус №15</app-favorite-chip
-      >
+      <div v-else class="d-flex flex-column align-center justify-content">
+        <div class="text--disabled subtitle-2">Здесь пока ничего нет...</div>
+        <div class="text--disabled subtitle-2">Может, стоит добавить?</div>
+      </div>
     </v-card-text>
   </v-card>
 </template>
@@ -45,8 +40,10 @@ export default {
     changeFavorite() {
       this.editFavirite = !this.editFavirite;
     },
-    test() {
-      alert(123);
+  },
+  computed: {
+    favorite() {
+      return this.$store.getters.getFavorite;
     },
   },
   data: () => ({
@@ -63,6 +60,10 @@ export default {
 .favorite--card--fix {
   overflow: auto;
   max-height: calc(100vh - 650px) !important;
+}
+
+.fix--favorite--title--height {
+  height: 60px;
 }
 
 .favorite--card--fix::-webkit-scrollbar {

@@ -2,15 +2,21 @@
   <v-container fluid class="px-3 py-4 fix--padding--favorite">
     <div class="text-h5 font-weight-medium mb-5">Избранное</div>
     <div class="fix--padding--cupertino">
-      <app-favorite-chip :edit="editFavirite" type="group"
-        >12001902</app-favorite-chip
-      >
-      <app-favorite-chip :edit="editFavirite" type="teacher"
-        >Бурданова Е. В.</app-favorite-chip
-      >
-      <app-favorite-chip :edit="editFavirite" type="location"
-        >4-17, Учебный корпус №15</app-favorite-chip
-      >
+      <div v-if="favorite.length != 0">
+        <v-scale-transition v-for="fav in favorite" :key="fav.id">
+          <app-favorite-chip
+            :edit="editFavirite"
+            :type="fav.type"
+            :id="fav.id"
+            @close--bottom--sheet="$emit('close--bottom--sheet')"
+            >{{ fav.label }}</app-favorite-chip
+          >
+        </v-scale-transition>
+      </div>
+      <div v-else class="d-flex flex-column align-center justify-content">
+        <div class="text--disabled subtitle-1">Здесь пока ничего нет...</div>
+        <div class="text--disabled subtitle-1">Может, стоит добавить?</div>
+      </div>
     </div>
 
     <v-btn
@@ -19,6 +25,7 @@
       dark
       color="indigo"
       @click="editFavirite = !editFavirite"
+      v-if="favorite.length != 0"
     >
       <v-icon dark>
         {{ editFavirite ? "mdi-check" : "mdi-pencil" }}
@@ -38,6 +45,11 @@ export default {
     editFavirite: false,
   }),
   methods: {},
+  computed: {
+    favorite() {
+      return this.$store.getters.getFavorite;
+    },
+  },
 };
 </script>
 

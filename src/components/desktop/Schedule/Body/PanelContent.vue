@@ -72,7 +72,7 @@
             elevation="0"
             color="indigo"
             :disabled="!more.group"
-            v-if="!(isGroup || isLocation)"
+            v-if="!isGroup"
             @click="goNewShedule($event, 'group')"
           >
             <v-icon dark> mdi-account-supervisor </v-icon>

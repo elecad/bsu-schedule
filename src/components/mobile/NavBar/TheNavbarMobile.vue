@@ -12,7 +12,9 @@
     </v-bottom-sheet> -->
 
     <bottom-sheet id="favorite--bottom--sheet" v-model="openFavorite">
-      <favorite-mobile></favorite-mobile>
+      <favorite-mobile
+        @close--bottom--sheet="openFavorite = false"
+      ></favorite-mobile>
     </bottom-sheet>
   </nav>
 </template>

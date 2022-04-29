@@ -44,7 +44,7 @@
         </div>
         <div>
           <v-btn icon @click="favoritAction">
-            <v-icon>{{ favorit ? "mdi-star" : "mdi-star-outline" }}</v-icon>
+            <v-icon>{{ isFavorite ? "mdi-star" : "mdi-star-outline" }}</v-icon>
           </v-btn>
         </div>
       </div>
@@ -91,6 +91,34 @@ export default {
       return `${arr[0]} ${arr[1][0]}.${arr.length == 3 ? arr[2][0] + "." : ""}`;
       // return "test";
     },
+
+    isFavorite() {
+      const id = this.$route.params.id;
+      return this.getFavorite.find(
+        (fav) => fav.type == this.type && fav.id == id
+      )
+        ? true
+        : false;
+    },
+
+    getFavorite() {
+      return this.$store.getters.getFavorite;
+    },
+    getType() {
+      return this.$router.currentRoute.name;
+    },
+    getLabel() {
+      if (this.isGroup) {
+        return this.header.name.split(" ")[1];
+      } else if (this.isTeacher) {
+        return this.abbreviation;
+      } else if (this.isLocation) {
+        return `${this.header.name.split(" ")[1]},${this.header.corp}`;
+      }
+    },
+    getId() {
+      return this.$route.params.id;
+    },
     isGroup() {
       return this.type == "group";
     },
@@ -108,16 +136,29 @@ export default {
     appDatePickerMobile,
   },
   data: () => ({
-    favorit: true,
     tooltipShow: false,
   }),
   methods: {
     favoritAction() {
-      console.log("КЛИК!");
+      if (this.isFavorite) {
+        this.$store.commit("REMOVE_FAVORITE", {
+          type: this.type,
+          id: this.getId,
+        });
+      } else {
+        this.$store.commit("ADD_FAVORITE", {
+          type: this.type,
+          id: this.getId,
+          label: this.getLabel,
+        });
+      }
     },
     dateWeek(date) {
       this.$emit("date--week", date);
     },
+  },
+  created() {
+    // console.log(this.$store.getters);
   },
 };
 </script>

@@ -1,15 +1,16 @@
 <template>
-  <v-chip :color="colors[type]" text-color="white" class="ma-1">
+  <v-chip
+    :color="colors[type]"
+    text-color="white"
+    class="ma-1"
+    @click="goShedule"
+  >
     <v-avatar left>
       <v-icon>{{ `mdi-${icons[type]}` }}</v-icon>
     </v-avatar>
     <slot></slot>
     <v-scale-transition origin="center">
-      <v-icon
-        right
-        size="18"
-        v-if="edit"
-        @click="$emit('remove-favorite-schedule')"
+      <v-icon right size="18" v-if="edit" @click.stop="removeFavorite"
         >$delete</v-icon
       >
     </v-scale-transition>
@@ -40,7 +41,24 @@ export default {
       teacher: "account-circle",
     },
   }),
-  methods: {},
+  methods: {
+    removeFavorite() {
+      this.$store.commit("REMOVE_FAVORITE", {
+        type: this.type,
+        id: this.id,
+      });
+    },
+    goShedule() {
+      if (
+        !(
+          this.$router.currentRoute.name == this.type &&
+          this.$router.currentRoute.params.id == this.id
+        )
+      ) {
+        this.$router.push({ name: this.type, params: { id: this.id } });
+      }
+    },
+  },
 };
 </script>
 

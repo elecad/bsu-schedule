@@ -34,8 +34,16 @@ export default new Vuex.Store({
     ADD_FAVORITE(state, { type, id, label }) {
       if (type && id && label) {
         state.favorite.push({ type, id, label });
-        // LSAPI.favorite = state.favorite;
-        console.log(JSON.stringify(state.favorite));
+        LSAPI.favorite = state.favorite;
+      }
+    },
+
+    REMOVE_FAVORITE(state, { type, id }) {
+      if (type && id) {
+        state.favorite = state.favorite.filter((fav) => {
+          return !(fav.id == id && fav.type == type);
+        });
+        LSAPI.favorite = state.favorite;
       }
     },
   },
