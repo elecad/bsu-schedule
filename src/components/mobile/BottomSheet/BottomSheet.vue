@@ -37,18 +37,20 @@ export default {
       fitHeight: true,
       backdrop: true,
       bottomClose: true,
-      onWillPresent: (e) => {
+      onDidPresent: (e) => {
         this.stopScroll();
         this.$emit("input", true);
       },
       onWillDismiss: (e) => {
+        this.startScroll();    
         this.$emit("input", false);
-        this.startScroll();
       },
       onBackdropTap: (e) => {
         this.closeSheetTapBackdrop();
-        this.startScroll();
       },
+      onTransitionEnd: () => {
+        this.startScroll();
+      }
     };
     this.panel = new CupertinoPane(this.$el, settings);
   },
@@ -61,23 +63,33 @@ export default {
         : "#c0c0c0";
     },
     stopScroll() {
-      document.body.style.overscrollBehaviorY = "contain";
-      document.querySelector("html").style.overflow = "hidden";
+      let backdropEl =  document.querySelector('.cupertino-pane-wrapper .backdrop');
+      let paneEl = document.querySelector('.cupertino-pane-wrapper .pane');
+
+      if (!backdropEl || !paneEl)
+        return;
+
+      backdropEl.style.touchAction = 'none';
+
+      paneEl.addEventListener('touchmove', (e) => {
+        if (document.body.style.overscrollBehaviorY == 'contain')
+          return;
+
+        document.body.style.overscrollBehaviorY = "contain";
+        document.querySelector('html').style.overflow = "hidden";
+      });
     },
     startScroll() {
-      setTimeout(() => {
-        document.body.style.overscrollBehaviorY = "auto";
-        document.querySelector("html").style.overflow = "auto";
-      }, 150);
+      document.body.style.overscrollBehaviorY = "auto";
+      document.querySelector('html').style.overflow = "auto";
     },
     closeSheet() {
-      console.log("Закрытие!");
       this.panel.destroy({ animate: true });
+      this.$emit("input", false);
     },
     closeSheetTapBackdrop() {
       this.panel.destroy({ animate: true });
       this.$emit("input", false);
-      this.startScroll();
     },
   },
 };
