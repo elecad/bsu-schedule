@@ -72,11 +72,11 @@ export default {
       let fullWeek = this.dateAPI.getFullArrayWeek();
       fullWeek = [fullWeek[0], fullWeek[6]];
 
-      let e = +new Date(this.date[0]).setHours(0, 0, 0);
-      let f = +new Date(fullWeek[0]).setHours(0, 0, 0);
-      let t = +new Date(fullWeek[1]).setHours(23, 59, 59);
+      let e = new Date(this.date[0]).setHours(0, 0, 0);
+      let f = new Date(fullWeek[0]).setHours(0, 0, 0);
+      let t = new Date(fullWeek[1]).setHours(23, 59, 59);
 
-      if (!(e > f && e < t)) {
+      if (!(e >= f && e <= t)) {
         this.$emit("date--week", this.date[0]);
       } else {
         this.date = fullWeek;
