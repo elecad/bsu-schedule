@@ -3,7 +3,9 @@ const FAVORITE_NAME = "favorite";
 const SETTINGS_NAME = "settings";
 const WELCOME_TYPE_NAME = "welcome";
 
-const DEFAULT_LAST = {};
+const DEFAULT_LAST = {
+  type: WELCOME_TYPE_NAME,
+};
 const DEFAULT_FAVORITE = [];
 const DEFAULT_SETTINGS = {
   dark: false,
@@ -17,7 +19,7 @@ class LocalStorageAPI {
 
   constructor() {
     this.LS = localStorage;
-    console.log(this.check);
+
     if (this.check) {
       localStorage.setItem(LAST_NAME, JSON.stringify(DEFAULT_LAST));
       localStorage.setItem(FAVORITE_NAME, JSON.stringify(DEFAULT_FAVORITE));
@@ -47,16 +49,12 @@ class LocalStorageAPI {
           id: data.id,
         };
       } else {
-        result = {
-          type: WELCOME_TYPE_NAME,
-        };
+        result = DEFAULT_LAST;
       }
       return result;
     } catch (e) {
       this._setLastDefault();
-      return {
-        type: WELCOME_TYPE_NAME,
-      };
+      return DEFAULT_LAST;
     }
   }
 
@@ -65,7 +63,6 @@ class LocalStorageAPI {
   }
 
   get favorite() {
-    console.log(123);
     try {
       const data = JSON.parse(this.LS.favorite);
       let result = [];
@@ -81,12 +78,43 @@ class LocalStorageAPI {
       return result;
     } catch (e) {
       this._setFavoriteDefault();
-      return [];
+      return DEFAULT_FAVORITE;
     }
   }
 
   set favorite(value) {
     localStorage.setItem(FAVORITE_NAME, JSON.stringify(value));
+  }
+
+  get settings() {
+    try {
+      const data = JSON.parse(this.LS.settings);
+      return {
+        dark:
+          "dark" in data && typeof data.dark == "boolean"
+            ? data.dark
+            : DEFAULT_SETTINGS.dark,
+        autoNextWeek:
+          "autoNextWeek" in data && typeof data.autoNextWeek == "boolean"
+            ? data.autoNextWeek
+            : DEFAULT_SETTINGS.autoNextWeek,
+        weakDesktop:
+          "weakDesktop" in data && typeof data.weakDesktop == "boolean"
+            ? data.weakDesktop
+            : DEFAULT_SETTINGS.weakDesktop,
+        weakMobile:
+          "weakMobile" in data && typeof data.weakMobile == "boolean"
+            ? data.weakMobile
+            : DEFAULT_SETTINGS.weakMobile,
+      };
+    } catch (e) {
+      this._setSettingsDefault();
+      return DEFAULT_SETTINGS;
+    }
+  }
+
+  set settings(value) {
+    localStorage.setItem(SETTINGS_NAME, JSON.stringify(value));
   }
 
   get check() {

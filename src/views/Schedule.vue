@@ -68,9 +68,6 @@
         ></scheduleBodyDesktop>
       </v-container>
     </v-main>
-
-    <!-- <h3 class="hidden-sm-and-down">PC</h3>
-    <h3 class="hidden-md-and-up">Mobile</h3> -->
   </div>
 </template>
 
@@ -107,7 +104,7 @@ export default {
     scheduleType: null,
     controller: new AbortController(),
     isMobile: window.innerWidth > 959 ? false : true,
-    test: new Date(),
+    updateTimer: null,
   }),
   watch: {
     $route(to, from) {
@@ -148,8 +145,6 @@ export default {
         console.log("МОБИЛЬНАЯ ВЕРСИЯ ВЕРСИЯ!");
         this.isMobile = true;
       }
-      console.log(new Date().getTime() - this.test.getTime());
-      this.test = new Date();
     },
 
     nextWeek() {
@@ -248,26 +243,36 @@ export default {
       this.loading();
     },
     findCurrentLesson() {
-      const today = this.dateAPI.getTodayBsuAPI(new Date()); // сегодня строкой
+      clearTimeout(this.updateTimer);
+
+      let re = /(\d+)\.(\d+)\.(\d+)/;
+
+      let today = new Date();
+      today = [
+        today.getFullYear(),
+        ("0" + (today.getMonth() + 1)).slice(-2),
+        ("0" + today.getDate()).slice(-2),
+      ].join("-");
+
+      // const today = this.dateAPI.getTodayBsuAPI(new Date()).replace; // сегодня строкой
       const now = new Date();
 
       let findToday = false;
       let min = now.getTime() + 604800000; // Текущая дата + неделя
       let interval = 0;
+
       this.body.forEach((day) => {
-        let validDate = day.date.split(".");
-        [validDate[0], validDate[1]] = [validDate[1], validDate[0]];
-        validDate = validDate.join(".");
+        let validDate = day.date.replace(re, "$3-$2-$1");
 
         interval = new Date(validDate) - now.getTime();
         min = interval > 0 && interval < min ? interval : min;
 
-        if (day.date == today) {
+        if (validDate == today) {
           day.today = true;
           findToday = true;
           day.lessons.forEach((lesson) => {
-            const startDate = new Date(`${validDate} ${lesson.startTime}`);
-            const endDate = new Date(`${validDate} ${lesson.endTime}`);
+            const startDate = new Date(`${validDate}T${lesson.startTime}`);
+            const endDate = new Date(`${validDate}T${lesson.endTime}`);
 
             interval = startDate.getTime() - now.getTime();
             min = interval > 0 && interval < min ? interval : min;
@@ -287,12 +292,14 @@ export default {
 
         //! Поиск задержки для следующего обновления
       });
+
       this.nowButtonVisible = findToday;
-      console.log("min: ", min);
-      if (min < 604800000) {
+
+      if (findToday) {
         // 7 суток
         console.log("Сработает: ", new Date(now.getTime() + min));
-        setTimeout(() => {
+
+        this.updateTimer = setTimeout(() => {
           console.log("Обновление!");
           this.findCurrentLesson();
         }, min);
@@ -301,6 +308,16 @@ export default {
   },
   created() {
     this.INIT();
+
+    document.addEventListener("visibilitychange", (event) => {
+      if (
+        document.visibilityState == "visible" &&
+        this.body &&
+        this.body.length
+      ) {
+        this.findCurrentLesson();
+      }
+    });
   },
 };
 </script>
@@ -310,11 +327,4 @@ export default {
   width: 100%;
   max-width: 1000px;
 }
-
-/* @media (max-width: 1150px) {
-  .fix--width--schedule--desktop {
-    width: calc(100% - 150px);
-    max-width: 1000px;
-  }
-} */
 </style>

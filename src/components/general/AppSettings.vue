@@ -13,7 +13,7 @@
       <v-card-text class="text--primary">
         <div class="d-flex justify-space-between align-center">
           <div class="text-subtitle-1">Тема приложения:</div>
-          <v-btn-toggle borderless>
+          <v-btn-toggle borderless v-model="theme">
             <v-btn>
               <v-icon>mdi-weather-sunny</v-icon>
             </v-btn>
@@ -34,7 +34,12 @@
           </div>
 
           <div class="pl-5 py-2">
-            <v-switch hide-details inset color="indigo"></v-switch>
+            <v-switch
+              hide-details
+              inset
+              color="indigo"
+              v-model="autoNextWeek"
+            ></v-switch>
           </div>
         </div>
 
@@ -48,7 +53,12 @@
           </div>
 
           <div class="pl-5 py-2">
-            <v-switch hide-details inset color="indigo"></v-switch>
+            <v-switch
+              hide-details
+              inset
+              color="indigo"
+              v-model="weakDesktop"
+            ></v-switch>
           </div>
         </div>
 
@@ -63,7 +73,12 @@
             </div>
           </div>
           <div class="pl-5 py-2">
-            <v-switch hide-details inset color="indigo"></v-switch>
+            <v-switch
+              hide-details
+              inset
+              color="indigo"
+              v-model="weakMobile"
+            ></v-switch>
           </div>
         </div>
 
@@ -87,8 +102,39 @@
 <script>
 export default {
   name: "Settings",
+  computed: {
+    settings() {
+      return this.$store.getters.getSettings;
+    },
+  },
+  watch: {
+    theme(newVal) {
+      this.$store.commit("dark", newVal ? true : false);
+    },
+    autoNextWeek(newVal) {
+      this.$store.commit("autoNextWeek", newVal);
+    },
+    weakDesktop(newVal) {
+      this.$store.commit("weakDesktop", newVal);
+    },
+    weakMobile(newVal) {
+      this.$store.commit("weakMobile", newVal);
+    },
+  },
   props: {
     value: Boolean,
+  },
+  data: () => ({
+    theme: 0,
+    autoNextWeek: false,
+    weakDesktop: false,
+    weakMobile: false,
+  }),
+  created() {
+    this.theme = this.$store.getters.getSettings.dark ? 1 : 0;
+    this.autoNextWeek = this.$store.getters.getSettings.autoNextWeek;
+    this.weakDesktop = this.$store.getters.getSettings.weakDesktop;
+    this.weakMobile = this.$store.getters.getSettings.weakMobile;
   },
 };
 </script>

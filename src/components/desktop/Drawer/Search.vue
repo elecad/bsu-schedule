@@ -4,7 +4,7 @@
       <v-autocomplete
         class="elevation-2"
         @change="goNewSchedule"
-        v-model="select"
+        v-model.trim="select"
         :search-input.sync="searchText"
         :items="autocomplete"
         :loading="loading"

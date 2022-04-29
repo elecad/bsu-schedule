@@ -35,9 +35,7 @@
               text-color="white"
               v-if="sublesson.subgroup"
             >
-              <span class="fix--width--chip--subgrpup"
-                >{{ sublesson.subgroup }}
-              </span></v-chip
+              <span>{{ sublesson.subgroup }} </span></v-chip
             >
 
             <v-chip
