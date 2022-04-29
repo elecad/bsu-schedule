@@ -188,7 +188,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .fix--border--radius--card {
   border-radius: 0px !important;
 }
@@ -213,68 +213,5 @@ export default {
   position: absolute !important;
   top: calc(50% - 12px);
   right: 7px;
-}
-
-.sublesson--discipline--teacher {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.sublesson--discipline--teacher > div:first-child {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.sublesson--discipline--teacher > div:first-child:before {
-  content: "A";
-  width: 0px;
-  visibility: hidden;
-}
-
-.sublesson--discipline--teacher > div:nth-child(2) {
-  margin-top: 1px;
-}
-
-.sublesson--discipline--group {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.sublesson--discipline--group > div:first-child {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.sublesson--discipline--group > div:first-child:before {
-  content: "A";
-  width: 0px;
-  visibility: hidden;
-}
-
-.sublesson--discipline--group > div:nth-child(2) {
-  margin-top: 1px;
-}
-
-.sublesson--discipline--location {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.sublesson--discipline--location > div:first-child {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.sublesson--discipline--location > div:first-child:before {
-  content: "A";
-  width: 0px;
-  visibility: hidden;
-}
-
-.sublesson--discipline--location > div:nth-child(2) {
-  margin-top: 1px;
 }
 </style>

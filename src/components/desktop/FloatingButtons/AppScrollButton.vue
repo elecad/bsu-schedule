@@ -41,8 +41,4 @@ export default {
   bottom: 15px;
   right: 30px;
 }
-
-.fix--button--floating::before {
-  display: none;
-}
 </style>

@@ -114,26 +114,6 @@ export default {
 </script>
 
 <style scoped>
-.edit--text--button {
-  font-size: 0.875rem;
-}
-
-@media (max-width: 315px) {
-  .edit--text--button {
-    font-size: 0.6rem !important;
-  }
-}
-
-@media (max-width: 320px) {
-  .v-dialog.v-dialog--active {
-    margin-left: 3px !important;
-    margin-right: 3px !important;
-  }
-}
-
-.v-btn--text:before {
-  display: none;
-}
 * >>> .v-date-picker-table {
   font-size: 10px !important;
 }

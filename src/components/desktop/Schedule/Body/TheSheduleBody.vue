@@ -191,20 +191,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @media (max-width: 319px) {
   .fix--font--size--course--buttons {
     font-size: 0.7rem !important;
   }
 }
 
-.testttt {
-  position: sticky;
-  top: 0px;
-}
-
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active,
-.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active .v-icon,
+.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active >>> .v-icon,
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--mousedown,
 .v-expansion-panels:not(.theme--dark)
   .v-expansion-panel-header--mousedown
@@ -212,47 +207,16 @@ export default {
   color: #0c63e4 !important;
 }
 
-.v-expansion-panels:not(.theme--dark) .v-chip {
+/* .v-expansion-panels:not(.theme--dark) >>> .v-chip {
   transition: 0.3s;
-}
+} */
 
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header {
   transition: 0.3s min-height cubic-bezier(0.25, 0.8, 0.5, 1), 0.3s color !important;
 }
 
-.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active .v-chip,
-.v-expansion-panels:not(.theme--dark)
-  .v-expansion-panel-header--mousedown
-  .v-chip {
-  background-color: #e7f1ff;
-}
-
-.now--lesson {
-  position: absolute;
-  height: 100%;
-  left: 0;
-  border-inline-start: 4px solid #3f51b5;
-}
-
-.today--lesson {
-  position: absolute;
-  height: 100%;
-  left: 0;
-  border-inline-start: 4px solid rgba(134, 134, 134, 0.404);
-}
-
-.fix--transition {
-  transition: none !important;
-}
-
-.v-expansion-panel-header .sublesson--discipline--teacher,
-.v-expansion-panel-header .sublesson--discipline--location,
-.v-expansion-panel-header
-  .v-expansion-panel-header.sublesson--discipline--group {
-  font-size: 0.8rem !important;
-}
-
-.v-expansion-panel-header .sublesson--discipline--name {
-  font-size: 1rem !important;
-}
+/* .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active >>> .v-chip,
+.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--mousedown >>>  .v-chip {
+  opacity: 0.7 !important;
+} */
 </style>
