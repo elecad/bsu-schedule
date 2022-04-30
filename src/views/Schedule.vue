@@ -279,8 +279,8 @@ export default {
             interval = endDate.getTime() - now.getTime();
             min = interval > 0 && interval < min ? interval : min;
 
-            // lesson.isNow = startDate < now && now < endDate;
-            lesson.isNow = true;
+            lesson.isNow = startDate < now && now < endDate;
+
             lesson.isToday = true;
           });
         } else {
