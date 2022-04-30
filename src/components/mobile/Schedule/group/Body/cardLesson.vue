@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-card
-      class="fix--border--radius--card"
+      class="fix--border--radius--card transition--card"
+      :class="{ 'hover--card': isHover }"
       elevation="0"
       @click.native="openCupertiono($event, sublesson)"
     >
@@ -115,7 +116,10 @@
           </div>
         </div>
       </div>
-      <v-icon v-show="hasMoreInfo" class="fix--position--more--icon"
+      <v-icon
+        v-show="hasMoreInfo"
+        class="fix--position--more--icon"
+        :class="{ 'icon--transition': isHover }"
         >mdi-chevron-right</v-icon
       >
     </v-card>
@@ -134,6 +138,10 @@ export default {
     last: Boolean,
     type: String,
   },
+  data: () => ({
+    isHover: false,
+    duration: 500,
+  }),
   computed: {
     hasMoreInfo() {
       switch (this.$router.currentRoute.name) {
@@ -181,6 +189,10 @@ export default {
     },
     openCupertiono(_, sublesson) {
       if (this.hasMoreInfo) {
+        this.isHover = true;
+        setTimeout(() => {
+          this.isHover = false;
+        }, this.duration);
         this.$emit("show--cupertiono--lesson", sublesson, this.lesson.isNow);
       }
     },
@@ -213,5 +225,23 @@ export default {
   position: absolute !important;
   top: calc(50% - 12px);
   right: 7px;
+}
+
+* >>> .hover--card {
+  background-color: #e2edfc !important;
+  color: #0c63e4 !important;
+}
+
+.hover--card >>> .v-icon {
+  color: #0c63e4 !important;
+}
+
+.transition--card {
+  transition: 0.2s;
+  transition-property: background-color, color;
+}
+
+.icon--transition {
+  right: 3px;
 }
 </style>

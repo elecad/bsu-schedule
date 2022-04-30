@@ -90,7 +90,7 @@
 import appCurrentButton from "@/components/mobile/FloatingButtons/AppCurrentButton.vue";
 import appScrollButton from "@/components/mobile/FloatingButtons/AppScrollButton.vue";
 import { debounce } from "@/plugins/debounce";
-import dayHeader from "@/components/mobile/Schedule/group/Body/dayHeader.vue";
+import dayHeader from "@/components/general/dayHeader.vue";
 import cardLesson from "@/components/mobile/Schedule/group/Body/cardLesson.vue";
 import moreLesson from "@/components/mobile/Schedule/group/Body/moreLesson.vue";
 import bottomSheet from "@/components/mobile/BottomSheet/BottomSheet.vue";

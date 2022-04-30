@@ -34,9 +34,11 @@
         >
       </div>
       <div
-        class="sublesson--discipline--name--bottom--sheet font-weight-medium mt-3 mb-5 mr-2"
+        class="sublesson--discipline--name--bottom--sheet font-weight-medium mt-3 mb-5 mr-4"
       >
-        <div class="now--lesson--bottom--sheet" v-if="isNow">●</div>
+        <div class="now--lesson--bottom--sheet" v-if="isNow">
+          <v-icon x-small color="indigo">mdi-checkbox-blank-circle</v-icon>
+        </div>
         {{ more.sublesson.name }}
         <small class="text--disabled" v-if="more.sublesson.subname">{{
           more.sublesson.subname
@@ -298,7 +300,14 @@ export default {
 
 <style scoped>
 .now--lesson--bottom--sheet {
-  color: #5c6bc0;
+  /* color: #5c6bc0;
+  position: absolute;
+  right: 15px;
+  font-size: 16px;
+  -webkit-text-size-adjust: none;
+  font-weight: normal;
+  font-style: normal; */
+
   position: absolute;
   right: 15px;
 }
@@ -311,5 +320,4 @@ export default {
   font-size: 1.2rem;
   line-height: 1;
 }
-
 </style>

@@ -243,7 +243,8 @@ export default {
       this.loading();
     },
     findCurrentLesson() {
-      clearTimeout(this.updateTimer);
+      if (!this.body) return;
+      if (this.updateTimer) clearTimeout(this.updateTimer);
 
       let re = /(\d+)\.(\d+)\.(\d+)/;
 
@@ -278,7 +279,8 @@ export default {
             interval = endDate.getTime() - now.getTime();
             min = interval > 0 && interval < min ? interval : min;
 
-            lesson.isNow = startDate < now && now < endDate;
+            // lesson.isNow = startDate < now && now < endDate;
+            lesson.isNow = true;
             lesson.isToday = true;
           });
         } else {
@@ -294,7 +296,7 @@ export default {
 
       this.nowButtonVisible = findToday;
 
-      if (findToday) {
+      if (findToday && min < 604800000) {
         // 7 суток
         console.log("Сработает: ", new Date(now.getTime() + min));
 

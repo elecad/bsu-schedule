@@ -5,7 +5,9 @@
     :threshold="[1]"
   >
     <v-card class="mb-3 elevation-2 fix--position--day--card" color="indigo">
-      <div class="now--day" v-if="today">●</div>
+      <div class="now--day" v-if="today">
+        <v-icon dark x-small>mdi-checkbox-blank-circle</v-icon>
+      </div>
       <v-card-title class="py-1">
         <v-card-title class="white--text py-1 fix--day--name">{{
           week
@@ -58,10 +60,9 @@ export default {
 }
 
 .now--day {
-  color: white;
   position: absolute;
   top: 12px;
-  left: 15px;
+  left: 12px;
 }
 
 @media (max-width: 317px) {
