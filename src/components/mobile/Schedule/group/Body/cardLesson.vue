@@ -2,7 +2,10 @@
   <div>
     <v-card
       class="fix--border--radius--card transition--card"
-      :class="{ 'hover--card': isHover }"
+      :class="{
+        'hover--card--light': isHover && !isDark,
+        'hover--card--dark': isHover && isDark,
+      }"
       elevation="0"
       @click.native="openCupertiono($event, sublesson)"
     >
@@ -168,6 +171,9 @@ export default {
           break;
       }
     },
+    isDark() {
+      return this.$store.getters.getSettings.dark;
+    },
     isGroup() {
       return this.type == "group";
     },
@@ -227,13 +233,17 @@ export default {
   right: 7px;
 }
 
-* >>> .hover--card {
+* >>> .hover--card--light {
   background-color: #e2edfc !important;
   color: #0c63e4 !important;
 }
 
-.hover--card >>> .v-icon {
+.hover--card--light >>> .v-icon {
   color: #0c63e4 !important;
+}
+
+* >>> .hover--card--dark {
+  background-color: #3d3d3d !important;
 }
 
 .transition--card {

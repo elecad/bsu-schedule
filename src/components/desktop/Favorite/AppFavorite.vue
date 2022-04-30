@@ -8,7 +8,13 @@
       </v-btn>
     </v-card-title>
 
-    <v-card-text class="favorite--card--fix pt-0">
+    <v-card-text
+      class="favorite--card--fix pt-0"
+      :class="{
+        'favorite--lignt--scroll': !theme,
+        'favorite--dark--scroll': theme,
+      }"
+    >
       <div v-if="favorite.length != 0">
         <app-favorite-chip
           v-for="fav in favorite"
@@ -45,6 +51,9 @@ export default {
     favorite() {
       return this.$store.getters.getFavorite;
     },
+    theme() {
+      return this.$vuetify.theme.dark;
+    },
   },
   data: () => ({
     editFavirite: false,
@@ -66,7 +75,7 @@ export default {
   height: 60px;
 }
 
-.favorite--card--fix::-webkit-scrollbar {
+/* .favorite--card--fix::-webkit-scrollbar {
   width: 5px;
   background-color: #f9f9fd;
 }
@@ -79,5 +88,36 @@ export default {
 .favorite--card--fix::-webkit-scrollbar-track {
   border-radius: 5px;
   background-color: white;
+} */
+
+.favorite--lignt--scroll::-webkit-scrollbar {
+  width: 5px;
+  background-color: #f9f9fd;
+}
+
+.favorite--lignt--scroll::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #cccccc;
+}
+
+.favorite--lignt--scroll::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: white;
+}
+
+.favorite--dark--scroll::-webkit-scrollbar {
+  width: 5px;
+
+  background-color: #121212;
+}
+
+.favorite--dark--scroll::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #757575;
+}
+
+.favorite--dark--scroll::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: #121212;
 }
 </style>

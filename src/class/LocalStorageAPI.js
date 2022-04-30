@@ -11,7 +11,6 @@ const DEFAULT_SETTINGS = {
   dark: false,
   autoNextWeek: true,
   weakDesktop: false,
-  weakMobile: false,
 };
 
 class LocalStorageAPI {
@@ -102,10 +101,6 @@ class LocalStorageAPI {
           "weakDesktop" in data && typeof data.weakDesktop == "boolean"
             ? data.weakDesktop
             : DEFAULT_SETTINGS.weakDesktop,
-        weakMobile:
-          "weakMobile" in data && typeof data.weakMobile == "boolean"
-            ? data.weakMobile
-            : DEFAULT_SETTINGS.weakMobile,
       };
     } catch (e) {
       this._setSettingsDefault();

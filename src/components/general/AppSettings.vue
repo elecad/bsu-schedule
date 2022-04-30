@@ -13,7 +13,12 @@
       <v-card-text class="text--primary">
         <div class="d-flex justify-space-between align-center">
           <div class="text-subtitle-1">Тема приложения:</div>
-          <v-btn-toggle borderless v-model="theme">
+          <v-btn-toggle
+            borderless
+            v-model="theme"
+            @change="changeTheme"
+            mandatory
+          >
             <v-btn>
               <v-icon>mdi-weather-sunny</v-icon>
             </v-btn>
@@ -62,26 +67,6 @@
           </div>
         </div>
 
-        <div class="d-flex justify-space-between align-start mt-4">
-          <div class="">
-            <div class="text-subtitle-1">
-              Упрощённая версия для мобильных устройств:
-            </div>
-            <div class="text-caption text--secondary">
-              Если у вас слабое мобильное устройство, воспользуетесь этой
-              настройкой для увеличения производительности приложения
-            </div>
-          </div>
-          <div class="pl-5 py-2">
-            <v-switch
-              hide-details
-              inset
-              color="indigo"
-              v-model="weakMobile"
-            ></v-switch>
-          </div>
-        </div>
-
         <v-container fluid class="py-0 px-0 pt-6">
           <v-btn color="primary" class="fix--width--about--button">
             О проекте
@@ -100,6 +85,8 @@
 </template>
 
 <script>
+import SystemUI from "@/class/SystemUI";
+
 export default {
   name: "Settings",
   computed: {
@@ -117,9 +104,6 @@ export default {
     weakDesktop(newVal) {
       this.$store.commit("weakDesktop", newVal);
     },
-    weakMobile(newVal) {
-      this.$store.commit("weakMobile", newVal);
-    },
   },
   props: {
     value: Boolean,
@@ -128,8 +112,20 @@ export default {
     theme: 0,
     autoNextWeek: false,
     weakDesktop: false,
-    weakMobile: false,
   }),
+  methods: {
+    changeTheme(event) {
+      this.$vuetify.theme.dark = event ? true : false;
+      SystemUI.changeThemeAppBar();
+      if (event) {
+        document.body.classList.remove("light");
+        document.body.classList.add("dark");
+      } else {
+        document.body.classList.remove("dark");
+        document.body.classList.add("light");
+      }
+    },
+  },
   created() {
     this.theme = this.$store.getters.getSettings.dark ? 1 : 0;
     this.autoNextWeek = this.$store.getters.getSettings.autoNextWeek;

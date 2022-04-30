@@ -3,7 +3,7 @@
     permanent
     app
     width="400"
-    class="fix--navigation--drawer elevation-1ы"
+    class="fix--navigation--drawer elevation-1"
   >
     <div class="logo mt-4 mb-6">
       <div
@@ -50,6 +50,20 @@ export default {
   props: {
     dateAPI: Object,
   },
+  computed: {
+    favorite() {
+      return this.$store.getters.getFavorite;
+    },
+  },
+  watch: {
+    settingsOpen(nevValue) {
+      if (nevValue) {
+        this.stopScroll();
+      } else {
+        this.startScroll();
+      }
+    },
+  },
   components: {
     desktopSearch,
     desktopFavorite,
@@ -59,6 +73,14 @@ export default {
   methods: {
     dateWeek(date) {
       this.$emit("date--week", date);
+    },
+    stopScroll() {
+      document.body.style.overscrollBehaviorY = "contain";
+      document.querySelector("html").style.overflow = "hidden";
+    },
+    startScroll() {
+      document.body.style.overscrollBehaviorY = "auto";
+      document.querySelector("html").style.overflow = "auto";
     },
   },
 

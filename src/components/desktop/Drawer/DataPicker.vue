@@ -125,4 +125,12 @@ export default {
 * >>> .v-date-picker-title__year {
   font-size: 1rem !important;
 }
+
+* >>> .v-date-picker-table.v-date-picker-table--date.theme--dark {
+  background-color: #1e1e1e;
+}
+
+* >>> .v-date-picker-header.theme--dark {
+  background-color: #1e1e1e;
+}
 </style>
