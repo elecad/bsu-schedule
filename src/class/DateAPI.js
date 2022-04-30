@@ -131,4 +131,8 @@ export default class DateAPI {
       "dd mmm"
     )}`;
   }
+
+  get autoNextWeek() {
+    return this.autoNextWeek;
+  }
 }

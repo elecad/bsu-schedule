@@ -53,8 +53,6 @@ export default {
       },
     };
     this.panel = new CupertinoPane(this.$el, settings);
-    document.body.style.overflowY = "auto";
-    document.querySelector("html").style.overflow = "auto";
   },
 
   methods: {

@@ -13,7 +13,7 @@
       ></nav-drawer-desktop>
     </div>
 
-    <v-main>
+    <v-main :style="{ paddingLeft: isMobile ? '0px' : '400px' }">
       <v-container v-if="isMobile" class="schedule--mobile pa-2">
         <schedule-head-mobile
           :header="header"
@@ -48,6 +48,7 @@
         <scheduleHeaderDesktop
           :header="header"
           :loading="isHeaderLoading"
+          :autoChange="dateAPI.autoNextWeek"
           @next--week="nextWeek"
           @back--week="backWeek"
           @date--week="dateWeek"
@@ -72,34 +73,27 @@
 </template>
 
 <script>
-// import navBarMobile from "@/components/mobile/NavBar/TheNavbarMobile.vue";
-// import navDrawerDesktop from "@/components/desktop/Drawer/Drawer.vue";
-// import scheduleHeadMobile from "@/components/mobile/Schedule/group/Header/TheHeaderSchedule.vue";
-// import scheduleBodyMobile from "@/components/mobile/Schedule/group/Body/TheBodySchedule.vue";
-// import scheduleFooter from "@/components/mobile/Footer/Footer.vue";
 import dateAPI from "@/class/DateAPI";
 import parsers from "@/parser/parsers";
-// import scheduleHeaderDesktop from "@/components/desktop/Schedule/Header/TheSheduleHeader.vue";
-// import scheduleBodyDesktop from "@/components/desktop/Schedule/Body/TheSheduleBody.vue";
 
 export default {
   name: "ScheduleView",
   components: {
-    // navBarMobile,
-    // navDrawerDesktop,
-    // scheduleHeadMobile,
-    // scheduleBodyMobile,
-    // scheduleFooter,
-    // scheduleHeaderDesktop,
-    // scheduleBodyDesktop,
-    'nav-bar-mobile': () => import('@/components/mobile/NavBar/TheNavbarMobile.vue'),
-    'nav-drawer-desktop': () => import('@/components/desktop/Drawer/Drawer.vue'),
-    'schedule-head-mobile': () => import('@/components/mobile/Schedule/group/Header/TheHeaderSchedule.vue'),
-    'schedule-body-mobile': () => import('@/components/mobile/Schedule/group/Body/TheBodySchedule.vue'),
-    'schedule-footer': () => import('@/components/mobile/Footer/Footer.vue'),
-    'scheduleHeaderDesktop': () => import('@/components/desktop/Schedule/Header/TheSheduleHeader.vue'),
-    'scheduleBodyDesktop': () => import('@/components/desktop/Schedule/Body/TheSheduleBody.vue'),
-    'scheduleBodyDesktop': () => import('@/components/desktop/Schedule/Body/TheSheduleBody.vue'),
+    "nav-bar-mobile": () =>
+      import("@/components/mobile/NavBar/TheNavbarMobile.vue"),
+    "nav-drawer-desktop": () =>
+      import("@/components/desktop/Drawer/Drawer.vue"),
+    "schedule-head-mobile": () =>
+      import("@/components/mobile/Schedule/group/Header/TheHeaderSchedule.vue"),
+    "schedule-body-mobile": () =>
+      import("@/components/mobile/Schedule/group/Body/TheBodySchedule.vue"),
+    "schedule-footer": () => import("@/components/mobile/Footer/Footer.vue"),
+    "scheduleHeaderDesktop": () =>
+      import("@/components/desktop/Schedule/Header/TheSheduleHeader.vue"),
+    "scheduleBodyDesktop": () =>
+      import("@/components/desktop/Schedule/Body/TheSheduleBody.vue"),
+    "scheduleBodyDesktop": () =>
+      import("@/components/desktop/Schedule/Body/TheSheduleBody.vue"),
   },
   data: () => ({
     dateAPI: new dateAPI(new Date(), true),
@@ -113,6 +107,7 @@ export default {
     controller: new AbortController(),
     isMobile: window.innerWidth > 959 ? false : true,
     updateTimer: null,
+    autoChangeWeek: false,
   }),
   watch: {
     $route(to, from) {
@@ -122,9 +117,6 @@ export default {
     },
   },
   computed: {
-    dateISO() {
-      return this.dateAPI.getDateISO();
-    },
     isGroup() {
       return this.scheduleType == "group";
     },
@@ -262,7 +254,6 @@ export default {
         ("0" + today.getDate()).slice(-2),
       ].join("-");
 
-      // const today = this.dateAPI.getTodayBsuAPI(new Date()).replace; // сегодня строкой
       const now = new Date();
 
       let findToday = false;
@@ -314,7 +305,7 @@ export default {
       }
     },
   },
-  created() {
+  mounted() {
     this.INIT();
 
     document.addEventListener("visibilitychange", (event) => {

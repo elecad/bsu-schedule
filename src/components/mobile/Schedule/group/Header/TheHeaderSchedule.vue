@@ -79,7 +79,6 @@ export default {
   props: {
     header: Object,
     loading: Boolean,
-
     dateAPI: Object,
     type: String,
   },

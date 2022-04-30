@@ -55,8 +55,16 @@
         <v-btn @click="$emit('back--week')" text>
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
-        <v-badge color="indigo" overlap content="АВТО" class="auto--badge">
-        </v-badge>
+        <v-scale-transition>
+          <v-badge
+            v-if="autoChange"
+            color="indigo"
+            overlap
+            content="АВТО"
+            class="auto--badge"
+          >
+          </v-badge>
+        </v-scale-transition>
         <v-btn
           class="edit--text--button"
           text
@@ -82,6 +90,7 @@ export default {
     header: Object,
     loading: Boolean,
     type: String,
+    autoChange: Boolean,
   },
 
   watch: {},
@@ -185,7 +194,8 @@ export default {
 
 .auto--badge {
   position: absolute;
-  left: calc(50% - 13px);
+  left: calc(50% - 42.39px / 4);
+  /* left: calc (100% - 42.39px / 2); */
   top: -6px;
 }
 </style>
