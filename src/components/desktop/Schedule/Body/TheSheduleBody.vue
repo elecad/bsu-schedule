@@ -19,6 +19,7 @@
               <v-expansion-panel
                 v-for="(sublesson, j) in lesson.content"
                 :key="j"
+                :class="{ 'fix--transition': weakDesktop }"
               >
                 <!-- //!Рендер занятий сегодня / текущего занятия -->
                 <panel-header
@@ -89,9 +90,6 @@ import appCurrentButton from "@/components/desktop/FloatingButtons/AppCurrentBut
 import appScrollButton from "@/components/desktop/FloatingButtons/AppScrollButton.vue";
 import { debounce } from "@/plugins/debounce";
 import dayHeader from "@/components/general/dayHeader.vue";
-// import cardLesson from "@/components/mobile/Schedule/group/Body/cardLesson.vue";
-// import moreLesson from "@/components/mobile/Schedule/group/Body/moreLesson.vue";
-// import bottomSheet from "@/components/mobile/BottomSheet/BottomSheet.vue";
 import notLesson from "@/components/general/NotLesson.vue";
 import panelHeader from "@/components/desktop/Schedule/Body/PanelHeader.vue";
 import panelContent from "@/components/desktop/Schedule/Body/PanelContent.vue";
@@ -166,7 +164,11 @@ export default {
     previousTop: 0,
     tooltipSubgroupShow: false,
   }),
-  computed: {},
+  computed: {
+    weakDesktop() {
+      return this.$store.getters.getSettings.weakDesktop;
+    },
+  },
 
   created() {},
   mounted() {
@@ -199,7 +201,9 @@ export default {
 }
 
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active,
-.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active >>> .v-icon,
+.v-expansion-panels:not(.theme--dark)
+  .v-expansion-panel-header--active
+  >>> .v-icon,
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--mousedown,
 .v-expansion-panels:not(.theme--dark)
   .v-expansion-panel-header--mousedown
@@ -207,16 +211,7 @@ export default {
   color: #0c63e4 !important;
 }
 
-/* .v-expansion-panels:not(.theme--dark) >>> .v-chip {
-  transition: 0.3s;
-} */
-
 .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header {
   transition: 0.3s min-height cubic-bezier(0.25, 0.8, 0.5, 1), 0.3s color !important;
 }
-
-/* .v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--active >>> .v-chip,
-.v-expansion-panels:not(.theme--dark) .v-expansion-panel-header--mousedown >>>  .v-chip {
-  opacity: 0.7 !important;
-} */
 </style>

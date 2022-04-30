@@ -14,17 +14,17 @@ const routes = [
     component: Last,
   },
   {
-    path: "/g/:id",
+    path: "/g/:id(\\d{8})",
     name: "group",
     component: Shedule,
   },
   {
-    path: "/t/:id",
+    path: "/t/:id(\\d+)",
     name: "teacher",
     component: Shedule,
   },
   {
-    path: "/a/:id",
+    path: "/a/:id(\\d+)",
     name: "location",
     component: Shedule,
   },

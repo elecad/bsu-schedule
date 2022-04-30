@@ -50,7 +50,7 @@
           </div>
 
           <!-- //! Наименование занятия -->
-          <v-tooltip right open-delay="200">
+          <v-tooltip right open-delay="300">
             <template v-slot:activator="{ on }">
               <div
                 class="sublesson--discipline--name font-weight-medium my-3"
@@ -86,7 +86,7 @@
               class="sublesson--discipline--teacher text-caption"
               v-if="sublesson.teacher.surname"
             >
-              <v-tooltip right open-delay="200">
+              <v-tooltip right open-delay="300">
                 <template v-slot:activator="{ on }">
                   <div class="mr-1">
                     <v-icon>mdi-account</v-icon>
@@ -240,7 +240,9 @@ export default {
 .v-expansion-panel-header .sublesson--discipline--name {
   font-size: 1rem !important;
 }
+</style>
 
+<style>
 .tooltip--text {
   font-size: 0.7rem !important;
 }

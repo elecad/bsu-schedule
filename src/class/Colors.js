@@ -6,18 +6,15 @@ class Colors {
     "зач.": "red darken-2",
     "экз.": "red darken-2",
     "пер.": "red darken-2",
-    "конс.": "cyan darken-4",
+    "конс.": "red darken-4",
+    "курс.р.": "red darken-4",
+    "дифф.зач.": "red darken-4",
+    "ТЕСТ": "red darken-4",
+    "пер.": "red darken-2",
+    "ком.": "red darken-2",
   };
 
-  text = {
-    "лаб.": "white",
-    "пр.з.": "white",
-    "лек.": "white",
-    "зач.": "white",
-    "экз.": "white",
-    "пер.": "white",
-    "конс.": "white",
-  };
+  text = {};
 
   constructor() {}
 
@@ -28,7 +25,7 @@ class Colors {
   }
 
   selectTextColor(text) {
-    const color = this.text[text] ? this.text[text] : "";
+    const color = this.text[text] ? this.text[text] : "white";
     return color;
   }
 }

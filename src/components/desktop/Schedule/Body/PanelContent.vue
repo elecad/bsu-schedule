@@ -1,6 +1,9 @@
 <template>
   <!--//! <v-expansion-panel-content class="fix--transition"> -->
-  <v-expansion-panel-content class="p-0">
+  <v-expansion-panel-content
+    class="p-0"
+    :class="{ 'fix--transition': weakDesktop }"
+  >
     <div v-if="more" class="">
       <div>
         <div class="mb-5">
@@ -52,45 +55,65 @@
       <v-row align="center" justify="center" no-gutters dense>
         <div>
           <!-- //! Переход к расписанию преподавателя -->
-          <v-btn
-            fab
-            class="white--text mr-4"
-            small
-            elevation="0"
-            color="indigo"
-            :disabled="!more.teacher.surname"
-            v-if="!isTeacher"
-            @click="goNewShedule($event, 'teacher')"
-          >
-            <v-icon dark> mdi-account </v-icon>
-          </v-btn>
+          <v-tooltip bottom open-delay="300">
+            <template v-slot:activator="{ on }">
+              <v-btn
+                v-on="on"
+                fab
+                class="white--text mr-4"
+                small
+                elevation="0"
+                color="indigo"
+                :disabled="!more.teacher.surname"
+                v-if="!isTeacher"
+                @click="goNewShedule($event, 'teacher')"
+              >
+                <v-icon dark> mdi-account </v-icon>
+              </v-btn>
+            </template>
+            <span class="tooltip--text"
+              >Переход к расписанию преподавателя</span
+            >
+          </v-tooltip>
           <!-- //! Переход к расписанию группы -->
-          <v-btn
-            fab
-            class="white--text mr-4"
-            small
-            elevation="0"
-            color="indigo"
-            :disabled="!more.group"
-            v-if="!isGroup"
-            @click="goNewShedule($event, 'group')"
-          >
-            <v-icon dark> mdi-account-supervisor </v-icon>
-          </v-btn>
+          <v-tooltip bottom open-delay="300">
+            <template v-slot:activator="{ on }">
+              <v-btn
+                fab
+                v-on="on"
+                class="white--text mr-4"
+                small
+                elevation="0"
+                color="indigo"
+                :disabled="!more.group"
+                v-if="!isGroup"
+                @click="goNewShedule($event, 'group')"
+              >
+                <v-icon dark> mdi-account-supervisor </v-icon>
+              </v-btn>
+            </template>
+            <span class="tooltip--text">Переход к расписанию группы</span>
+          </v-tooltip>
 
           <!-- //! Переход к расписанию аудитории -->
-          <v-btn
-            v-if="!isLocation"
-            class="white--text mr-4"
-            fab
-            small
-            elevation="0"
-            color="indigo"
-            :disabled="!more.location.aud"
-            @click="goNewShedule($event, 'location')"
-          >
-            <v-icon> mdi-map-marker </v-icon>
-          </v-btn>
+          <v-tooltip bottom open-delay="300">
+            <template v-slot:activator="{ on }">
+              <v-btn
+                v-if="!isLocation"
+                class="white--text mr-4"
+                v-on="on"
+                fab
+                small
+                elevation="0"
+                color="indigo"
+                :disabled="!more.location.aud"
+                @click="goNewShedule($event, 'location')"
+              >
+                <v-icon> mdi-map-marker </v-icon>
+              </v-btn>
+            </template>
+            <span class="tooltip--text">Переход к расписанию аудитории</span>
+          </v-tooltip>
         </div>
 
         <v-spacer></v-spacer>
@@ -143,6 +166,9 @@ export default {
 
     isTeacher() {
       return this.type == "teacher";
+    },
+    weakDesktop() {
+      return this.$store.getters.getSettings.weakDesktop;
     },
   },
 
