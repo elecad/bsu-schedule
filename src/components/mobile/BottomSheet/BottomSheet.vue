@@ -40,8 +40,14 @@ export default {
         this.stopScroll();
         this.$emit("input", true);
       },
+      onWillPresent: (e) => {
+        document.body.style.touchAction = "none";
+        document.body.style.overscrollBehavior = "contain";
+      },
       onWillDismiss: (e) => {
         this.startScroll();
+        document.body.style.touchAction = null;
+        document.body.style.overscrollBehavior = "auto";
         this.$emit("input", false);
       },
       onBackdropTap: (e) => {

@@ -15,7 +15,6 @@
       </div>
       <div v-else class="d-flex flex-column align-center justify-content">
         <div class="text--disabled subtitle-1">Здесь пока ничего нет...</div>
-        <div class="text--disabled subtitle-1">Может, стоит добавить?</div>
       </div>
     </div>
 
@@ -58,9 +57,5 @@ export default {
   position: absolute;
   right: 10px;
   bottom: 15px;
-}
-
-.fix--padding--favorite {
-  margin-bottom: 100px;
 }
 </style>

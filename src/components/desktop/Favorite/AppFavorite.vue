@@ -15,21 +15,26 @@
         'favorite--dark--scroll': theme,
       }"
     >
-      <div v-if="favorite.length != 0">
-        <app-favorite-chip
-          v-for="fav in favorite"
-          :key="fav.id"
-          :edit="editFavirite"
-          :type="fav.type"
-          :id="fav.id"
-          >{{ fav.label }}</app-favorite-chip
-        >
-      </div>
+      <v-fade-transition leave-absolute>
+        <transition-group name="fade-transition" v-if="favorite.length != 0">
+          <app-favorite-chip
+            v-for="fav in favorite"
+            :key="fav.id"
+            :edit="editFavirite"
+            :type="fav.type"
+            :id="fav.id"
+            class="favorite--chip"
+            >{{ fav.label }}</app-favorite-chip
+          >
+        </transition-group>
 
-      <div v-else class="d-flex flex-column align-center justify-content py-2">
-        <div class="text--disabled subtitle-2">Здесь пока ничего нет...</div>
-        <div class="text--disabled subtitle-2">Может, стоит добавить?</div>
-      </div>
+        <div
+          v-if="favorite.length == 0"
+          class="d-flex flex-column align-center justify-content py-2"
+        >
+          <div class="text--disabled subtitle-2">Здесь пока ничего нет...</div>
+        </div>
+      </v-fade-transition>
     </v-card-text>
   </v-card>
 </template>
@@ -45,6 +50,13 @@ export default {
   methods: {
     changeFavorite() {
       this.editFavirite = !this.editFavirite;
+    },
+  },
+  watch: {
+    favorite(newVal) {
+      if (newVal.length == 0) {
+        this.editFavirite = false;
+      }
     },
   },
   computed: {
@@ -119,5 +131,9 @@ export default {
 .favorite--dark--scroll::-webkit-scrollbar-track {
   border-radius: 5px;
   background-color: #121212;
+}
+
+.fix--padding--favorite {
+  margin-bottom: 100px;
 }
 </style>
