@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="type != 'welcome'">
     <v-scroll-y-transition leave-absolute>
       <div v-if="!loading && type" class="fix--position--schedule--body">
         <div v-for="(day, k) in body" :key="k">
@@ -11,11 +11,6 @@
           ></day-header>
           <v-expansion-panels flat accordion focusable class="d-block">
             <div class="mb-4" v-for="(lesson, i) in day.lessons" :key="i">
-              <!--//! <v-expansion-panel
-                v-for="(sublesson, j) in lesson.content"
-                :key="j"
-                class="fix--transition"
-              > -->
               <v-expansion-panel
                 v-for="(sublesson, j) in lesson.content"
                 :key="j"

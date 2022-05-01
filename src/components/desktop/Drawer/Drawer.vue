@@ -30,6 +30,7 @@
       <div class="mb-5 mx-3">
         <desktop-datapicker
           :dateAPI="dateAPI"
+          :type="type"
           @date--week="dateWeek"
         ></desktop-datapicker>
       </div>
@@ -49,6 +50,7 @@ export default {
   name: "Drawer",
   props: {
     dateAPI: Object,
+    type: String,
   },
   computed: {
     favorite() {

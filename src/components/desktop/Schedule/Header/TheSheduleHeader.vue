@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card v-if="type != 'welcome'">
     <v-card-title>
       <div
         class="d-flex justify-space-between align-center fix--width--shedule--header"

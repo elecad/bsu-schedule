@@ -7,6 +7,7 @@
     <div v-if="!isMobile" class="navigation--drawer--desktop">
       <nav-drawer-desktop
         :dateAPI="dateAPI"
+        :type="scheduleType"
         @next--week="nextWeek"
         @back--week="backWeek"
         @date--week="dateWeek"
@@ -200,6 +201,9 @@ export default {
               signal: this.controller.signal,
             });
             break;
+          case "welcome":
+            this.type = "welcome";
+            return;
         }
 
         if (!groupData.validate) {

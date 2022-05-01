@@ -2,6 +2,7 @@
   <v-date-picker
     @input="input"
     v-model="date"
+    :disabled="type == 'welcome'"
     locale="ru"
     first-day-of-week="1"
     show-adjacent-months
@@ -25,7 +26,7 @@ import dateAPI from "@/class/DateAPI";
 
 export default {
   name: "TheDatePickerDesktop",
-  props: { dateAPI: dateAPI },
+  props: { dateAPI: dateAPI, type: String },
   computed: {
     getDataPickerLabel() {
       return this.dateAPI.getDataPickerLabel(this.date);
@@ -83,6 +84,7 @@ export default {
       }
     },
     setDate() {
+      if (this.type == "welcome") return;
       let fullWeek = this.dateAPI.getFullArrayWeek();
       this.date = [fullWeek[0], fullWeek[6]];
 
