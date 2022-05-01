@@ -58,16 +58,6 @@ import SystemUI from "@/class/SystemUI";
 export default {
   name: "TheDatePickerMobile",
   props: { dateAPI: Object },
-  watch: {
-    modal(newVal) {
-      if (this.$store.getters.getSettings.dark) return;
-      if (newVal) {
-        SystemUI.overlayOnTheme(200);
-      } else {
-        SystemUI.overlayOffTheme(200);
-      }
-    },
-  },
   computed: {
     getLabel() {
       return this.dateAPI.getLabel();
@@ -79,15 +69,70 @@ export default {
   created() {
     this.input([this.dateAPI.getMainDataISO()]);
   },
+  watch: {
+    modal(newVal) {
+      if (this.$store.getters.getSettings.dark) return;
+      if (newVal) {
+        SystemUI.overlayOnTheme(200);
+        this.unlockAdjacentMonth();
+      } else {
+        SystemUI.overlayOffTheme(200);
+      }
+    },
+    pickerDate() {
+      this.unlockAdjacentMonth();
+    },
+    dateAPI: {
+      handler() {
+        this.localeDateAPI.date = this.dateAPI.date;
+        let fullWeek = this.localeDateAPI.getFullArrayWeek();
+        this.date = [fullWeek[0], fullWeek[6]];
+
+        this.pickerDate = fullWeek[0].substr(0, 7);
+      },
+      deep: true,
+    },
+  },
   methods: {
+    unlockAdjacentMonth() {
+      this.$nextTick(() => {
+        for (const el of [
+          ...document.querySelectorAll(
+            ".v-date-picker-table .v-btn--rounded.v-btn--disabled"
+          ),
+        ]) {
+          el.disabled = false;
+          el.style.pointerEvents = "auto";
+
+          if (el.classList.contains("v-btn--active")) {
+            el.style.setProperty("background-color", "#82b1ff26", "important");
+          } else {
+            el.style.removeProperty("background-color");
+          }
+        }
+      });
+    },
     input(data) {
       this.localeDateAPI.setDate(new Date(data[0]));
-      this.date = this.localeDateAPI.getFullArrayWeek();
-      this.pickerDate = this.date[0];
+      //this.date = this.localeDateAPI.getFullArrayWeek();
+
+      let fullWeek = this.localeDateAPI.getFullArrayWeek();
+      this.date = [fullWeek[0], fullWeek[6]];
+
+      let f = data[0].substr(0, 7);
+
+      if (
+        !(f == this.pickerDate && f == this.date[1].substr(0, 7)) &&
+        (f != this.pickerDate || f == this.date[1].substr(0, 7))
+      ) {
+        this.pickerDate = f;
+      }
 
       this.events = this.date.filter(
         (el) => el == new Date().toISOString().substr(0, 10)
       );
+
+      this.unlockAdjacentMonth();
     },
     submit() {
       this.$emit("date--week", this.date[0]);
@@ -144,7 +189,6 @@ export default {
 * >>> .v-date-picker-table.v-date-picker-table--date.theme--dark {
   background-color: #1e1e1e;
 }
-
 * >>> .v-date-picker-header.theme--dark {
   background-color: #1e1e1e;
 }
