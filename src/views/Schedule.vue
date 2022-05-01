@@ -48,7 +48,7 @@
         <scheduleHeaderDesktop
           :header="header"
           :loading="isHeaderLoading"
-          :autoChange="dateAPI.autoNextWeek"
+          :autoChange="dateAPI ? dateAPI.autoNextWeek : false"
           @next--week="nextWeek"
           @back--week="backWeek"
           @date--week="dateWeek"
@@ -96,7 +96,7 @@ export default {
       import("@/components/desktop/Schedule/Body/TheSheduleBody.vue"),
   },
   data: () => ({
-    dateAPI: new dateAPI(new Date(), true),
+    dateAPI: null,
     header: null,
     body: null,
     isHeaderLoading: true,
@@ -130,19 +130,10 @@ export default {
     },
   },
   methods: {
-    validate() {
-      return (
-        this.$route.params.id.length == 8 &&
-        Number.isInteger(Number(this.$route.params.id))
-      );
-    },
-
     onResize() {
       if (window.innerWidth > 959) {
-        console.log("ПК ВЕРСИЯ!");
         this.isMobile = false;
       } else {
-        console.log("МОБИЛЬНАЯ ВЕРСИЯ ВЕРСИЯ!");
         this.isMobile = true;
       }
     },
@@ -151,14 +142,12 @@ export default {
       this.dateAPI.goNextWeek();
       this.scrollUp();
       this.loading({ full: false });
-      console.log("NEXT");
     },
 
     backWeek() {
       this.dateAPI.goBackWeek();
       this.scrollUp();
       this.loading({ full: false });
-      console.log("BACK");
     },
 
     dateWeek(date) {
@@ -240,7 +229,11 @@ export default {
       }
     },
     INIT() {
-      this.loading();
+      (this.dateAPI = new dateAPI(
+        new Date(),
+        this.$store.getters.getSettings.autoNextWeek
+      )),
+        this.loading();
     },
     findCurrentLesson() {
       if (!this.body) return;

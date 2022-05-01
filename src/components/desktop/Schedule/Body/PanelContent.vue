@@ -11,7 +11,7 @@
           <div v-if="!isGroup">
             <div
               class="sublesson--discipline--information--group my-2 text-caption"
-              v-if="more.group.promt"
+              v-if="more.group.promt && more.group.id"
             >
               <div class="mr-1">
                 <v-icon>mdi-account-supervisor-circle</v-icon>
@@ -64,7 +64,7 @@
                 small
                 elevation="0"
                 color="indigo"
-                :disabled="!more.teacher.surname"
+                :disabled="!(more.teacher.surname && more.teacher.id)"
                 v-if="!isTeacher"
                 @click="goNewShedule($event, 'teacher')"
               >
@@ -85,7 +85,7 @@
                 small
                 elevation="0"
                 color="indigo"
-                :disabled="!more.group"
+                :disabled="!(more.group && more.group.id)"
                 v-if="!isGroup"
                 @click="goNewShedule($event, 'group')"
               >
@@ -106,7 +106,7 @@
                 small
                 elevation="0"
                 color="indigo"
-                :disabled="!more.location.aud"
+                :disabled="!(more.location.aud && more.location.id)"
                 @click="goNewShedule($event, 'location')"
               >
                 <v-icon> mdi-map-marker </v-icon>

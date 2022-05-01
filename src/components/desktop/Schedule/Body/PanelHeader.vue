@@ -50,21 +50,20 @@
           </div>
 
           <!-- //! Наименование занятия -->
-          <v-tooltip right open-delay="300">
-            <template v-slot:activator="{ on }">
-              <div
-                class="sublesson--discipline--name font-weight-medium my-3"
-                v-on="on"
-                @click.stop="copyValue($event, sublesson.name, 'discipline')"
-              >
-                {{ sublesson.name }}
-                <small class="text--disabled" v-if="sublesson.subname">{{
-                  sublesson.subname
-                }}</small>
-              </div>
-            </template>
-            <span class="tooltip--text">{{ copyDiscipline }}</span>
-          </v-tooltip>
+
+          <div class="sublesson--discipline--name font-weight-medium my-3">
+            {{ sublesson.name }}
+
+            <small class="text--disabled" v-if="sublesson.subname"
+              >{{ sublesson.subname }}
+            </small>
+            <v-icon
+              dense
+              class="ml-3 copy--icon"
+              @click.stop="copyValue($event, sublesson.name, 'discipline')"
+              >{{ copyDiscipline ? "mdi-check" : "mdi-content-copy" }}</v-icon
+            >
+          </div>
 
           <!-- //! Группа -->
           <div v-if="!isGroup">
@@ -86,28 +85,26 @@
               class="sublesson--discipline--teacher text-caption"
               v-if="sublesson.teacher.surname"
             >
-              <v-tooltip right open-delay="300">
-                <template v-slot:activator="{ on }">
-                  <div class="mr-1">
-                    <v-icon>mdi-account</v-icon>
-                  </div>
-                  <div
-                    v-on="on"
-                    @click.stop="
-                      copyValue(
-                        $event,
-                        `${sublesson.teacher.post} ${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename}`,
-                        'teacher'
-                      )
-                    "
-                  >
-                    {{
-                      `${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename} (${sublesson.teacher.post})`
-                    }}
-                  </div>
-                </template>
-                <span class="tooltip--text">{{ copyTeacher }}</span>
-              </v-tooltip>
+              <div class="mr-1">
+                <v-icon>mdi-account</v-icon>
+              </div>
+              <div>
+                {{
+                  `${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename} (${sublesson.teacher.post})`
+                }}
+                <v-icon
+                  dense
+                  class="ml-3 copy--icon"
+                  @click.stop="
+                    copyValue(
+                      $event,
+                      `${sublesson.teacher.post} ${sublesson.teacher.surname} ${sublesson.teacher.name} ${sublesson.teacher.middlename}`,
+                      'teacher'
+                    )
+                  "
+                  >{{ copyTeacher ? "mdi-check" : "mdi-content-copy" }}</v-icon
+                >
+              </div>
             </div>
           </div>
 
@@ -184,8 +181,8 @@ export default {
     },
   },
   data: () => ({
-    copyDiscipline: "Нажмите, чтобы скопировать",
-    copyTeacher: "Нажмите, чтобы скопировать",
+    copyDiscipline: false,
+    copyTeacher: false,
   }),
 
   methods: {
@@ -208,13 +205,13 @@ export default {
         .writeText(value)
         .then(() => {
           if (type == "discipline") {
-            this.copyDiscipline = "Скопировано!";
+            this.copyDiscipline = true;
           } else {
-            this.copyTeacher = "Скопировано!";
+            this.copyTeacher = true;
           }
           setTimeout(() => {
-            this.copyDiscipline = "Нажмите, чтобы скопировать";
-            this.copyTeacher = "Нажмите, чтобы скопировать";
+            this.copyDiscipline = false;
+            this.copyTeacher = false;
           }, 1000);
         })
         .catch((err) => {
@@ -239,6 +236,20 @@ export default {
 
 .v-expansion-panel-header .sublesson--discipline--name {
   font-size: 1rem !important;
+}
+.copy--icon {
+  position: absolute;
+  opacity: 0;
+  transition: 0.5s;
+  transition-property: opacity;
+}
+
+.sublesson--discipline--name:hover >>> .v-icon {
+  opacity: 1;
+}
+
+.sublesson--discipline--teacher:hover >>> .v-icon {
+  opacity: 1;
 }
 </style>
 

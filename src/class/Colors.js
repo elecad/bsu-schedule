@@ -12,6 +12,7 @@ class Colors {
     "ТЕСТ": "red darken-4",
     "пер.": "red darken-2",
     "ком.": "red darken-2",
+    "практ.": "red darken-2",
   };
 
   text = {};

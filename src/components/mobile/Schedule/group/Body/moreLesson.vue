@@ -3,6 +3,7 @@
     <div v-if="more" class="px-3 py-4 fix--padding--more--lesson">
       <div class="sublesson--discipline--type">
         <v-chip
+          v-if="more.sublesson.type"
           class="mr-1 mb-1 elevation-1"
           small
           :color="selectColorsBodyChip(more.sublesson.type)"
@@ -49,7 +50,7 @@
       <div v-if="!isGroup">
         <div
           class="sublesson--discipline--group text-caption"
-          v-if="more.sublesson.group"
+          v-if="more.sublesson.group && more.sublesson.group.id"
         >
           <div class="mr-1">
             <v-icon>mdi-account-supervisor</v-icon>
@@ -102,7 +103,7 @@
           <div v-if="!isGroup">
             <div
               class="sublesson--discipline--information--group my-2 text-caption"
-              v-if="more.sublesson.group.promt"
+              v-if="more.sublesson.group.promt && more.sublesson.group.id"
             >
               <div class="mr-1">
                 <v-icon>mdi-account-supervisor-circle</v-icon>
@@ -151,7 +152,9 @@
               small
               elevation="0"
               color="indigo"
-              :disabled="!more.sublesson.teacher.surname"
+              :disabled="
+                !(more.sublesson.teacher.surname && more.sublesson.teacher.id)
+              "
               v-if="!isTeacher"
               @click="goNewShedule($event, 'teacher')"
             >
@@ -164,7 +167,7 @@
               small
               elevation="0"
               color="indigo"
-              :disabled="!more.sublesson.group"
+              :disabled="!(more.sublesson.group && more.sublesson.group.id)"
               v-if="!(isGroup || isLocation)"
               @click="goNewShedule($event, 'group')"
             >
@@ -180,7 +183,9 @@
               small
               elevation="0"
               color="indigo"
-              :disabled="!more.sublesson.location.aud"
+              :disabled="
+                !(more.sublesson.location.aud && more.sublesson.location.id)
+              "
               @click="goNewShedule($event, 'location')"
             >
               <v-icon> mdi-map-marker </v-icon>
@@ -192,7 +197,7 @@
               small
               elevation="0"
               color="indigo"
-              :disabled="!more.sublesson.group"
+              :disabled="!(more.sublesson.group && more.sublesson.group.id)"
               v-if="!(isGroup || isTeacher)"
               @click="goNewShedule($event, 'group')"
             >

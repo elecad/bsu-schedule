@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import Shedule from "@/views/Schedule.vue";
+import Schedule from "@/views/Schedule.vue";
 import NotFound from "@/views/NotFound.vue";
 import Last from "@/views/LastRedirect.vue";
 
@@ -14,19 +14,24 @@ const routes = [
     component: Last,
   },
   {
+    path: "/welcome",
+    name: "welcome",
+    component: Schedule,
+  },
+  {
     path: "/g/:id(\\d{8})",
     name: "group",
-    component: Shedule,
+    component: Schedule,
   },
   {
     path: "/t/:id(\\d+)",
     name: "teacher",
-    component: Shedule,
+    component: Schedule,
   },
   {
     path: "/a/:id(\\d+)",
     name: "location",
-    component: Shedule,
+    component: Schedule,
   },
   {
     path: "/404",
