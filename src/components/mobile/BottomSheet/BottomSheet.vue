@@ -24,7 +24,6 @@ export default {
       } else {
         this.closeSheet();
       }
-      // console.log(this.panel.isHidden());
     },
   },
   mounted() {
@@ -58,9 +57,6 @@ export default {
   methods: {
     openSheet() {
       this.panel.present({ animate: true });
-      document.getElementsByClassName("move")[0].style.background = this.isNow
-        ? "#5c6bc0"
-        : "#c0c0c0";
     },
     stopScroll() {
       let backdropEl = document.querySelector(
@@ -80,8 +76,10 @@ export default {
       });
     },
     startScroll() {
-      document.body.style.overscrollBehaviorY = "auto";
-      document.querySelector("html").style.overflow = "auto";
+      setTimeout(() => {
+        document.body.style.overscrollBehaviorY = "auto";
+        document.querySelector("html").style.overflow = "auto";
+      }, 300);
     },
     closeSheet() {
       this.panel.destroy({ animate: true });

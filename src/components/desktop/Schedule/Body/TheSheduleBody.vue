@@ -1,82 +1,85 @@
 <template>
-  <div v-if="type != 'welcome'">
-    <v-scroll-y-transition leave-absolute>
-      <div v-if="!loading && type" class="fix--position--schedule--body">
-        <div v-for="(day, k) in body" :key="k">
-          <day-header
-            :week="day.dayWeek"
-            :date="day.date"
-            :today="day.today"
-            :type="type"
-          ></day-header>
-          <v-expansion-panels flat accordion focusable class="d-block">
-            <div class="mb-4" v-for="(lesson, i) in day.lessons" :key="i">
-              <v-expansion-panel
-                v-for="(sublesson, j) in lesson.content"
-                :key="j"
-                :class="{ 'fix--transition': weakDesktop }"
-              >
-                <!-- //!Рендер занятий сегодня / текущего занятия -->
-                <panel-header
-                  @show--cupertiono--lesson="openMoreLessonPanel"
-                  :lesson="lesson"
-                  :sublesson="sublesson"
-                  :last="lesson.content.length == j + 1"
-                  :type="type"
+  <div>
+    <div v-if="type != 'welcome'">
+      <v-scroll-y-transition leave-absolute>
+        <div v-if="!loading && type" class="fix--position--schedule--body">
+          <div v-for="(day, k) in body" :key="k">
+            <day-header
+              :week="day.dayWeek"
+              :date="day.date"
+              :today="day.today"
+              :type="type"
+            ></day-header>
+            <v-expansion-panels flat accordion focusable class="d-block">
+              <div class="mb-4" v-for="(lesson, i) in day.lessons" :key="i">
+                <v-expansion-panel
+                  v-for="(sublesson, j) in lesson.content"
+                  :key="j"
+                  :class="{ 'fix--transition': weakDesktop }"
                 >
-                  <div
-                    class="now--lesson"
-                    v-if="lesson.isNow"
-                    ref="nowLesson"
-                  ></div>
-                  <div
-                    class="today--lesson"
-                    v-else-if="lesson.isToday"
-                    ref="todayLesson"
-                  ></div
-                ></panel-header>
+                  <!-- //!Рендер занятий сегодня / текущего занятия -->
+                  <panel-header
+                    @show--cupertiono--lesson="openMoreLessonPanel"
+                    :lesson="lesson"
+                    :sublesson="sublesson"
+                    :last="lesson.content.length == j + 1"
+                    :type="type"
+                  >
+                    <div
+                      class="now--lesson"
+                      v-if="lesson.isNow"
+                      ref="nowLesson"
+                    ></div>
+                    <div
+                      class="today--lesson"
+                      v-else-if="lesson.isToday"
+                      ref="todayLesson"
+                    ></div
+                  ></panel-header>
 
-                <panel-content
-                  :more="sublesson"
-                  :loading="loading"
-                  :type="type"
-                ></panel-content>
-              </v-expansion-panel>
-            </div>
-          </v-expansion-panels>
+                  <panel-content
+                    :more="sublesson"
+                    :loading="loading"
+                    :type="type"
+                  ></panel-content>
+                </v-expansion-panel>
+              </div>
+            </v-expansion-panels>
+          </div>
+          <slot></slot>
         </div>
-        <slot></slot>
-      </div>
-    </v-scroll-y-transition>
+      </v-scroll-y-transition>
 
-    <v-scroll-y-transition leave-absolute>
-      <div v-if="body">
-        <not-lesson v-if="body.length == 0"></not-lesson>
-      </div>
-    </v-scroll-y-transition>
+      <v-scroll-y-transition leave-absolute>
+        <div v-if="body">
+          <not-lesson v-if="body.length == 0"></not-lesson>
+        </div>
+      </v-scroll-y-transition>
 
-    <div
-      v-if="loading || !type"
-      class="d-flex align-center justify-center mt-15"
-    >
-      <v-progress-circular indeterminate color="indigo"></v-progress-circular>
+      <div
+        v-if="loading || !type"
+        class="d-flex align-center justify-center mt-15"
+      >
+        <v-progress-circular indeterminate color="indigo"></v-progress-circular>
+      </div>
+
+      <v-fab-transition>
+        <app-current-button
+          v-if="nowButton"
+          @scroll--now--day="scrollNowDay"
+        ></app-current-button>
+      </v-fab-transition>
+
+      <v-fab-transition>
+        <app-scroll-button
+          v-if="scrollButtonVisible"
+          :hasCurrentButton="nowButton"
+        ></app-scroll-button>
+      </v-fab-transition>
+
+      <div></div>
     </div>
-
-    <v-fab-transition>
-      <app-current-button
-        v-if="nowButton"
-        @scroll--now--day="scrollNowDay"
-      ></app-current-button>
-    </v-fab-transition>
-
-    <v-fab-transition>
-      <app-scroll-button
-        v-if="scrollButtonVisible"
-        :hasCurrentButton="nowButton"
-      ></app-scroll-button>
-    </v-fab-transition>
-
-    <div></div>
+    <div v-else><welcome></welcome></div>
   </div>
 </template>
 
@@ -89,6 +92,7 @@ import notLesson from "@/components/general/NotLesson.vue";
 import panelHeader from "@/components/desktop/Schedule/Body/PanelHeader.vue";
 import panelContent from "@/components/desktop/Schedule/Body/PanelContent.vue";
 import Colors from "@/class/Colors";
+import Welcome from "@/components/general/Welcome.vue";
 
 export default {
   name: "AppScheduleBodyDesktop",
@@ -105,6 +109,7 @@ export default {
     panelContent,
     appCurrentButton,
     appScrollButton,
+    Welcome,
   },
   watch: {
     loading(newValue, oldValue) {
