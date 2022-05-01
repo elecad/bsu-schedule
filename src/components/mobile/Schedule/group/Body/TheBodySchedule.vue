@@ -142,6 +142,7 @@ export default {
         isNow,
         sublesson,
       };
+      this.nowLessonSelected = isNow;
       this.openMoreLesson = this.openMoreLesson ? false : true;
     },
     scroll(DOMElement, type) {

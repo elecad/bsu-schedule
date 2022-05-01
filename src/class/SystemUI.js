@@ -1,6 +1,7 @@
 class SystemUI {
   dayRgb = [245, 245, 245];
   nightRgb = [39, 39, 39];
+  bottomSheetRgb = [147, 147, 147];
   night = 0;
   targetNight = this.night;
   rate = 2.5 / 60;
@@ -29,6 +30,20 @@ class SystemUI {
   changeThemeAppBar() {
     this.targetNight = 1 - this.targetNight;
     this.updateColour();
+  }
+
+  overlayOnTheme(delay) {
+    setTimeout(() => {
+      const colour = `rgb(${this.bottomSheetRgb[0]},${this.bottomSheetRgb[1]},${this.bottomSheetRgb[2]})`;
+      themeColor.content = colour;
+    }, delay);
+  }
+
+  overlayOffTheme(delay) {
+    setTimeout(() => {
+      const colour = `rgb(${this.dayRgb[0]},${this.dayRgb[1]},${this.dayRgb[2]})`;
+      themeColor.content = colour;
+    }, delay);
   }
 
   constructor() {}

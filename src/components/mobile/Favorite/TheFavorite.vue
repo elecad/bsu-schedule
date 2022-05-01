@@ -40,6 +40,11 @@ export default {
   name: "faviriteMobile",
   components: { appFavoriteChip },
   props: { isOpen: Boolean },
+  watch: {
+    isOpen(newVal) {
+      if (!newVal) this.editFavirite = false;
+    },
+  },
   data: () => ({
     editFavirite: false,
   }),
@@ -57,5 +62,9 @@ export default {
   position: absolute;
   right: 10px;
   bottom: 15px;
+}
+
+.fix--padding--favorite {
+  padding-bottom: 100px !important;
 }
 </style>

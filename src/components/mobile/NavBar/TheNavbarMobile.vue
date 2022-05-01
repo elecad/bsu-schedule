@@ -5,15 +5,12 @@
       @open--favorite="favoriteOpenMobile"
     ></main-nav-bar>
 
-    <app-settings v-model="openSetting"></app-settings>
-
-    <!-- <v-bottom-sheet v-model="openFavorite">
-      <favorite-mobile></favorite-mobile>
-    </v-bottom-sheet> -->
+    <app-settings v-model="openSettings"></app-settings>
 
     <bottom-sheet id="favorite--bottom--sheet" v-model="openFavorite">
       <favorite-mobile
         @close--bottom--sheet="openFavorite = false"
+        :isOpen="openFavorite"
       ></favorite-mobile>
     </bottom-sheet>
   </nav>
@@ -24,14 +21,24 @@ import mainNavBar from "@/components/mobile/NavBar/mainNavBarMobile.vue";
 import appSettings from "@/components/general/AppSettings.vue";
 import favoriteMobile from "@/components/mobile/Favorite/TheFavorite.vue";
 import bottomSheet from "@/components/mobile/BottomSheet/BottomSheet.vue";
+import SystemUI from "@/class/SystemUI";
 
 export default {
   name: "navBar",
   components: { mainNavBar, appSettings, favoriteMobile, bottomSheet },
   data: () => ({
-    openSetting: false,
+    openSettings: false,
     openFavorite: false,
   }),
+  watch: {
+    openSettings(newVal) {
+      if (newVal) {
+        SystemUI.overlayOnTheme(200);
+      } else {
+        SystemUI.overlayOffTheme(200);
+      }
+    },
+  },
   methods: {
     favoriteOpenMobile() {
       this.openFavorite = true;
@@ -44,10 +51,10 @@ export default {
       this.search = [];
     },
     settingsOpenMobile() {
-      this.openSetting = true;
+      this.openSettings = true;
     },
     settingsCloseMobile() {
-      this.openSetting = false;
+      this.openSettings = false;
     },
   },
 };
