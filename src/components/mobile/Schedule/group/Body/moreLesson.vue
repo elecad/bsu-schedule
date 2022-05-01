@@ -215,7 +215,7 @@
                   color="indigo"
                   dark
                   class="fix--font--size--course--buttons ma-2"
-                  :href="link.href"
+                  :href="formLink(link.href)"
                   target="_blank"
                 >
                   {{ link.name }}
@@ -267,7 +267,11 @@ export default {
     isOpen: Boolean,
     loading: Boolean,
   },
+
   methods: {
+    formLink(link) {
+      return this.isNotPWA ? link : "intent:" + link + "#Intent;end";
+    },
     selectColorsBodyChip(text) {
       return Colors.selectBodyColor(text);
     },
@@ -298,6 +302,12 @@ export default {
   },
   data: () => ({
     tooltipShow: false,
+    isNotPWA: !(
+      navigator.userAgent.includes("OPR") ||
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone ||
+      document.referrer.includes("android-app://")
+    ),
   }),
   mounted() {},
 };

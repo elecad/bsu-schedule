@@ -128,7 +128,6 @@
               dark
               class="fix--font--size--course--buttons ma-2"
               :href="link.href"
-              target="_blank"
             >
               {{ link.name }}
             </v-btn>

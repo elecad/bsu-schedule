@@ -29,10 +29,10 @@ export default new Vuex.Store({
     },
 
     SET_LAST(state, { type, id }) {
-      if (state.last.type != type && state.last.id != id) {
-        LSAPI.last = { type, id };
-        state.last = { type, id };
-      }
+      if (state.last.type == type && state.last.id == id) return;
+
+      LSAPI.last = { type, id };
+      state.last = { type, id };
     },
 
     ADD_FAVORITE(state, { type, id, label }) {

@@ -20,7 +20,6 @@ module.exports = defineConfig({
       theme_color: "#f5f5f5",
       display: "standalone",
       start_url: "/",
-      scope: "https://beluni.ru/",
     },
   },
 });

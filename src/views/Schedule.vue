@@ -210,6 +210,7 @@ export default {
           this.$router.push({ name: "notFound" });
           return;
         }
+
         this.$store.commit("SET_LAST", {
           type: this.$router.currentRoute.name,
           id: this.$route.params.id,
