@@ -53,10 +53,21 @@
 
 <script>
 import dateAPI from "@/class/DateAPI";
+import SystemUI from "@/class/SystemUI";
 
 export default {
   name: "TheDatePickerMobile",
   props: { dateAPI: Object },
+  watch: {
+    modal(newVal) {
+      if (this.$store.getters.getSettings.dark) return;
+      if (newVal) {
+        SystemUI.overlayOnTheme(200);
+      } else {
+        SystemUI.overlayOffTheme(200);
+      }
+    },
+  },
   computed: {
     getLabel() {
       return this.dateAPI.getLabel();
@@ -128,5 +139,13 @@ export default {
   position: absolute;
   left: calc(50% - 42.39px / 4);
   top: -10px;
+}
+
+* >>> .v-date-picker-table.v-date-picker-table--date.theme--dark {
+  background-color: #1e1e1e;
+}
+
+* >>> .v-date-picker-header.theme--dark {
+  background-color: #1e1e1e;
 }
 </style>

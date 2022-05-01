@@ -65,6 +65,6 @@ export default {
 }
 
 .fix--padding--favorite {
-  padding-bottom: 100px !important;
+  padding-bottom: 150px !important;
 }
 </style>

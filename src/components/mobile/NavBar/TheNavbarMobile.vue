@@ -32,6 +32,7 @@ export default {
   }),
   watch: {
     openSettings(newVal) {
+      if (this.$store.getters.getSettings.dark) return;
       if (newVal) {
         SystemUI.overlayOnTheme(200);
       } else {

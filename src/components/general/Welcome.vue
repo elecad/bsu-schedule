@@ -1,6 +1,9 @@
 <template>
-  <div class="h-100 d-flex align-center justify-center flex-column text-center">
-    <div class="text-h4">Добрый день! Впервые здесь?</div>
+  <div
+    class="h-100 d-flex align-center justify-center flex-column text-center text--disabled"
+  >
+    <!-- <div class="text-h4">Добрый день! Впервые здесь?</div> -->
+    <div class="text-h4">Впервые здесь?</div>
     <div class="text-h6 mt-4 text-center">
       Воспользуйтесь <v-icon x-large>mdi-magnify</v-icon> для нахождения
       расписания группы, преподавателя или аудитории
