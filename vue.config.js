@@ -65,8 +65,8 @@ module.exports = defineConfig({
           "purpose": "maskable any",
         },
         {
-          "src": "img/icons/icon-384x384.png",
-          "sizes": "384x384",
+          "src": "img/icons/icon-284x284.png",
+          "sizes": "284x284",
           "type": "image/png",
           "purpose": "maskable any",
         },
