@@ -26,7 +26,7 @@ import dateAPI from "@/class/DateAPI";
 
 export default {
   name: "TheDatePickerDesktop",
-  props: { dateAPI: dateAPI, type: String },
+  props: { dateAPI: dateAPI, type: String, updateDatepicker: Boolean },
   computed: {
     getDataPickerLabel() {
       return this.dateAPI.getDataPickerLabel(this.date);
@@ -44,6 +44,10 @@ export default {
     },
     pickerDate() {
       this.unlockAdjacentMonth();
+    },
+
+    updateDatepicker() {
+      this.updateToday();
     },
   },
   methods: {
@@ -102,6 +106,12 @@ export default {
     },
     submitCurrentWeek() {
       this.$emit("date--week", new Date().toISOString().substr(0, 10));
+    },
+
+    updateToday() {
+      this.events = this.date.filter(
+        (el) => el == new Date().toISOString().substr(0, 10)
+      );
     },
   },
   data: () => ({

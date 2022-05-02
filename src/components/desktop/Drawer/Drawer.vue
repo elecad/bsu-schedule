@@ -31,6 +31,7 @@
         <desktop-datapicker
           :dateAPI="dateAPI"
           :type="type"
+          :updateDatepicker="updateDatepicker"
           @date--week="dateWeek"
         ></desktop-datapicker>
       </div>
@@ -51,6 +52,7 @@ export default {
   props: {
     dateAPI: Object,
     type: String,
+    updateDatepicker: Boolean,
   },
   computed: {
     favorite() {

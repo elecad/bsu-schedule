@@ -53,6 +53,13 @@ export default class DateAPI {
     return monday;
   }
 
+  getMondayStringDate(date) {
+    const monday = new Date(
+      new Date(date).getTime() - this.weekPosition() * this.day
+    );
+    return monday;
+  }
+
   getSunday() {
     const sunday = new Date(
       this.date.getTime() + (6 - this.weekPosition()) * this.day
@@ -135,5 +142,13 @@ export default class DateAPI {
 
   get autoNextWeek() {
     return this.autoNextWeek;
+  }
+
+  isDateInCurrentWeek(date) {
+    const mondayStringDate = this.getMondayStringDate(date)
+      .toISOString()
+      .substr(0, 10);
+    const monday = this.getMonday().toISOString().substr(0, 10);
+    return mondayStringDate == monday;
   }
 }

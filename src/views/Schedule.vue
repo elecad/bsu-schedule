@@ -8,6 +8,7 @@
       <nav-drawer-desktop
         :dateAPI="dateAPI"
         :type="scheduleType"
+        :updateDatepicker="updateDatepicker"
         @next--week="nextWeek"
         @back--week="backWeek"
         @date--week="dateWeek"
@@ -15,7 +16,7 @@
     </div>
 
     <v-main :style="{ paddingLeft: isMobile ? '0px' : '400px' }">
-      <v-container v-if="isMobile" class="schedule--mobile pa-2">
+      <v-container v-if="isMobile && !hasError" class="schedule--mobile pa-2">
         <schedule-head-mobile
           :header="header"
           :loading="isHeaderLoading"
@@ -43,10 +44,10 @@
       </v-container>
 
       <v-container
-        v-if="!isMobile"
+        v-if="!isMobile && !hasError"
         class="schedule--desktop pa-2 fix--width--schedule--desktop"
       >
-        <scheduleHeaderDesktop
+        <schedule-header-desktop
           :header="header"
           :loading="isHeaderLoading"
           :autoChange="dateAPI ? dateAPI.autoNextWeek : false"
@@ -55,8 +56,8 @@
           @date--week="dateWeek"
           :type="scheduleType"
           class="mb-3"
-        ></scheduleHeaderDesktop>
-        <scheduleBodyDesktop
+        ></schedule-header-desktop>
+        <schedule-body-desktop
           :loading="isBodyLoading"
           :body="body"
           :nowButton="nowButtonVisible"
@@ -67,7 +68,7 @@
               :loading="isBodyLoading"
               v-if="body.length != 0"
             ></schedule-footer></div
-        ></scheduleBodyDesktop>
+        ></schedule-body-desktop>
       </v-container>
     </v-main>
   </div>
@@ -109,6 +110,8 @@ export default {
     isMobile: window.innerWidth > 959 ? false : true,
     updateTimer: null,
     autoChangeWeek: false,
+    updateDatepicker: false,
+    hasError: false,
   }),
   watch: {
     $route(to, from) {
@@ -152,6 +155,7 @@ export default {
     },
 
     dateWeek(date) {
+      if (this.dateAPI.isDateInCurrentWeek(date)) return;
       this.dateAPI.setDate(new Date(date));
       this.scrollUp();
       this.loading({ full: false });
@@ -166,6 +170,7 @@ export default {
         this.controller.abort();
         this.controller = new AbortController();
         this.scheduleType = this.$router.currentRoute.name;
+        this.hasError = false;
         if (full) {
           this.isHeaderLoading = true;
           this.header = null;
@@ -231,6 +236,7 @@ export default {
         this.findCurrentLesson();
       } catch (e) {
         console.log(e);
+        this.hasError = true;
       }
     },
     INIT() {
@@ -295,6 +301,8 @@ export default {
       });
 
       this.nowButtonVisible = findToday;
+
+      this.updateDatepicker = !this.updateDatepicker;
 
       if (findToday && min < 604800000) {
         // 7 суток
@@ -492,5 +500,9 @@ export default {
 
 .fix--transition {
   transition: none !important;
+}
+
+.v-btn::before {
+  display: none;
 }
 </style>
