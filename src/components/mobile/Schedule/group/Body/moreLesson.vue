@@ -303,10 +303,11 @@ export default {
   data: () => ({
     tooltipShow: false,
     isNotPWA: !(
-      navigator.userAgent.includes("OPR") ||
-      window.matchMedia("(display-mode: standalone)").matches ||
-      window.navigator.standalone ||
-      document.referrer.includes("android-app://")
+      navigator.userAgent.includes("Android") &&
+      (navigator.userAgent.includes("OPR") ||
+        window.matchMedia("(display-mode: standalone)").matches ||
+        window.navigator.standalone ||
+        document.referrer.includes("android-app://"))
     ),
   }),
   mounted() {},

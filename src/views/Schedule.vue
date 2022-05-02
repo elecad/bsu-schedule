@@ -234,11 +234,13 @@ export default {
       }
     },
     INIT() {
-      (this.dateAPI = new dateAPI(
-        new Date(),
-        this.$store.getters.getSettings.autoNextWeek
-      )),
-        this.loading();
+      if (!this.dateAPI) {
+        this.dateAPI = new dateAPI(
+          new Date(),
+          this.$store.getters.getSettings.autoNextWeek
+        );
+      }
+      this.loading();
     },
     findCurrentLesson() {
       if (!this.body) return;
