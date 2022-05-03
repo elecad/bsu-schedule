@@ -40,7 +40,6 @@ export default class lessonParser {
   }
 
   nameParse(node) {
-    console.log("nameParse lesson");
     const name = node.textContent.replace(/\s+/g, " ").trim();
     //TODO Место для измененя названия дисциплины (может как-то в будущем)
     let m = null;

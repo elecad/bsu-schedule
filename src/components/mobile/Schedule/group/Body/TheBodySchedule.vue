@@ -49,11 +49,19 @@
         </div>
       </v-scroll-y-transition>
 
+      <v-scroll-y-transition leave-absolute>
+        <error-page v-if="hasError" :type="type" :id="$route.params.id"></error-page>
+      </v-scroll-y-transition>
+
       <div
         v-if="loading || !type"
         class="d-flex align-center justify-center mt-15"
       >
-        <v-progress-circular indeterminate color="indigo"></v-progress-circular>
+        <v-progress-circular
+          indeterminate
+          color="indigo"
+          class="loading--circular"
+        ></v-progress-circular>
       </div>
 
       <v-fab-transition>
@@ -99,6 +107,7 @@ import moreLesson from "@/components/mobile/Schedule/group/Body/moreLesson.vue";
 import bottomSheet from "@/components/mobile/BottomSheet/BottomSheet.vue";
 import notLesson from "@/components/general/NotLesson.vue";
 import Welcome from "@/components/general/Welcome.vue";
+import errorPage from "@/components/general/ErrorPage.vue";
 
 export default {
   name: "AppScheduleContentMobile",
@@ -107,6 +116,7 @@ export default {
     body: Array,
     nowButton: Boolean,
     type: String,
+    hasError: Boolean
   },
   components: {
     moreLesson,
@@ -117,6 +127,7 @@ export default {
     appScrollButton,
     notLesson,
     Welcome,
+    errorPage
   },
   watch: {
     loading(newValue, oldValue) {
@@ -149,7 +160,7 @@ export default {
       const elementPosition = DOMElement.getBoundingClientRect().top;
       const topOffset = type == "now" ? 60 : 65;
       const offsetPosition = elementPosition - topOffset;
-      console.log(elementPosition);
+
       window.scrollBy({
         top: offsetPosition,
         behavior: "smooth",
@@ -170,12 +181,10 @@ export default {
   mounted() {
     this.handleDebouncedScroll = debounce(() => {
       if (this.previousTop - window.scrollY < -20) {
-        // console.log("user scroll to bottom");
         this.scrollButtonVisible = false;
       } else if (window.scrollY < 200) {
         this.scrollButtonVisible = false;
       } else if (this.previousTop - window.scrollY > 20) {
-        // console.log("user scroll to top");
         this.scrollButtonVisible = true;
       }
       this.previousTop = window.scrollY;

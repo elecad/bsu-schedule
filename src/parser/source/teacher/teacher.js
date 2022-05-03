@@ -15,14 +15,10 @@ export default class teacherScheduleParser {
   code = -1;
   constructor({ headerTable, scheduleTable }) {
     if (!headerTable) {
-      console.error(
-        "Ошибка! Передан нулевой DOM-элемент элемент заголовока для парсинга..."
-      );
+      throw "Ошибка! Передан нулевой DOM-элемент элемент заголовока для парсинга...";
     }
     if (!scheduleTable) {
-      console.error(
-        "Ошибка! Передан нулевой DOM-элемент расписания для парсинга..."
-      );
+      throw "Ошибка! Передан нулевой DOM-элемент расписания для парсинга...";
     }
 
     this.$.header = headerTable;
@@ -39,7 +35,7 @@ export default class teacherScheduleParser {
       }
       return this.schedule;
     } catch (err) {
-      throw Error(err.message);
+      throw err.message;
     }
   }
 

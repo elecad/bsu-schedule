@@ -32,7 +32,7 @@ export default class Parsers {
 
   async fetchGroup({ group, week, signal }) {
     if (!(group && week.length == 16)) {
-      throw console.error("Данные переданы некорректно!");
+      throw "Данные переданы некорректно!";
     }
     let response = await fetch(links.group({ group, week }), { signal });
     let htmlText = await response.text();
@@ -43,7 +43,7 @@ export default class Parsers {
 
   parseGroup() {
     if (!this.htmlText) {
-      throw console.error("Парсер имеет пустые данные для парсинга!");
+      throw "Парсер имеет пустые данные для парсинга!";
     }
     try {
       let $ = new DOMParser();
@@ -61,13 +61,13 @@ export default class Parsers {
         data,
       };
     } catch (err) {
-      throw Error(err.message);
+      throw err.message;
     }
   }
 
   async fetchTeacher({ teacher, week, signal }) {
     if (!(teacher && week.length == 16)) {
-      throw console.error("Данные переданы некорректно!");
+      throw "Данные переданы некорректно!";
     }
     let response = await fetch(links.teacher({ teacher, week }), { signal });
 
@@ -75,12 +75,11 @@ export default class Parsers {
     this.htmlText = htmlText;
 
     return this.parseTeacher();
-    // console.log(htmlText);
   }
 
   parseTeacher() {
     if (!this.htmlText) {
-      throw console.error("Парсер имеет пустые данные для парсинга!");
+      throw "Парсер имеет пустые данные для парсинга!";
     }
     try {
       let $ = new DOMParser();
@@ -97,13 +96,13 @@ export default class Parsers {
         data,
       };
     } catch (err) {
-      throw Error(err.message);
+      throw err.message;
     }
   }
 
   async fetchLocation({ location, week, signal }) {
     if (!(location && week.length == 16)) {
-      throw console.error("Данные переданы некорректно!");
+      throw "Данные переданы некорректно!";
     }
     let response = await fetch(links.location({ location, week }), { signal });
 
@@ -120,7 +119,7 @@ export default class Parsers {
 
   parseLocation() {
     if (!this.htmlText) {
-      throw console.error("Парсер имеет пустые данные для парсинга!");
+      throw "Парсер имеет пустые данные для парсинга!";
     }
     try {
       let $ = new DOMParser();
@@ -140,20 +139,19 @@ export default class Parsers {
         corp: location.parsingAud(this.audHtmlText),
       };
 
-      console.log(data);
       return {
         validate: check,
         type: "teacher",
         data,
       };
     } catch (err) {
-      throw Error(err.message);
+      throw err.message;
     }
   }
 
   async fetchSearch({ query, signal }) {
     if (!query) {
-      throw console.error("Данные переданы некорректно!");
+      throw "Данные переданы некорректно!";
     }
 
     let response = await fetch(links.search({ query }), { signal });
@@ -165,7 +163,7 @@ export default class Parsers {
 
   parseSearch() {
     if (!this.htmlText) {
-      throw console.error("Парсер имеет пустые данные для парсинга!");
+      throw "Парсер имеет пустые данные для парсинга!";
     }
     try {
       let $ = new DOMParser();
@@ -182,7 +180,7 @@ export default class Parsers {
         return true;
       });
     } catch (err) {
-      throw Error(err.message);
+      throw err.message;
     }
   }
 }

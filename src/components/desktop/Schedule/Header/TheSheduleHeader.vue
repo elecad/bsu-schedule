@@ -170,9 +170,6 @@ export default {
       this.$emit("date--week", date);
     },
   },
-  created() {
-    // console.log(this.$store.getters);
-  },
 };
 </script>
 

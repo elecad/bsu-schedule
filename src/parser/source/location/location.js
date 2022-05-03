@@ -17,14 +17,10 @@ export default class locationScheduleParser {
 
   constructor({ headerTable, scheduleTable }) {
     if (!headerTable) {
-      console.error(
-        "Ошибка! Передан нулевой DOM-элемент элемент заголовока для парсинга..."
-      );
+      throw "Ошибка! Передан нулевой DOM-элемент элемент заголовока для парсинга...";
     }
     if (!scheduleTable) {
-      console.error(
-        "Ошибка! Передан нулевой DOM-элемент расписания для парсинга..."
-      );
+      throw "Ошибка! Передан нулевой DOM-элемент расписания для парсинга...";
     }
 
     this.$.header = headerTable;
@@ -41,7 +37,7 @@ export default class locationScheduleParser {
       }
       return this.schedule;
     } catch (err) {
-      throw Error(err.message);
+      throw err.message;
     }
   }
 
@@ -87,7 +83,7 @@ export default class locationScheduleParser {
     const re =
       /<select id='build' onchange='loadAuds\(\);'>.*?<option id="\d+\" selected>(.*?)<\/option>.*?<\/select>/s;
     const m = re.exec(audHtml);
-    return m[1] ? " " + m[1].trim() : "";
+    return m ? " " + m[1].trim() : "";
   }
 
   get index() {

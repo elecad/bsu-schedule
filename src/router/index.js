@@ -19,7 +19,7 @@ const routes = [
     component: Schedule,
   },
   {
-    path: "/g/:id(\\d{8})",
+    path: "/g/:id(\\d{6,})",
     name: "group",
     component: Schedule,
   },

@@ -13,14 +13,10 @@ export default class groupScheduleParser {
 
   constructor({ headerTable, scheduleTable }) {
     if (!headerTable) {
-      console.error(
-        "Ошибка! Передан нулевой DOM-элемент элемент заголовока для парсинга..."
-      );
+      throw "Ошибка! Передан нулевой DOM-элемент элемент заголовока для парсинга...";
     }
     if (!scheduleTable) {
-      console.error(
-        "Ошибка! Передан нулевой DOM-элемент расписания для парсинга..."
-      );
+      throw "Ошибка! Передан нулевой DOM-элемент расписания для парсинга...";
     }
 
     this.$.header = headerTable;
@@ -37,7 +33,7 @@ export default class groupScheduleParser {
       }
       return this.schedule;
     } catch (err) {
-      throw Error(err.message);
+      throw err.message;
     }
   }
 

@@ -88,8 +88,6 @@ export default {
 
   methods: {
     openSheet() {
-      // console.log("fireFix", this.fireFix);
-
       this.panel.present({ animate: true });
       document.getElementsByClassName("move")[0].style.background = this.isNow
         ? "#5c6bc0"

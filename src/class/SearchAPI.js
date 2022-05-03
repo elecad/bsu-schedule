@@ -17,7 +17,6 @@ class SearchAPI {
 
   query({ query, setFunction }) {
     this.clear();
-    console.log("query", query);
     if (!(typeof query == "string" && query)) {
       setFunction({ text: this.TEXT.need, result: [] });
       return;
@@ -102,7 +101,6 @@ class SearchAPI {
   }
 
   async searchMobile(value) {
-    console.log(value);
     if (value) {
       this.controller.abort();
       this.controller = new AbortController();

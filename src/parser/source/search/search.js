@@ -35,14 +35,14 @@ export default class searchScheduleParser {
       }
     },
     error: () => {
-      throw Error("Тип поиска некорректен!");
+      throw "Тип поиска некорректен!";
     },
   };
 
   code = -1;
   constructor(tables) {
     if (!tables) {
-      console.error("Ошибка! Таблицы для парсинга не переданы...");
+      throw "Ошибка! Таблицы для парсинга не переданы...";
     }
     this.$ = tables;
   }
@@ -51,7 +51,7 @@ export default class searchScheduleParser {
     try {
       const nodes = this.$[0].querySelectorAll("h2, .search");
       if (!nodes) {
-        throw Error("Данные поиска некорректны!");
+        throw "Данные поиска некорректны!";
       }
 
       let type = "error";
@@ -64,7 +64,7 @@ export default class searchScheduleParser {
       }
       return this.result;
     } catch (err) {
-      throw Error(err.message);
+      throw err.message;
     }
   }
 

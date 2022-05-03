@@ -34,7 +34,6 @@ export default class DateAPI {
   autoNextWeek = false;
 
   constructor(date, setting) {
-    console.log(setting);
     this.date = date;
     if (
       this.weekPosition() == 6 &&

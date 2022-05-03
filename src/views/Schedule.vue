@@ -29,7 +29,7 @@
         ></schedule-head-mobile>
 
         <schedule-body-mobile
-          v-if="!hasError"
+          :hasError="hasError"
           :loading="isBodyLoading"
           :body="body"
           :nowButton="nowButtonVisible"
@@ -42,8 +42,6 @@
             ></schedule-footer>
           </div>
         </schedule-body-mobile>
-
-        <error-page v-else></error-page>
       </v-container>
 
       <v-container
@@ -61,7 +59,7 @@
           class="mb-3"
         ></schedule-header-desktop>
         <schedule-body-desktop
-          v-if="!hasError"
+          :hasError="hasError"
           :loading="isBodyLoading"
           :body="body"
           :nowButton="nowButtonVisible"
@@ -73,7 +71,6 @@
               v-if="body.length != 0"
             ></schedule-footer></div
         ></schedule-body-desktop>
-        <error-page v-else></error-page>
       </v-container>
     </v-main>
   </div>
@@ -82,7 +79,6 @@
 <script>
 import dateAPI from "@/class/DateAPI";
 import parsers from "@/parser/parsers";
-import errorPage from "@/components/general/ErrorPage.vue";
 
 export default {
   name: "ScheduleView",
@@ -102,7 +98,6 @@ export default {
       import("@/components/desktop/Schedule/Body/TheSheduleBody.vue"),
     "scheduleBodyDesktop": () =>
       import("@/components/desktop/Schedule/Body/TheSheduleBody.vue"),
-    errorPage,
   },
   data: () => ({
     dateAPI: null,
@@ -245,9 +240,18 @@ export default {
 
         this.findCurrentLesson();
       } catch (e) {
-        console.log(e);
+        if (e && e.name == 'AbortError') {
+          return;
+        }
+
+        if (this.$router.currentRoute.name == 'group' && this.$route.params.id.length < 8) {
+          this.$router.push({ name: "notFound" });
+          return;
+        }
+        
         this.hasError = true;
         this.isHeaderLoading = true;
+        this.isBodyLoading = false;
       }
     },
     INIT() {
@@ -317,10 +321,8 @@ export default {
 
       if (findToday && min < 604800000) {
         // 7 суток
-        console.log("Сработает: ", new Date(now.getTime() + min));
 
         this.updateTimer = setTimeout(() => {
-          console.log("Обновление!");
           this.findCurrentLesson();
         }, min);
       }

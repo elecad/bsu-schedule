@@ -24,7 +24,6 @@ export default class contentParser {
   }
 
   nameParse(node) {
-    console.log("nameParse");
     const name = node.textContent.replace(/\s+/g, " ").trim();
     //TODO Место для измененя названия дисциплины (может как-то в будущем)
     let m = null;
