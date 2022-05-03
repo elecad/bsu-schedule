@@ -53,9 +53,13 @@
           </v-fade-transition>
         </div>
         <div>
-          <v-btn icon @click="favoritAction">
-            <v-icon>{{ isFavorite ? "mdi-star" : "mdi-star-outline" }}</v-icon>
-          </v-btn>
+          <v-fade-transition>
+            <v-btn v-if="!loading" icon @click="favoritAction">
+              <v-icon>{{
+                isFavorite ? "mdi-star" : "mdi-star-outline"
+              }}</v-icon>
+            </v-btn>
+          </v-fade-transition>
         </div>
       </div>
     </v-card-title>

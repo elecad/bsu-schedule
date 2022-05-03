@@ -5,7 +5,7 @@ class SearchAPI {
     notFound: "Ничего не найдено :(",
     need: "Необходимо больше данных...",
     loading: "Идёт поиск...",
-    error: "Ошибочка",
+    error: "Не удалось выполнить поиск",
   };
 
   controller = new AbortController();

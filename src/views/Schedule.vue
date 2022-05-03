@@ -16,7 +16,7 @@
     </div>
 
     <v-main :style="{ paddingLeft: isMobile ? '0px' : '400px' }">
-      <v-container v-if="isMobile && !hasError" class="schedule--mobile pa-2">
+      <v-container v-if="isMobile" class="schedule--mobile pa-2">
         <schedule-head-mobile
           :header="header"
           :loading="isHeaderLoading"
@@ -29,6 +29,7 @@
         ></schedule-head-mobile>
 
         <schedule-body-mobile
+          v-if="!hasError"
           :loading="isBodyLoading"
           :body="body"
           :nowButton="nowButtonVisible"
@@ -41,10 +42,12 @@
             ></schedule-footer>
           </div>
         </schedule-body-mobile>
+
+        <error-page v-else></error-page>
       </v-container>
 
       <v-container
-        v-if="!isMobile && !hasError"
+        v-if="!isMobile"
         class="schedule--desktop pa-2 fix--width--schedule--desktop"
       >
         <schedule-header-desktop
@@ -58,6 +61,7 @@
           class="mb-3"
         ></schedule-header-desktop>
         <schedule-body-desktop
+          v-if="!hasError"
           :loading="isBodyLoading"
           :body="body"
           :nowButton="nowButtonVisible"
@@ -69,6 +73,7 @@
               v-if="body.length != 0"
             ></schedule-footer></div
         ></schedule-body-desktop>
+        <error-page v-else></error-page>
       </v-container>
     </v-main>
   </div>
@@ -77,6 +82,7 @@
 <script>
 import dateAPI from "@/class/DateAPI";
 import parsers from "@/parser/parsers";
+import errorPage from "@/components/general/ErrorPage.vue";
 
 export default {
   name: "ScheduleView",
@@ -96,6 +102,7 @@ export default {
       import("@/components/desktop/Schedule/Body/TheSheduleBody.vue"),
     "scheduleBodyDesktop": () =>
       import("@/components/desktop/Schedule/Body/TheSheduleBody.vue"),
+    errorPage,
   },
   data: () => ({
     dateAPI: null,
@@ -145,20 +152,23 @@ export default {
     nextWeek() {
       this.dateAPI.goNextWeek();
       this.scrollUp();
-      this.loading({ full: false });
+
+      this.loading({ full: this.hasError });
     },
 
     backWeek() {
       this.dateAPI.goBackWeek();
       this.scrollUp();
-      this.loading({ full: false });
+
+      this.loading({ full: this.hasError });
     },
 
     dateWeek(date) {
       if (this.dateAPI.isDateInCurrentWeek(date)) return;
       this.dateAPI.setDate(new Date(date));
       this.scrollUp();
-      this.loading({ full: false });
+
+      this.loading({ full: this.hasError });
     },
 
     scrollUp() {
@@ -237,6 +247,7 @@ export default {
       } catch (e) {
         console.log(e);
         this.hasError = true;
+        this.isHeaderLoading = true;
       }
     },
     INIT() {

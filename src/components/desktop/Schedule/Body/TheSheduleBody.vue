@@ -60,7 +60,11 @@
         v-if="loading || !type"
         class="d-flex align-center justify-center mt-15"
       >
-        <v-progress-circular indeterminate color="indigo"></v-progress-circular>
+        <v-progress-circular
+          indeterminate
+          color="indigo"
+          class="loading--circular"
+        ></v-progress-circular>
       </div>
 
       <v-fab-transition>
