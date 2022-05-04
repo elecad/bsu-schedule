@@ -146,63 +146,91 @@
         <v-row align="center" justify="center" no-gutters dense>
           <v-col cols="2" sm="1">
             <!-- //! Переход к расписанию преподавателя -->
-            <v-btn
-              fab
-              class="white--text"
-              small
-              elevation="0"
-              color="indigo"
-              :disabled="
-                !(more.sublesson.teacher.surname && more.sublesson.teacher.id)
-              "
+            <router-link 
+              :to="{ name: 'teacher', params: { id: more.sublesson.teacher.id ? more.sublesson.teacher.id : 0 }}" 
+              custom 
+              v-slot="{ navigate, href }"
               v-if="!isTeacher"
-              @click="goNewShedule($event, 'teacher')"
             >
-              <v-icon dark> mdi-account </v-icon>
-            </v-btn>
+              <v-btn
+                fab
+                class="white--text"
+                small
+                elevation="0"
+                color="indigo"
+                :disabled="
+                  !(more.sublesson.teacher.surname && more.sublesson.teacher.id)
+                "
+                :href="href"
+                @click="navigate"
+              >
+                <v-icon dark>mdi-account</v-icon>
+              </v-btn>
+            </router-link>
             <!-- //! Переход к расписанию группы -->
-            <v-btn
-              fab
-              class="white--text"
-              small
-              elevation="0"
-              color="indigo"
-              :disabled="!(more.sublesson.group && more.sublesson.group.id)"
+            <router-link 
+              :to="{ name: 'group', params: { id: more.sublesson.group.id ? more.sublesson.group.id : 0 }}" 
+              custom 
+              v-slot="{ navigate, href }"
               v-if="!(isGroup || isLocation)"
-              @click="goNewShedule($event, 'group')"
             >
-              <v-icon dark> mdi-account-supervisor </v-icon>
-            </v-btn>
+              <v-btn
+                fab
+                class="white--text"
+                small
+                elevation="0"
+                color="indigo"
+                :disabled="!(more.sublesson.group && more.sublesson.group.id)"
+                :href="href"
+                @click="navigate"
+              >
+                <v-icon dark>mdi-account-supervisor</v-icon>
+              </v-btn>
+            </router-link>
           </v-col>
           <v-col cols="2" sm="2">
             <!-- //! Переход к расписанию аудитории -->
-            <v-btn
+            <router-link 
+              :to="{ name: 'location', params: { id: more.sublesson.location.id ? more.sublesson.location.id : 0 }}" 
+              custom 
+              v-slot="{ navigate, href }"
               v-if="!isLocation"
-              class="white--text"
-              fab
-              small
-              elevation="0"
-              color="indigo"
-              :disabled="
-                !(more.sublesson.location.aud && more.sublesson.location.id)
-              "
-              @click="goNewShedule($event, 'location')"
             >
-              <v-icon> mdi-map-marker </v-icon>
-            </v-btn>
+              <v-btn
+                class="white--text"
+                fab
+                small
+                elevation="0"
+                color="indigo"
+                :disabled="
+                  !(more.sublesson.location.aud && more.sublesson.location.id)
+                "
+                :href="href"
+                @click="navigate"
+              >
+                <v-icon> mdi-map-marker </v-icon>
+              </v-btn>
+            </router-link>
             <!-- //! Переход к расписанию группы -->
-            <v-btn
-              fab
-              class="white--text"
-              small
-              elevation="0"
-              color="indigo"
-              :disabled="!(more.sublesson.group && more.sublesson.group.id)"
+            <router-link 
+              :to="{ name: 'group', params: { id: more.sublesson.group.id ? more.sublesson.group.id : 0 }}" 
+              custom 
+              v-slot="{ navigate, href }"
               v-if="!(isGroup || isTeacher)"
-              @click="goNewShedule($event, 'group')"
             >
-              <v-icon dark> mdi-account-supervisor </v-icon>
-            </v-btn>
+              <v-btn
+                fab
+                class="white--text"
+                small
+                elevation="0"
+                color="indigo"
+                :disabled="!(more.sublesson.group && more.sublesson.group.id)"
+                :href="href"
+                @click="navigate"
+              >
+                <v-icon dark>mdi-account-supervisor</v-icon>
+              </v-btn>
+            </router-link>
           </v-col>
           <v-spacer></v-spacer>
           <v-row no-gutters dense justify="end">
@@ -277,22 +305,6 @@ export default {
     },
     selectColorsTextChip(text) {
       return Colors.selectTextColor(text);
-    },
-    goNewShedule(_, type) {
-      let obj = null;
-      switch (type) {
-        case "group":
-          obj = { name: type, params: { id: this.more.sublesson.group.id } };
-          break;
-        case "teacher":
-          obj = { name: type, params: { id: this.more.sublesson.teacher.id } };
-          break;
-        case "location":
-          obj = { name: type, params: { id: this.more.sublesson.location.id } };
-          break;
-      }
-      this.$router.push(obj);
-      window.scrollTo({ top: 0, behavior: "auto" });
     },
     showSnackBar() {
       if (this.more.sublesson.subgroup.length > 14) {

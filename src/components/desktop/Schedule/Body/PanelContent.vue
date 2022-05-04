@@ -57,40 +57,53 @@
           <!-- //! Переход к расписанию преподавателя -->
           <v-tooltip bottom open-delay="300">
             <template v-slot:activator="{ on }">
-              <v-btn
-                v-on="on"
-                fab
-                class="white--text mr-4"
-                small
-                elevation="0"
-                color="indigo"
-                :disabled="!(more.teacher.surname && more.teacher.id)"
+              <router-link 
+                :to="{ name: 'teacher', params: { id: more.teacher.id ? more.teacher.id : 0 }}" 
+                custom 
+                v-slot="{ navigate, href }"
                 v-if="!isTeacher"
-                @click="goNewShedule($event, 'teacher')"
               >
-                <v-icon dark> mdi-account </v-icon>
-              </v-btn>
+                <v-btn
+                  v-on="on"
+                  fab
+                  class="white--text mr-4"
+                  small
+                  elevation="0"
+                  color="indigo"
+                  :disabled="!(more.teacher.surname && more.teacher.id)"
+                  :href="href"
+                  @click="navigate"
+                >
+                  <v-icon dark>mdi-account</v-icon>
+                </v-btn>
+              </router-link>
             </template>
-            <span class="tooltip--text"
-              >Переход к расписанию преподавателя</span
-            >
+            <span class="tooltip--text">Переход к расписанию преподавателя</span>
           </v-tooltip>
+
           <!-- //! Переход к расписанию группы -->
           <v-tooltip bottom open-delay="300">
             <template v-slot:activator="{ on }">
-              <v-btn
-                fab
-                v-on="on"
-                class="white--text mr-4"
-                small
-                elevation="0"
-                color="indigo"
-                :disabled="!(more.group && more.group.id)"
+              <router-link 
+                :to="{ name: 'group', params: { id: more.group.id ? more.group.id : 0 }}" 
+                custom 
+                v-slot="{ navigate, href }"
                 v-if="!isGroup"
-                @click="goNewShedule($event, 'group')"
               >
-                <v-icon dark> mdi-account-supervisor </v-icon>
-              </v-btn>
+                <v-btn
+                  fab
+                  v-on="on"
+                  class="white--text mr-4"
+                  small
+                  elevation="0"
+                  color="indigo"
+                  :disabled="!(more.group && more.group.id)"
+                  :href="href"
+                  @click="navigate"
+                >
+                  <v-icon dark> mdi-account-supervisor </v-icon>
+                </v-btn>
+              </router-link>
             </template>
             <span class="tooltip--text">Переход к расписанию группы</span>
           </v-tooltip>
@@ -98,19 +111,27 @@
           <!-- //! Переход к расписанию аудитории -->
           <v-tooltip bottom open-delay="300">
             <template v-slot:activator="{ on }">
-              <v-btn
+              <router-link 
+                :to="{ name: 'location', params: { id: more.location.id ? more.location.id : 0 }}" 
+                custom 
+                v-slot="{ navigate, href }"
                 v-if="!isLocation"
-                class="white--text mr-4"
-                v-on="on"
-                fab
-                small
-                elevation="0"
-                color="indigo"
-                :disabled="!(more.location.aud && more.location.id)"
-                @click="goNewShedule($event, 'location')"
               >
-                <v-icon> mdi-map-marker </v-icon>
-              </v-btn>
+                <v-btn
+                  v-if="!isLocation"
+                  class="white--text mr-4"
+                  v-on="on"
+                  fab
+                  small
+                  elevation="0"
+                  color="indigo"
+                  :disabled="!(more.location.aud && more.location.id)"
+                  :href="href"
+                  @click="navigate"
+                >
+                  <v-icon>mdi-map-marker</v-icon>
+                </v-btn>
+              </router-link>
             </template>
             <span class="tooltip--text">Переход к расписанию аудитории</span>
           </v-tooltip>
@@ -184,22 +205,6 @@ export default {
     },
     selectColorsTextChip(text) {
       return Colors.selectTextColor(text);
-    },
-    goNewShedule(_, type) {
-      let obj = null;
-      switch (type) {
-        case "group":
-          obj = { name: type, params: { id: this.more.group.id } };
-          break;
-        case "teacher":
-          obj = { name: type, params: { id: this.more.teacher.id } };
-          break;
-        case "location":
-          obj = { name: type, params: { id: this.more.location.id } };
-          break;
-      }
-      this.$router.push(obj);
-      window.scrollTo({ top: 0, behavior: "auto" });
     },
     showSnackBar() {
       if (this.more.subgroup.length > 14) {

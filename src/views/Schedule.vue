@@ -206,6 +206,7 @@ export default {
         if (full) {
           this.isHeaderLoading = true;
           this.header = null;
+          this.nextUpdate = 0;
         }
 
         this.isBodyLoading = true;

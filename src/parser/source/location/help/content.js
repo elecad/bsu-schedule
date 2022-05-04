@@ -47,12 +47,12 @@ export default class contentParser {
       this.Content.name = name;
     }
 
-    const hrefs = node.querySelectorAll("a");
-    for (let i = 0; i < hrefs.length; i++) {
-      const aText = hrefs[i].textContent;
-      const aName = aText.includes("ЭУМКД") ? aText : "В курс";
-      const href = hrefs[i].href;
-      this.Content.addLink(aName, href);
+    let href = node.querySelector("#lesson > a");
+    if (href) {
+      this.Content.addLink("В курс", href.href);
+    }
+    for (let href of node.querySelectorAll("#lesson > small > a")) {
+      this.Content.addLink(href.textContent, href.href);
     }
   }
 
