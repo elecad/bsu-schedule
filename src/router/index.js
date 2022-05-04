@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import Schedule from "@/views/Schedule.vue";
 import NotFound from "@/views/NotFound.vue";
 import Last from "@/views/LastRedirect.vue";
+import About from "@/components/general/AboutPage.vue";
 
 Vue.use(VueRouter);
 
@@ -32,6 +33,11 @@ const routes = [
     path: "/a/:id(\\d+)",
     name: "location",
     component: Schedule,
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: About,
   },
   {
     path: "/404",
