@@ -76,8 +76,8 @@ export default {
       
       const monthNames = ["Янв", "Фев", "Мар", "Апр", "Мая", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"];
 
-      return this.dateRangePrev[0].substr(8, 2) + ' ' + monthNames[+this.dateRangePrev[0].substr(5, 2) - 1] +' - ' +
-        this.dateRangePrev[1].substr(8, 2) + ' ' + monthNames[+this.dateRangePrev[1].substr(5, 2) - 1];
+      return +this.dateRangePrev[0].substr(8, 2) + ' ' + monthNames[+this.dateRangePrev[0].substr(5, 2) - 1] +' - ' +
+        +this.dateRangePrev[1].substr(8, 2) + ' ' + monthNames[+this.dateRangePrev[1].substr(5, 2) - 1];
     }
   },
   watch: {

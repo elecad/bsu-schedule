@@ -110,16 +110,19 @@ export default {
     scheduleType: null,
     controller: new AbortController(),
     isMobile: window.innerWidth > 959 ? false : true,
-    updateTimer: null,
     autoChangeWeek: false,
-    updateDatepicker: false,
     hasError: false,
 
     d: new Date(),
+    timeFrom: null,
+    timeTo: null,
     autoNextWeek: false,
     dateRange: [],
     dateRangePrev: [],
-    dateRangeLabel: '-'
+    dateRangeLabel: '-',
+
+    nextUpdate: 0,
+    nextUpdateTimer: null
   }),
   watch: {
     $route(to, from) {
@@ -168,7 +171,8 @@ export default {
     nextWeek() {
       this.autoNextWeek = false;
 
-      this.d.setDate(this.d.getDate() - this.d.getDay() + 7);
+      this.d.setTime(this.timeTo);
+      this.d.setDate(this.d.getDate() + 1);
       this.calcDateRange();
 
       this.scrollUp();
@@ -179,9 +183,10 @@ export default {
     backWeek() {
       this.autoNextWeek = false;
       
-      this.d.setDate(this.d.getDate() - this.d.getDay() - 7);
+      this.d.setTime(this.timeFrom);
+      this.d.setDate(this.d.getDate() - 1);
       this.calcDateRange();
-
+  
       this.scrollUp();
 
       this.loading({ full: this.hasError });
@@ -293,7 +298,7 @@ export default {
 
       // monday
       this.d.setDate(this.d.getDate() + (1 - currentDay));
-      this.f = this.d.setHours(0, 0, 0);
+      this.timeFrom = this.d.setHours(0, 0, 0);
       this.dateRangeLabel = this.d.getDate() + ' ' + monthNames[this.d.getMonth()];
       dr[0] = this.d.toLocaleDateString('en-CA'); // Canadian locale matches ISO format (YYYY-mm-dd)
       
@@ -301,7 +306,7 @@ export default {
 
       // sunday
       this.d.setDate(this.d.getDate() + 6);
-      this.t = this.d.setHours(23, 59, 59);
+      this.timeTo = this.d.setHours(23, 59, 59);
       this.dateRangeLabel += this.d.getDate() + ' ' + monthNames[this.d.getMonth()];
       dr[1] = this.d.toLocaleDateString('en-CA');
 
@@ -322,75 +327,104 @@ export default {
       }
     },
     findCurrentLesson() {
-      if (!this.body) return;
-      if (this.updateTimer) clearTimeout(this.updateTimer);
+      let now = Date.now();
+
+      if (now < this.timeFrom || now > this.timeTo) {
+        if (this.nextUpdate) {
+          this.nextUpdate = 0;
+          this.nowButtonVisible = false;
+          
+          clearTimeout(this.nextUpdateTimer);
+          this.nextUpdateTimer = null;
+  
+          if (this.body) {
+            for (let day of this.body) {
+              for (let lesson of day.lessons) {
+                lesson.isNow = false;
+                lesson.isToday = false;
+              }
+            }
+          }
+        }
+
+        return;
+      }
+      
+      if (this.nextUpdateTimer) {
+        clearTimeout(this.nextUpdateTimer);
+        
+        if (now < this.nextUpdate) {
+          setTimeout(() => {
+            this.findCurrentLesson()
+          }, this.nextUpdate - now);
+
+          return;
+        }
+      }
+
+      if (this.nextUpdate) {
+        this.d.setTime(this.nextUpdate);
+
+        if (this.d.getHours() == 0) {
+          this.dateRange = [...this.dateRange]; // trigger watch on datepickers
+        }
+      }
+
+      if (!this.body) {
+        return;
+      }
 
       let re = /(\d+)\.(\d+)\.(\d+)/;
 
-      let today = new Date();
-      today = [
-        today.getFullYear(),
-        ("0" + (today.getMonth() + 1)).slice(-2),
-        ("0" + today.getDate()).slice(-2),
-      ].join("-");
+      this.nowButtonVisible = false;
+      this.nextUpdate = 0;
 
-      const now = new Date();
+      this.d.setTime(now);
+      let todayTime = this.d.setHours(0, 0, 0, 0);
+      let dayTime, lf, lt, m;
 
-      let findToday = false;
-      let min = now.getTime() + 604800000; // Текущая дата + неделя
-      let interval = 0;
-
-      let isNextDay = false;
-
-      this.body.forEach((day) => {
-        let validDate = day.date.replace(re, "$3-$2-$1");
-
-        interval = new Date(validDate) - now.getTime();
-        min = interval > 0 && interval < min ? interval : min;
-
-        if (day.today && validDate != today && !isNextDay) {
-          isNextDay = true;
-          this.dateRange = [...this.dateRange]; // trigger watch on datepickers
-        }
-
-        if (validDate == today) {
+      for (let day of this.body) {
+        dayTime = Date.parse(day.date.replace(re, "$3-$2-$1 00:00:00"));
+        
+        if (dayTime == todayTime) {
           day.today = true;
-          findToday = true;
-          day.lessons.forEach((lesson) => {
-            const startDate = new Date(`${validDate}T${lesson.startTime}`);
-            const endDate = new Date(`${validDate}T${lesson.endTime}`);
+          this.nowButtonVisible = true;
 
-            interval = startDate.getTime() - now.getTime();
-            min = interval > 0 && interval < min ? interval : min;
-            interval = endDate.getTime() - now.getTime();
-            min = interval > 0 && interval < min ? interval : min;
+          for (let lesson of day.lessons) {
+            m = lesson.startTime.split(':');
+            lf = dayTime + (m[0]*3600000) + (m[1]*60000);
 
-            lesson.isNow = startDate < now && now < endDate;
+            m = lesson.endTime.split(':');
+            lt = dayTime + (m[0]*3600000) + (m[1]*60000);
 
+            if (!this.nextUpdate) {
+              if (lf > now) {
+                this.nextUpdate = lf;
+              } else if (lt > now) {
+                this.nextUpdate = lt;
+              }
+            }
+            
             lesson.isToday = true;
-          });
+            lesson.isNow = now >= lf && now <= lt;
+          }
         } else {
           day.today = false;
-          day.lessons.forEach((lesson) => {
+
+          for (let lesson of day.lessons) {
             lesson.isNow = false;
             lesson.isToday = false;
-          });
+          }
         }
-
-        //! Поиск задержки для следующего обновления
-      });
-
-      this.nowButtonVisible = findToday;
-
-      this.updateDatepicker = !this.updateDatepicker;
-
-      if (findToday && min < 604800000) {
-        // 7 суток
-
-        this.updateTimer = setTimeout(() => {
-          this.findCurrentLesson();
-        }, min);
       }
+  
+      if (now > this.nextUpdate) {
+        this.nextUpdate = todayTime + 86400000; // next day ?
+      }
+
+      this.nextUpdateTimer = setTimeout(() => {
+        this.findCurrentLesson();
+      }, this.nextUpdate - now);
     },
   },
   mounted() {
