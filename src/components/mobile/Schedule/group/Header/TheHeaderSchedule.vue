@@ -66,10 +66,10 @@
     <v-divider></v-divider>
     <v-card-text class="py-1">
       <app-date-picker-mobile
-        :dateAPI="dateAPI"
-        @next--week="$emit('next--week')"
-        @back--week="$emit('back--week')"
-        @date--week="dateWeek"
+        :dateRange="dateRange"
+        :dateRangeLabel="dateRangeLabel"
+        :autoNextWeek="autoNextWeek"
+        v-on="$listeners"
       ></app-date-picker-mobile>
     </v-card-text>
   </v-card>
@@ -83,8 +83,10 @@ export default {
   props: {
     header: Object,
     loading: Boolean,
-    dateAPI: Object,
     type: String,
+    dateRange: Array,
+    dateRangeLabel: String,
+    autoNextWeek: Boolean
   },
 
   watch: {},

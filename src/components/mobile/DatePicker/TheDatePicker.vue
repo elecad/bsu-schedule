@@ -6,7 +6,7 @@
       </v-btn>
       <v-scale-transition>
         <v-badge
-          v-if="dateAPI.autoNextWeek"
+          v-if="autoNextWeek"
           color="indigo"
           overlap
           content="АВТО"
@@ -14,7 +14,7 @@
         ></v-badge>
       </v-scale-transition>
       <v-btn class="edit--text--button" @click="modal = !modal" text>
-        {{ getLabel }}
+        {{ dateRangeLabelPrev }}
         <v-icon right>mdi-calendar-blank-multiple</v-icon>
       </v-btn>
 
@@ -25,21 +25,25 @@
 
     <v-dialog v-model="modal" class="dialog--fix">
       <v-date-picker
-        full-width
+        :value="dateRange"
         @input="input"
-        v-model="date"
+        :picker-date.sync="pickerDate"
+        :selected-items-text="dateRangeLabel"
+        :events="events"
+        :disabled="this.dateRange.length == 0"
+        event-color="teal"
+
+        range
         scrollable
-        locale="ru"
-        first-day-of-week="1"
         show-adjacent-months
         show-current
-        :events="events"
-        :selected-items-text="getDataPickerLabel"
-        :picker-date.sync="pickerDate"
-        event-color="teal"
-        range
+        locale="ru"
+        first-day-of-week="1"
         flat
         header-color="indigo"
+        full-width
+        elevation="2"
+        class="pb-5"
       >
         <v-spacer></v-spacer>
         <v-btn text color="indigo" @click="submitCurrentWeek">
@@ -52,48 +56,87 @@
 </template>
 
 <script>
-import dateAPI from "@/class/DateAPI";
 import SystemUI from "@/class/SystemUI";
 
 export default {
   name: "TheDatePickerMobile",
-  props: { dateAPI: Object },
-  computed: {
-    getLabel() {
-      return this.dateAPI.getLabel();
-    },
-    getDataPickerLabel() {
-      return this.dateAPI.getDataPickerLabel(this.date);
-    },
+  props: { 
+    dateRange: Array,
+    dateRangeLabel: String,
+    autoNextWeek: Boolean
   },
-  created() {
-    this.input([this.dateAPI.getMainDataISO()]);
+  mounted() {
+    this.dateRangePrev = this.dateRange;
+    this.updatePickerDate();
+  },
+  computed: {
+    dateRangeLabelPrev() {
+      if (!this.dateRangePrev.length)
+        return '-';
+      
+      const monthNames = ["Янв", "Фев", "Мар", "Апр", "Мая", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"];
+
+      return this.dateRangePrev[0].substr(8, 2) + ' ' + monthNames[+this.dateRangePrev[0].substr(5, 2) - 1] +' - ' +
+        this.dateRangePrev[1].substr(8, 2) + ' ' + monthNames[+this.dateRangePrev[1].substr(5, 2) - 1];
+    }
   },
   watch: {
     modal(newVal) {
+      if (newVal) {
+        this.dateRangePrev = this.dateRange;
+        this.updatePickerDate();
+      } else {
+        this.$emit('update:dateRange', this.dateRangePrev);
+      }
+
       if (this.$store.getters.getSettings.dark) return;
+
       if (newVal) {
         SystemUI.overlayOnTheme(200);
-        this.unlockAdjacentMonth();
       } else {
         SystemUI.overlayOffTheme(200);
       }
     },
+    dateRange(n, v) {
+      if (this.modal) {
+        this.updatePickerDate();
+      } else {
+        this.dateRangePrev = this.dateRange;
+      }
+    },
     pickerDate() {
-      this.unlockAdjacentMonth();
-    },
-    dateAPI: {
-      handler() {
-        this.localeDateAPI.date = this.dateAPI.date;
-        let fullWeek = this.localeDateAPI.getFullArrayWeek();
-        this.date = [fullWeek[0], fullWeek[6]];
-
-        this.pickerDate = fullWeek[0].substr(0, 7);
-      },
-      deep: true,
-    },
+      if (this.modal) {
+        this.unlockAdjacentMonth();
+      }
+    }    
   },
   methods: {
+    updatePickerDate() {
+      if (!this.dateRange.length) {
+        return;
+      }
+
+      this.d.setTime(Date.parse(this.dateRange[0]));
+      this.f = this.d.setHours(0, 0, 0);
+
+      this.d.setTime(Date.parse(this.dateRange[1]))
+      this.t = this.d.setHours(23, 59, 59);
+
+      let n = Date.now();
+
+      if (n >= this.f && n <= this.t) { // uh
+        this.events = [new Date().toLocaleDateString('en-CA')];
+      } else {
+        this.events = [];
+      }
+
+      if (this.pickerDate != this.dateRange[0].substr(0, 7) && this.pickerDate != this.dateRange[1].substr(0, 7)) {
+        this.pickerDate = this.dateRange[0].substr(0, 7);
+      }
+
+      this.unlockAdjacentMonth();
+    },
+
     unlockAdjacentMonth() {
       this.$nextTick(() => {
         for (const el of [
@@ -112,44 +155,44 @@ export default {
         }
       });
     },
-    input(data) {
-      this.localeDateAPI.setDate(new Date(data[0]));
-      //this.date = this.localeDateAPI.getFullArrayWeek();
 
-      let fullWeek = this.localeDateAPI.getFullArrayWeek();
-      this.date = [fullWeek[0], fullWeek[6]];
+    input(v) {
+      this.d.setTime(Date.parse(v[0]));
+      let n = this.d.setHours(12, 0, 0);
 
-      let f = data[0].substr(0, 7);
-
-      if (
-        !(f == this.pickerDate && f == this.date[1].substr(0, 7)) &&
-        (f != this.pickerDate || f == this.date[1].substr(0, 7))
-      ) {
-        this.pickerDate = f;
+      if (n < this.f || n > this.t) {
+        this.$emit('update:dateRange', v);
       }
 
-      this.events = this.date.filter(
-        (el) => el == new Date().toISOString().substr(0, 10)
-      );
-
-      this.unlockAdjacentMonth();
+      if (v[0].substr(0, 7) !== this.pickerDate) {
+        this.pickerDate = v[0].substr(0, 7);
+      }
     },
+    
     submit() {
-      this.$emit("date--week", this.date[0]);
+      this.dateRangePrev = this.dateRange;
       this.modal = false;
+      this.$emit('date--set');
     },
     submitCurrentWeek() {
-      this.$emit("date--week", new Date().toISOString().substr(0, 10));
-      this.modal = false;
+      this.d.setTime(Date.now());
+      this.$emit('update:dateRange', [this.d.toLocaleDateString('en-CA')]);
+
+      this.$nextTick(() => {
+        this.dateRangePrev = this.dateRange;
+        this.modal = false;
+        this.$emit('date--set');
+      });
     },
   },
   data: () => ({
-    localeDateAPI: new dateAPI(new Date(), false),
     modal: false,
     dialog: false,
     events: [],
-    date: [],
+    d: new Date(),
     pickerDate: "",
+    dateRangePrev: [],
+    isSet: false
   }),
 };
 </script>

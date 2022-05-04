@@ -29,10 +29,9 @@
 
       <div class="mb-5 mx-3">
         <desktop-datapicker
-          :dateAPI="dateAPI"
-          :type="type"
-          :updateDatepicker="updateDatepicker"
-          @date--week="dateWeek"
+          :dateRange="dateRange"
+          :dateRangeLabel="dateRangeLabel"
+          v-on="$listeners"
         ></desktop-datapicker>
       </div>
 
@@ -50,9 +49,8 @@ import appSettings from "@/components/general/AppSettings.vue";
 export default {
   name: "Drawer",
   props: {
-    dateAPI: Object,
-    type: String,
-    updateDatepicker: Boolean,
+    dateRange: Array,
+    dateRangeLabel: String
   },
   computed: {
     favorite() {
@@ -75,9 +73,6 @@ export default {
     appSettings,
   },
   methods: {
-    dateWeek(date) {
-      this.$emit("date--week", date);
-    },
     stopScroll() {
       document.body.style.overscrollBehaviorY = "contain";
       document.querySelector("html").style.overflow = "hidden";

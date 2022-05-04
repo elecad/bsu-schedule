@@ -1,17 +1,18 @@
 <template>
   <v-date-picker
+    :value="dateRange"
     @input="input"
-    v-model="date"
-    :disabled="type == 'welcome'"
-    locale="ru"
-    first-day-of-week="1"
+    :picker-date.sync="pickerDate"
+    :selected-items-text="dateRangeLabel"
+    :events="events"
+    :disabled="this.dateRange.length == 0"
+    event-color="teal"
+
+    range
     show-adjacent-months
     show-current
-    :events="events"
-    :selected-items-text="getDataPickerLabel"
-    :picker-date.sync="pickerDate"
-    event-color="teal"
-    range
+    locale="ru"
+    first-day-of-week="1"
     flat
     header-color="indigo"
     full-width
@@ -22,35 +23,50 @@
 </template>
 
 <script>
-import dateAPI from "@/class/DateAPI";
-
 export default {
   name: "TheDatePickerDesktop",
-  props: { dateAPI: dateAPI, type: String, updateDatepicker: Boolean },
-  computed: {
-    getDataPickerLabel() {
-      return this.dateAPI.getDataPickerLabel(this.date);
-    },
+  props: { 
+    dateRange: Array,
+    dateRangeLabel: String
   },
   mounted() {
-    this.setDate();
+    this.updatePickerDate();
   },
   watch: {
-    dateAPI: {
-      handler() {
-        this.setDate();
-      },
-      deep: true,
+    dateRange() {
+      this.updatePickerDate();
     },
     pickerDate() {
       this.unlockAdjacentMonth();
-    },
-
-    updateDatepicker() {
-      this.updateToday();
-    },
+    }
   },
   methods: {
+    updatePickerDate() {
+      if (!this.dateRange.length) {
+        return;
+      }
+
+      this.d.setTime(Date.parse(this.dateRange[0]));
+      this.f = this.d.setHours(0, 0, 0);
+
+      this.d.setTime(Date.parse(this.dateRange[1]))
+      this.t = this.d.setHours(23, 59, 59);
+
+      let n = Date.now();
+
+      if (n >= this.f && n <= this.t) { // uh
+        this.events = [new Date().toLocaleDateString('en-CA')];
+      } else {
+        this.events = [];
+      }
+
+      if (this.pickerDate != this.dateRange[0].substr(0, 7) && this.pickerDate != this.dateRange[1].substr(0, 7)) {
+        this.pickerDate = this.dateRange[0].substr(0, 7);
+      }
+
+      this.unlockAdjacentMonth();
+    },
+
     unlockAdjacentMonth() {
       this.$nextTick(() => {
         for (const el of [
@@ -67,58 +83,31 @@ export default {
         }
       });
     },
-    input() {
-      if (this.date[0].substr(0, 7) !== this.pickerDate) {
-        this.pickerDate = this.date[0].substr(0, 7);
+
+    input(v) {
+      this.d.setTime(Date.parse(v[0]));
+      let n = this.d.setHours(12, 0, 0);
+
+      if (n < this.f || n > this.t) {
+        this.$emit('update:dateRange', v);
+
+        this.$nextTick(() => {
+          this.$emit('date--set');
+        });
       }
 
-      if (!this.date.length) return;
-
-      let fullWeek = this.dateAPI.getFullArrayWeek();
-      fullWeek = [fullWeek[0], fullWeek[6]];
-
-      let e = new Date(this.date[0]).setHours(0, 0, 0);
-      let f = new Date(fullWeek[0]).setHours(0, 0, 0);
-      let t = new Date(fullWeek[1]).setHours(23, 59, 59);
-
-      if (!(e >= f && e <= t)) {
-        this.$emit("date--week", this.date[0]);
-      } else {
-        this.date = fullWeek;
+      if (v[0].substr(0, 7) !== this.pickerDate) {
+        this.pickerDate = v[0].substr(0, 7);
       }
-    },
-    setDate() {
-      if (this.type == "welcome") return;
-      let fullWeek = this.dateAPI.getFullArrayWeek();
-      this.date = [fullWeek[0], fullWeek[6]];
-
-      let f = this.date[0].substr(0, 7);
-
-      if (f != this.pickerDate && f == this.date[1].substr(0, 7)) {
-        this.pickerDate = f;
-      }
-
-      this.events = this.date.filter(
-        (el) => el == new Date().toISOString().substr(0, 10)
-      );
-
-      this.unlockAdjacentMonth();
-    },
-    submitCurrentWeek() {
-      this.$emit("date--week", new Date().toISOString().substr(0, 10));
-    },
-
-    updateToday() {
-      this.events = this.date.filter(
-        (el) => el == new Date().toISOString().substr(0, 10)
-      );
     },
   },
   data: () => ({
     modal: false,
     dialog: false,
+    d: new Date(),
+    f: null,
+    t: null,
     events: [],
-    date: [],
     multiplay: false,
     pickerDate: "",
   }),

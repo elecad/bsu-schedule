@@ -179,8 +179,6 @@ export default {
       return this.$store.getters.getSettings.weakDesktop;
     },
   },
-
-  created() {},
   mounted() {
     this.handleDebouncedScroll = debounce(() => {
       if (this.previousTop - window.scrollY < -20) {

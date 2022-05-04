@@ -72,7 +72,7 @@
         <v-btn
           class="edit--text--button"
           text
-          @click="$emit('date--week', new Date().toISOString().substr(0, 10))"
+          @click="setCurrentWeek"
         >
           Текущая неделя
         </v-btn>
@@ -152,6 +152,13 @@ export default {
     tooltipShow: false,
   }),
   methods: {
+    setCurrentWeek() {
+      this.$emit('update:dateRange', [new Date().toLocaleDateString('en-CA')]);
+
+      this.$nextTick(() => {
+        this.$emit('date--set');
+      });
+    },
     favoritAction() {
       if (this.isFavorite) {
         this.$store.commit("REMOVE_FAVORITE", {

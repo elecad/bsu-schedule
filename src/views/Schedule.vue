@@ -6,12 +6,10 @@
 
     <div v-if="!isMobile" class="navigation--drawer--desktop">
       <nav-drawer-desktop
-        :dateAPI="dateAPI"
-        :type="scheduleType"
-        :updateDatepicker="updateDatepicker"
-        @next--week="nextWeek"
-        @back--week="backWeek"
-        @date--week="dateWeek"
+        :dateRange="dateRange"
+        :dateRangeLabel="dateRangeLabel"
+        @update:dateRange="onDateRangeUpdate"
+        @date--set="onDateRangeSet"
       ></nav-drawer-desktop>
     </div>
 
@@ -20,10 +18,13 @@
         <schedule-head-mobile
           :header="header"
           :loading="isHeaderLoading"
-          :dateAPI="dateAPI"
+          :dateRange="dateRange"
+          :dateRangeLabel="dateRangeLabel"
+          :autoNextWeek="autoNextWeek"
+          @update:dateRange="onDateRangeUpdate"
           @next--week="nextWeek"
           @back--week="backWeek"
-          @date--week="dateWeek"
+          @date--set="onDateRangeSet"
           :type="scheduleType"
           class="mb-3"
         ></schedule-head-mobile>
@@ -51,10 +52,11 @@
         <schedule-header-desktop
           :header="header"
           :loading="isHeaderLoading"
-          :autoChange="dateAPI ? dateAPI.autoNextWeek : false"
+          :autoChange="autoNextWeek"
           @next--week="nextWeek"
           @back--week="backWeek"
-          @date--week="dateWeek"
+          @update:dateRange="onDateRangeUpdate"
+          @date--set="onDateRangeSet"
           :type="scheduleType"
           class="mb-3"
         ></schedule-header-desktop>
@@ -77,7 +79,6 @@
 </template>
 
 <script>
-import dateAPI from "@/class/DateAPI";
 import parsers from "@/parser/parsers";
 
 export default {
@@ -100,7 +101,6 @@ export default {
       import("@/components/desktop/Schedule/Body/TheSheduleBody.vue"),
   },
   data: () => ({
-    dateAPI: null,
     header: null,
     body: null,
     isHeaderLoading: true,
@@ -114,12 +114,21 @@ export default {
     autoChangeWeek: false,
     updateDatepicker: false,
     hasError: false,
+
+    d: new Date(),
+    autoNextWeek: false,
+    dateRange: [],
+    dateRangePrev: [],
+    dateRangeLabel: '-'
   }),
   watch: {
     $route(to, from) {
       this.scrollUp();
       this.scheduleType = this.$router.currentRoute.name;
-      this.INIT();
+      // this.INIT();
+
+      this.calcDateRange();
+      this.loading({ full: true });
     },
   },
   computed: {
@@ -136,6 +145,18 @@ export default {
     },
   },
   methods: {
+    onDateRangeUpdate(dateRange) {
+      this.d.setTime(Date.parse(dateRange[0]));
+      this.calcDateRange();
+    },
+    onDateRangeSet() {
+      this.autoNextWeek = false;
+
+      if (!this.dateRangePrev.length || this.dateRangePrev[0] != this.dateRange[0] || this.dateRangePrev[1] != this.dateRange[1]) {
+        this.loading({ full: this.hasError });
+      }
+
+    },
     onResize() {
       if (window.innerWidth > 959) {
         this.isMobile = false;
@@ -145,22 +166,22 @@ export default {
     },
 
     nextWeek() {
-      this.dateAPI.goNextWeek();
+      this.autoNextWeek = false;
+
+      this.d.setDate(this.d.getDate() - this.d.getDay() + 7);
+      this.calcDateRange();
+
       this.scrollUp();
 
       this.loading({ full: this.hasError });
     },
 
     backWeek() {
-      this.dateAPI.goBackWeek();
-      this.scrollUp();
+      this.autoNextWeek = false;
+      
+      this.d.setDate(this.d.getDate() - this.d.getDay() - 7);
+      this.calcDateRange();
 
-      this.loading({ full: this.hasError });
-    },
-
-    dateWeek(date) {
-      if (this.dateAPI.isDateInCurrentWeek(date)) return;
-      this.dateAPI.setDate(new Date(date));
       this.scrollUp();
 
       this.loading({ full: this.hasError });
@@ -176,6 +197,7 @@ export default {
         this.controller = new AbortController();
         this.scheduleType = this.$router.currentRoute.name;
         this.hasError = false;
+        
         if (full) {
           this.isHeaderLoading = true;
           this.header = null;
@@ -184,7 +206,10 @@ export default {
         this.isBodyLoading = true;
         this.body = null;
 
-        const dateBsuFormat = this.dateAPI.getDateForBsuAPI();
+        let re = /(\d+)-(\d+)-(\d+)/;
+        const dateBsuFormat = this.dateRange[0].replace(re, '$3$2$1')+this.dateRange[1].replace(re, '$3$2$1');
+        this.dateRangePrev = this.dateRange;
+
         let groupData = {};
         switch (this.scheduleType) {
           case "group":
@@ -225,11 +250,10 @@ export default {
           type: this.$router.currentRoute.name,
           id: this.$route.params.id,
         });
-        if (full) {
-          this.header = this.isGroup
+
+       this.header = this.isGroup
             ? { name: groupData.data.header }
             : groupData.data.header;
-        }
 
         this.scheduleType = this.$router.currentRoute.name;
 
@@ -254,14 +278,48 @@ export default {
         this.isBodyLoading = false;
       }
     },
-    INIT() {
-      if (!this.dateAPI) {
-        this.dateAPI = new dateAPI(
-          new Date(),
-          this.$store.getters.getSettings.autoNextWeek
-        );
+    calcDateRange() {
+      let currentDay = this.d.getDay();
+
+      if (currentDay == 0) {
+        currentDay = 7;
       }
-      this.loading();
+
+      const monthNames = ["Янв", "Фев", "Мар", "Апр", "Мая", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"];
+
+      let dr = [];
+
+      this.dateRangeLabel = "";
+
+      // monday
+      this.d.setDate(this.d.getDate() + (1 - currentDay));
+      this.f = this.d.setHours(0, 0, 0);
+      this.dateRangeLabel = this.d.getDate() + ' ' + monthNames[this.d.getMonth()];
+      dr[0] = this.d.toLocaleDateString('en-CA'); // Canadian locale matches ISO format (YYYY-mm-dd)
+      
+      this.dateRangeLabel += ' - ';
+
+      // sunday
+      this.d.setDate(this.d.getDate() + 6);
+      this.t = this.d.setHours(23, 59, 59);
+      this.dateRangeLabel += this.d.getDate() + ' ' + monthNames[this.d.getMonth()];
+      dr[1] = this.d.toLocaleDateString('en-CA');
+
+      this.dateRange = dr;
+    },
+    INIT() {
+      if (this.$route.name != 'welcome') {
+        if (this.$store.getters.getSettings.autoNextWeek &&
+            this.d.getDay() == 0) {
+          this.d.setDate(this.d.getDate() + 1);
+          this.autoNextWeek = true;
+        }
+
+        this.calcDateRange();
+        this.loading({ full: true });
+      } else {
+        this.scheduleType = 'welcome';
+      }
     },
     findCurrentLesson() {
       if (!this.body) return;
@@ -282,11 +340,18 @@ export default {
       let min = now.getTime() + 604800000; // Текущая дата + неделя
       let interval = 0;
 
+      let isNextDay = false;
+
       this.body.forEach((day) => {
         let validDate = day.date.replace(re, "$3-$2-$1");
 
         interval = new Date(validDate) - now.getTime();
         min = interval > 0 && interval < min ? interval : min;
+
+        if (day.today && validDate != today && !isNextDay) {
+          isNextDay = true;
+          this.dateRange = [...this.dateRange]; // trigger watch on datepickers
+        }
 
         if (validDate == today) {
           day.today = true;
