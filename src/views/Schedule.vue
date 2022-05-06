@@ -119,10 +119,10 @@ export default {
     autoNextWeek: false,
     dateRange: [],
     dateRangePrev: [],
-    dateRangeLabel: '-',
+    dateRangeLabel: "-",
 
     nextUpdate: 0,
-    nextUpdateTimer: null
+    nextUpdateTimer: null,
   }),
   watch: {
     $route(to, from) {
@@ -155,10 +155,13 @@ export default {
     onDateRangeSet() {
       this.autoNextWeek = false;
 
-      if (!this.dateRangePrev.length || this.dateRangePrev[0] != this.dateRange[0] || this.dateRangePrev[1] != this.dateRange[1]) {
+      if (
+        !this.dateRangePrev.length ||
+        this.dateRangePrev[0] != this.dateRange[0] ||
+        this.dateRangePrev[1] != this.dateRange[1]
+      ) {
         this.loading({ full: this.hasError });
       }
-
     },
     onResize() {
       if (window.innerWidth > 959) {
@@ -182,11 +185,11 @@ export default {
 
     backWeek() {
       this.autoNextWeek = false;
-      
+
       this.d.setTime(this.timeFrom);
       this.d.setDate(this.d.getDate() - 1);
       this.calcDateRange();
-  
+
       this.scrollUp();
 
       this.loading({ full: this.hasError });
@@ -202,7 +205,7 @@ export default {
         this.controller = new AbortController();
         this.scheduleType = this.$router.currentRoute.name;
         this.hasError = false;
-        
+
         if (full) {
           this.isHeaderLoading = true;
           this.header = null;
@@ -213,7 +216,9 @@ export default {
         this.body = null;
 
         let re = /(\d+)-(\d+)-(\d+)/;
-        const dateBsuFormat = this.dateRange[0].replace(re, '$3$2$1')+this.dateRange[1].replace(re, '$3$2$1');
+        const dateBsuFormat =
+          this.dateRange[0].replace(re, "$3$2$1") +
+          this.dateRange[1].replace(re, "$3$2$1");
         this.dateRangePrev = this.dateRange;
 
         let groupData = {};
@@ -257,9 +262,9 @@ export default {
           id: this.$route.params.id,
         });
 
-       this.header = this.isGroup
-            ? { name: groupData.data.header }
-            : groupData.data.header;
+        this.header = this.isGroup
+          ? { name: groupData.data.header }
+          : groupData.data.header;
 
         this.scheduleType = this.$router.currentRoute.name;
 
@@ -270,15 +275,18 @@ export default {
 
         this.findCurrentLesson();
       } catch (e) {
-        if (e && e.name == 'AbortError') {
+        if (e && e.name == "AbortError") {
           return;
         }
 
-        if (this.$router.currentRoute.name == 'group' && this.$route.params.id.length < 8) {
+        if (
+          this.$router.currentRoute.name == "group" &&
+          this.$route.params.id.length < 8
+        ) {
           this.$router.push({ name: "notFound" });
           return;
         }
-        
+
         this.hasError = true;
         this.isHeaderLoading = true;
         this.isBodyLoading = false;
@@ -291,7 +299,20 @@ export default {
         currentDay = 7;
       }
 
-      const monthNames = ["Янв", "Фев", "Мар", "Апр", "Мая", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"];
+      const monthNames = [
+        "Янв",
+        "Фев",
+        "Мар",
+        "Апр",
+        "Мая",
+        "Июн",
+        "Июл",
+        "Авг",
+        "Сен",
+        "Окт",
+        "Ноя",
+        "Дек",
+      ];
 
       let dr = [];
 
@@ -300,23 +321,27 @@ export default {
       // monday
       this.d.setDate(this.d.getDate() + (1 - currentDay));
       this.timeFrom = this.d.setHours(0, 0, 0);
-      this.dateRangeLabel = this.d.getDate() + ' ' + monthNames[this.d.getMonth()];
-      dr[0] = this.d.toLocaleDateString('en-CA'); // Canadian locale matches ISO format (YYYY-mm-dd)
-      
-      this.dateRangeLabel += ' - ';
+      this.dateRangeLabel =
+        this.d.getDate() + " " + monthNames[this.d.getMonth()];
+      dr[0] = this.d.toLocaleDateString("en-CA"); // Canadian locale matches ISO format (YYYY-mm-dd)
+
+      this.dateRangeLabel += " - ";
 
       // sunday
       this.d.setDate(this.d.getDate() + 6);
       this.timeTo = this.d.setHours(23, 59, 59);
-      this.dateRangeLabel += this.d.getDate() + ' ' + monthNames[this.d.getMonth()];
-      dr[1] = this.d.toLocaleDateString('en-CA');
+      this.dateRangeLabel +=
+        this.d.getDate() + " " + monthNames[this.d.getMonth()];
+      dr[1] = this.d.toLocaleDateString("en-CA");
 
       this.dateRange = dr;
     },
     INIT() {
-      if (this.$route.name != 'welcome') {
-        if (this.$store.getters.getSettings.autoNextWeek &&
-            this.d.getDay() == 0) {
+      if (this.$route.name != "welcome") {
+        if (
+          this.$store.getters.getSettings.autoNextWeek &&
+          this.d.getDay() == 0
+        ) {
           this.d.setDate(this.d.getDate() + 1);
           this.autoNextWeek = true;
         }
@@ -324,7 +349,7 @@ export default {
         this.calcDateRange();
         this.loading({ full: true });
       } else {
-        this.scheduleType = 'welcome';
+        this.scheduleType = "welcome";
       }
     },
     findCurrentLesson() {
@@ -334,10 +359,10 @@ export default {
         if (this.nextUpdate) {
           this.nextUpdate = 0;
           this.nowButtonVisible = false;
-          
+
           clearTimeout(this.nextUpdateTimer);
           this.nextUpdateTimer = null;
-  
+
           if (this.body) {
             for (let day of this.body) {
               for (let lesson of day.lessons) {
@@ -350,13 +375,13 @@ export default {
 
         return;
       }
-      
+
       if (this.nextUpdateTimer) {
         clearTimeout(this.nextUpdateTimer);
-        
+
         if (now < this.nextUpdate) {
           setTimeout(() => {
-            this.findCurrentLesson()
+            this.findCurrentLesson();
           }, this.nextUpdate - now);
 
           return;
@@ -386,17 +411,17 @@ export default {
 
       for (let day of this.body) {
         dayTime = Date.parse(day.date.replace(re, "$3-$2-$1 00:00:00"));
-        
+
         if (dayTime == todayTime) {
           day.today = true;
           this.nowButtonVisible = true;
 
           for (let lesson of day.lessons) {
-            m = lesson.startTime.split(':');
-            lf = dayTime + (m[0]*3600000) + (m[1]*60000);
+            m = lesson.startTime.split(":");
+            lf = dayTime + m[0] * 3600000 + m[1] * 60000;
 
-            m = lesson.endTime.split(':');
-            lt = dayTime + (m[0]*3600000) + (m[1]*60000);
+            m = lesson.endTime.split(":");
+            lt = dayTime + m[0] * 3600000 + m[1] * 60000;
 
             if (!this.nextUpdate) {
               if (lf > now) {
@@ -405,7 +430,7 @@ export default {
                 this.nextUpdate = lt;
               }
             }
-            
+
             lesson.isToday = true;
             lesson.isNow = now >= lf && now <= lt;
           }
@@ -418,7 +443,7 @@ export default {
           }
         }
       }
-  
+
       if (now > this.nextUpdate) {
         this.nextUpdate = todayTime + 86400000; // next day ?
       }
@@ -461,7 +486,8 @@ export default {
   position: absolute;
   height: 100%;
   left: 0;
-  border-inline-start: 4px solid rgba(134, 134, 134, 0.404);
+
+  border-inline-start: 4px solid rgba(63, 81, 181, 0.4);
 }
 
 .sublesson--discipline--information--location {

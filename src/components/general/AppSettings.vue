@@ -68,9 +68,20 @@
         </div>
 
         <v-container fluid class="py-0 px-0 pt-6">
-          <v-btn color="primary" class="fix--width--about--button">
-            О проекте
-          </v-btn>
+          <router-link
+            :to="{ name: 'about' }"
+            custom
+            v-slot="{ navigate, href }"
+          >
+            <v-btn
+              color="primary"
+              class="fix--width--about--button"
+              @click="navigate"
+              :href="href"
+            >
+              О проекте
+            </v-btn>
+          </router-link>
         </v-container>
       </v-card-text>
 

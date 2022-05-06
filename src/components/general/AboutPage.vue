@@ -2,7 +2,7 @@
   <div>
     <v-parallax src="img/kod.jpg" height="250" class="mb-3">
       <div class="wrapper">
-        <div class="typing-demo mt-3 mb-3">It's revolution, Johnny!</div>
+        <div class="typing-demo-one mt-3 mb-3">It's revolution, Johnny!</div>
       </div>
 
       <div class="d-flex justify-center align-center flex-column">
@@ -43,7 +43,14 @@
         <div class="text-h5">Антон Дахин</div>
 
         <div class="my-4">
-          <v-btn color="#0077FF" dark class=""> VK </v-btn>
+          <v-btn
+            color="#0077FF"
+            dark
+            href="https://vk.com/a_d_elec"
+            target="_blank"
+          >
+            VK
+          </v-btn>
         </div>
       </v-card>
 
@@ -72,10 +79,16 @@
           <div>Тестирование</div>
           <div>Умный proxy</div>
           <div>Быстрый фидбек</div>
-          <div></div>
         </div>
         <div class="my-4">
-          <v-btn color="#0077FF" disabled> Нет данных </v-btn>
+          <v-btn
+            color="#0077FF"
+            disabled
+            href="https://github.com/serfreeman1337"
+            target="_blank"
+          >
+            Нет данных
+          </v-btn>
         </div>
       </v-card>
 
@@ -92,7 +105,14 @@
           <div></div>
         </div>
         <div class="my-4">
-          <v-btn color="#0077FF" dark class=""> VK </v-btn>
+          <v-btn
+            color="#0077FF"
+            dark
+            href="https://vk.com/vooforx"
+            target="_blank"
+          >
+            VK
+          </v-btn>
         </div>
       </v-card>
 
@@ -100,24 +120,45 @@
         class="rounded-lg d-flex justify-space-around flex-column align-center mb-3"
       >
         <v-avatar size="150" class="ma-3">
-          <v-img src="/img/thanks2.jpg"></v-img>
+          <v-img src="/img/thanks3.jpg"></v-img>
         </v-avatar>
         <div class="text-h5">Мария Ходячих</div>
         <div class="text-caption text-center mt-3">
           <div>Создание иконки</div>
-          <div>Создание инормационных картинок</div>
+          <div>Создание информационных картинок</div>
           <div>Тестирование</div>
           <div></div>
         </div>
         <div class="my-4">
-          <v-btn color="#0077FF" dark class=""> VK </v-btn>
+          <v-btn
+            color="#0077FF"
+            dark
+            href="https://vk.com/m_h_411"
+            target="_blank"
+          >
+            VK
+          </v-btn>
         </div>
       </v-card>
     </v-container>
+
     <v-parallax src="img/kod.jpg" height="200">
+      <v-lazy>
+        <div class="wrapper">
+          <div class="typing-demo-two mt-3 mb-3">Приятного пользования!</div>
+        </div>
+      </v-lazy>
       <div class="wrapper">
         <div class="my-4">
-          <v-btn elevation="2">К расписанию</v-btn>
+          <router-link
+            :to="{ name: 'main' }"
+            custom
+            v-slot="{ navigate, href }"
+          >
+            <v-btn elevation="2" :href="href" @click="navigate"
+              >К расписанию</v-btn
+            >
+          </router-link>
         </div>
       </div></v-parallax
     >
@@ -152,7 +193,7 @@ export default {
       {
         header: "Избранное",
         content:
-          "Возможность удобно переключаться между частопосещаемыми группами / преподавателями / аудиториями может быть удобна для кураторов и работников университета. Избранное сохраняется в памяти устройства, поэтому не нужно каждый раз искать группу, преподавателя или аудиторию сомаостоятельно.",
+          "Возможность удобно переключаться между частопосещаемыми группами / преподавателями / аудиториями может быть удобна для кураторов и работников университета. Избранное сохраняется в памяти устройства, поэтому не нужно каждый раз искать группу, преподавателя или аудиторию самостоятельно.",
       },
       {
         header: "Адаптивный интерфейс",
@@ -177,6 +218,21 @@ export default {
       },
     ],
   }),
+
+  methods: {
+    startScroll() {
+      document.body.style.overscrollBehaviorY = "auto";
+      document.querySelector("html").style.overflow = "auto";
+    },
+    scrollUp() {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    },
+  },
+
+  created() {
+    this.startScroll();
+    this.scrollUp();
+  },
 };
 </script>
 
@@ -207,9 +263,19 @@ export default {
   }
 }
 
-.typing-demo {
+.typing-demo-one {
   width: 24ch;
-  animation: typing 4s steps(24), blink 0.5s step-end infinite alternate;
+  animation: typing 3s steps(24), blink 0.5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 1px solid;
+  font-family: monospace;
+  font-size: 2em;
+}
+
+.typing-demo-two {
+  width: 22ch;
+  animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
   white-space: nowrap;
   overflow: hidden;
   border-right: 1px solid;

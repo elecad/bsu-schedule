@@ -18,8 +18,13 @@
     </div>
 
     <span class="text--disabled d-flex justify-center footer--welcome--page"
-      >by &nbsp;<span class="text-decoration-underline">Anton Dakhin</span
-      >&nbsp;2022</span
+      >by &nbsp;
+      <router-link :to="{ name: 'about' }" custom v-slot="{ navigate }"
+        ><span class="text-decoration-underline" @click="navigate"
+          >Anton Dakhin</span
+        ></router-link
+      >
+      &nbsp;2022</span
     >
   </div>
 </template>
