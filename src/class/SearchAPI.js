@@ -10,7 +10,7 @@ class SearchAPI {
 
   controller = new AbortController();
   timeout = null;
-  debounce = 250;
+  debounce = 500;
   Fetch = new Parsers();
 
   constructor() {}

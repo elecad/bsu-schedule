@@ -35,6 +35,11 @@ export default class Parsers {
       throw "Данные переданы некорректно!";
     }
     let response = await fetch(links.group({ group, week }), { signal });
+
+    if (response.status != 200 && response.status != 304) {
+      response = await fetch('https://x.serf.workers.dev'+links.group({ group, week }), { signal });
+    }
+
     let htmlText = await response.text();
     this.htmlText = htmlText;
     // this.htmlText = htmlCode;
@@ -69,7 +74,12 @@ export default class Parsers {
     if (!(teacher && week.length == 16)) {
       throw "Данные переданы некорректно!";
     }
+
     let response = await fetch(links.teacher({ teacher, week }), { signal });
+
+    if (response.status != 200 && response.status != 304) {
+      response = await fetch('https://x.serf.workers.dev'+links.teacher({ teacher, week }), { signal });
+    }
 
     let htmlText = await response.text();
     this.htmlText = htmlText;
@@ -106,11 +116,20 @@ export default class Parsers {
     }
     let response = await fetch(links.location({ location, week }), { signal });
 
+    if (response.status != 200 && response.status != 304) {
+      response = await fetch('https://x.serf.workers.dev'+links.location({ location, week }), { signal });
+    }
+
     let htmlText = await response.text();
     this.htmlText = htmlText;
 
     //! Грязно, но быстро
     response = await fetch(links.loationAud({ location }));
+
+    if (response.status != 200 && response.status != 304) {
+      response = await fetch('https://x.serf.workers.dev'+links.loationAud({ location }), { signal });
+    }
+
     htmlText = await response.text();
     this.audHtmlText = htmlText;
 
@@ -155,6 +174,10 @@ export default class Parsers {
     }
 
     let response = await fetch(links.search({ query }), { signal });
+
+    if (response.status != 200 && response.status != 304) {
+      response = await fetch('https://x.serf.workers.dev'+links.search({ query }), { signal });
+    }
 
     let htmlText = await response.text();
     this.htmlText = htmlText;
