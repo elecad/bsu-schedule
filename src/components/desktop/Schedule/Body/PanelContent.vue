@@ -57,9 +57,12 @@
           <!-- //! Переход к расписанию преподавателя -->
           <v-tooltip bottom open-delay="300">
             <template v-slot:activator="{ on }">
-              <router-link 
-                :to="{ name: 'teacher', params: { id: more.teacher.id ? more.teacher.id : 0 }}" 
-                custom 
+              <router-link
+                :to="{
+                  name: 'teacher',
+                  params: { id: more.teacher.id ? more.teacher.id : 0 },
+                }"
+                custom
                 v-slot="{ navigate, href }"
                 v-if="!isTeacher"
               >
@@ -78,15 +81,20 @@
                 </v-btn>
               </router-link>
             </template>
-            <span class="tooltip--text">Переход к расписанию преподавателя</span>
+            <span class="tooltip--text"
+              >Переход к расписанию преподавателя</span
+            >
           </v-tooltip>
 
           <!-- //! Переход к расписанию группы -->
           <v-tooltip bottom open-delay="300">
             <template v-slot:activator="{ on }">
-              <router-link 
-                :to="{ name: 'group', params: { id: more.group.id ? more.group.id : 0 }}" 
-                custom 
+              <router-link
+                :to="{
+                  name: 'group',
+                  params: { id: more.group.id ? more.group.id : 0 },
+                }"
+                custom
                 v-slot="{ navigate, href }"
                 v-if="!isGroup"
               >
@@ -111,9 +119,12 @@
           <!-- //! Переход к расписанию аудитории -->
           <v-tooltip bottom open-delay="300">
             <template v-slot:activator="{ on }">
-              <router-link 
-                :to="{ name: 'location', params: { id: more.location.id ? more.location.id : 0 }}" 
-                custom 
+              <router-link
+                :to="{
+                  name: 'location',
+                  params: { id: more.location.id ? more.location.id : 0 },
+                }"
+                custom
                 v-slot="{ navigate, href }"
                 v-if="!isLocation"
               >
