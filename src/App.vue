@@ -20,6 +20,10 @@ export default {
   },
   created() {
     this.$store.commit("INIT");
+    console.log(
+      "\nИнтересно, как это работает?\nStack: Vue + VueX + Vue Router + Vuetify\n\n"
+    );
+
     if (this.settings.dark) {
       this.$vuetify.theme.dark = this.settings ? true : false;
       SystemUI.changeThemeAppBar();
