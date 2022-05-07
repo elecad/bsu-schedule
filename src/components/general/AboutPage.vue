@@ -102,7 +102,6 @@
         <div class="text-caption text-center mt-3">
           <div>Помощь с размещением</div>
           <div>Тестирование</div>
-          <div></div>
         </div>
         <div class="my-4">
           <v-btn
@@ -127,7 +126,6 @@
           <div>Создание иконки</div>
           <div>Создание информационных картинок</div>
           <div>Тестирование</div>
-          <div></div>
         </div>
         <div class="my-4">
           <v-btn
@@ -138,6 +136,15 @@
           >
             VK
           </v-btn>
+        </div>
+      </v-card>
+
+      <v-card
+        class="rounded-lg d-flex justify-space-around flex-column align-center mb-3 pa-7"
+      >
+        <div class="text-h6 text-center">
+          И всем тем, кто помогал c тестированием приложения на различных
+          устройствах!
         </div>
       </v-card>
     </v-container>

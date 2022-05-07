@@ -13,11 +13,12 @@ module.exports = defineConfig({
 
   pwa: {
     name: "Расписание",
+    // appleMobileWebAppCapable: "yes",
     themeColor: null,
     msTileColor: "#ffffff",
     manifestOptions: {
-      background_color: "#ffffff",
-      theme_color: "#f5f5f5",
+      background_color: "#000000",
+      // theme_color: "#ffffff",
       display: "standalone",
       start_url: "/",
       icons: [
