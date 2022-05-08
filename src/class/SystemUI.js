@@ -17,18 +17,18 @@ class SystemUI {
     themeColor.content = colour;
     document.body.style.backgroundColor = colour;
     if (this.night == this.targetNight) {
-      if (this.night == 0) {
-        //? Светлая тема
+      // if (this.night == 0) {
+      //   //? Светлая тема
 
-        document
-          .querySelector("[name=apple-mobile-web-app-status-bar-style]")
-          .setAttribute("content", "default");
-      } else if (this.night == 1) {
-        //! Тёмная тема
-        document
-          .querySelector("[name=apple-mobile-web-app-status-bar-style]")
-          .setAttribute("content", "black-transcluent");
-      }
+      //   document
+      //     .querySelector("[name=apple-mobile-web-app-status-bar-style]")
+      //     .setAttribute("content", "default");
+      // } else if (this.night == 1) {
+      //   //! Тёмная тема
+      //   document
+      //     .querySelector("[name=apple-mobile-web-app-status-bar-style]")
+      //     .setAttribute("content", "black-transcluent");
+      // }
       return;
     }
 
