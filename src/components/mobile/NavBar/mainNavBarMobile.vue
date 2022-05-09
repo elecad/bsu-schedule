@@ -201,8 +201,4 @@ export default {
   height: 100vh;
   z-index: 10 !important;
 }
-
-.theme--light.v-toolbar {
-  background-color: white !important;
-}
 </style>

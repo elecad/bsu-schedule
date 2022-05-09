@@ -42,7 +42,7 @@
           </template>
         </v-toolbar>
 
-        <v-tabs-items v-model="model">
+        <v-tabs-items v-model="model" :touchless="false">
           <v-tab-item value="tab-1">
             <v-stepper v-model="android" vertical>
               <v-stepper-step :complete="android > 1" step="1">
@@ -57,8 +57,8 @@
                   <v-img
                     src="img/icon.png"
                     eager
-                    width="25%"
-                    max-width="100px"
+                    width="40%"
+                    max-width="150"
                     alt="Расписание"
                     class="elevation-5 rounded-circle my-4"
                   ></v-img>
@@ -93,7 +93,9 @@
                   ></v-img>
                 </v-card>
                 <v-btn color="primary" @click="android = 3"> Далее </v-btn>
-                <v-btn text @click="android = android - 1"> Назад </v-btn>
+                <v-btn text @click="android = android - 1" class="ml-2">
+                  Назад
+                </v-btn>
               </v-stepper-content>
 
               <v-stepper-step :complete="android > 3" step="3">
@@ -115,7 +117,9 @@
                   ></v-img>
                 </v-card>
                 <v-btn color="primary" @click="android = 1"> В начало </v-btn>
-                <v-btn text @click="android = android - 1"> Назад </v-btn>
+                <v-btn text @click="android = android - 1" class="ml-2">
+                  Назад
+                </v-btn>
               </v-stepper-content>
             </v-stepper>
           </v-tab-item>
@@ -145,10 +149,32 @@
               </v-stepper-content>
 
               <v-stepper-step :complete="ios > 2" step="2">
-                Нажмите "Поделиться"
+                Перейдите в полную версию браузера
               </v-stepper-step>
 
               <v-stepper-content step="2">
+                <v-card
+                  class="mb-6 d-flex align-center justify-center flex-column"
+                  elevation="0"
+                >
+                  <v-img
+                    eager
+                    src="img/ios-step-1.jpg"
+                    width="40%"
+                    min-width="210"
+                    alt="Расписание"
+                    class="elevation-5 my-2"
+                  ></v-img>
+                </v-card>
+                <v-btn color="primary" @click="ios = 3"> Далее </v-btn>
+                <v-btn text @click="ios = ios - 1" class="ml-2"> Назад </v-btn>
+              </v-stepper-content>
+
+              <v-stepper-step :complete="ios > 3" step="3">
+                Нажмите "Поделиться"
+              </v-stepper-step>
+
+              <v-stepper-content step="3">
                 <v-card
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
@@ -162,15 +188,15 @@
                     class="elevation-5 my-2"
                   ></v-img>
                 </v-card>
-                <v-btn color="primary" @click="ios = 3"> Далее </v-btn>
-                <v-btn text @click="ios = ios - 1"> Назад </v-btn>
+                <v-btn color="primary" @click="ios = 4"> Далее </v-btn>
+                <v-btn text @click="ios = ios - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
 
-              <v-stepper-step :complete="ios > 3" step="3">
+              <v-stepper-step :complete="ios > 4" step="4">
                 Нажмите "На экран Домой"
               </v-stepper-step>
 
-              <v-stepper-content step="3">
+              <v-stepper-content step="4">
                 <v-card
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
@@ -184,15 +210,15 @@
                     class="elevation-5 my-2"
                   ></v-img>
                 </v-card>
-                <v-btn color="primary" @click="ios = 4"> Далее </v-btn>
-                <v-btn text @click="ios = ios - 1"> Назад </v-btn>
+                <v-btn color="primary" @click="ios = 5"> Далее </v-btn>
+                <v-btn text @click="ios = ios - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
 
-              <v-stepper-step :complete="ios > 4" step="4">
+              <v-stepper-step :complete="ios > 5" step="5">
                 Добавьте приложение на рабочий стол
               </v-stepper-step>
 
-              <v-stepper-content step="4">
+              <v-stepper-content step="5">
                 <v-card
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
@@ -206,15 +232,15 @@
                     class="elevation-5 my-2"
                   ></v-img>
                 </v-card>
-                <v-btn color="primary" @click="ios = 5"> Далее </v-btn>
-                <v-btn text @click="ios = ios - 1"> Назад </v-btn>
+                <v-btn color="primary" @click="ios = 6"> Далее </v-btn>
+                <v-btn text @click="ios = ios - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
 
-              <v-stepper-step step="5">
+              <v-stepper-step step="6">
                 Теперь приложение появилось на главном экране
               </v-stepper-step>
 
-              <v-stepper-content step="5">
+              <v-stepper-content step="6">
                 <v-card
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
@@ -230,7 +256,7 @@
                   ></v-img>
                 </v-card>
                 <v-btn color="primary" @click="ios = 1"> В начало </v-btn>
-                <v-btn text @click="ios = ios - 1"> Назад </v-btn>
+                <v-btn text @click="ios = ios - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
             </v-stepper></v-tab-item
           >
@@ -278,7 +304,7 @@
                   ></v-img>
                 </v-card>
                 <v-btn color="primary" @click="pc = 3"> Далее </v-btn>
-                <v-btn text @click="pc = pc - 1"> Назад </v-btn>
+                <v-btn text @click="pc = pc - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
 
               <v-stepper-step :complete="pc > 3" step="3">
@@ -300,7 +326,7 @@
                   ></v-img>
                 </v-card>
                 <v-btn color="primary" @click="pc = 4"> Далее </v-btn>
-                <v-btn text @click="pc = pc - 1"> Назад </v-btn>
+                <v-btn text @click="pc = pc - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
 
               <v-stepper-step :complete="pc > 4" step="4">
@@ -323,7 +349,7 @@
                   ></v-img>
                 </v-card>
                 <v-btn color="primary" @click="pc = 1"> В начало </v-btn>
-                <v-btn text @click="pc = pc - 1"> Назад </v-btn>
+                <v-btn text @click="pc = pc - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
             </v-stepper></v-tab-item
           >
@@ -529,7 +555,7 @@ export default {
     ios: 1,
     pc: 1,
     isAndroid: /(android)/i.test(navigator.userAgent),
-    isIphone: /iPhone|iPod|iPad/.test(navigator.platform),
+    isIphone: /iPhone|iPod|iPad/.test(navigator.userAgent),
   }),
 
   methods: {
@@ -617,5 +643,11 @@ export default {
 .undefined--fix {
   width: 100%;
   height: 100%;
+}
+
+@media (max-width: 300px) {
+  * >>> .v-btn__content {
+    font-size: 11px !important;
+  }
 }
 </style>

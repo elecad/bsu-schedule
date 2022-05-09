@@ -1,7 +1,7 @@
 class SystemUI {
-  dayRgb = [255, 255, 255];
+  dayRgb = [245, 245, 245];
   nightRgb = [39, 39, 39];
-  bottomSheetRgb = [153, 153, 153];
+  bottomSheetRgb = [147, 147, 147];
   night = 0;
   targetNight = this.night;
   rate = 2.5 / 60;
