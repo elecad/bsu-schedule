@@ -7,6 +7,7 @@
 
       <div class="d-flex justify-center align-center flex-column">
         <v-img
+          eager
           src="img/icon.png"
           width="25%"
           max-width="100px"
@@ -17,8 +18,6 @@
       </div></v-parallax
     >
     <v-container class="fix--about--container">
-      <!-- <v-card> -->
-
       <v-expansion-panels class="rounded-lg mb-3">
         <v-expansion-panel v-for="(item, i) in advantages" :key="i">
           <v-expansion-panel-header class="text-subtitle-1 font-weight-medium">
@@ -30,6 +29,307 @@
         </v-expansion-panel>
       </v-expansion-panels>
 
+      <v-card class="mb-3">
+        <v-toolbar color="indigo" dark flat>
+          <v-toolbar-title>Как установить?</v-toolbar-title>
+
+          <template v-slot:extension>
+            <v-tabs v-model="model" fixed-tabs slider-color="indigo lighten-4">
+              <v-tab href="#tab-1">Android</v-tab>
+              <v-tab href="#tab-2">IOS</v-tab>
+              <v-tab href="#tab-3">ПК</v-tab>
+            </v-tabs>
+          </template>
+        </v-toolbar>
+
+        <v-tabs-items v-model="model">
+          <v-tab-item value="tab-1">
+            <v-stepper v-model="android" vertical>
+              <v-stepper-step :complete="android > 1" step="1">
+                Скачайте приложение "Расписание" на своё устройство
+              </v-stepper-step>
+
+              <v-stepper-content step="1">
+                <v-card
+                  class="mb-6 d-flex align-center justify-center flex-column"
+                  elevation="0"
+                >
+                  <v-img
+                    src="img/icon.png"
+                    eager
+                    width="25%"
+                    max-width="100px"
+                    alt="Расписание"
+                    class="elevation-5 rounded-circle my-4"
+                  ></v-img>
+                  <v-btn
+                    color="indigo"
+                    dark
+                    class="my-2"
+                    href="/file/Schedule.apk"
+                  >
+                    Скачать
+                  </v-btn>
+                </v-card>
+                <v-btn color="primary" @click="android = 2"> Далее </v-btn>
+              </v-stepper-content>
+
+              <v-stepper-step :complete="android > 2" step="2">
+                Выполните установку
+              </v-stepper-step>
+
+              <v-stepper-content step="2">
+                <v-card
+                  class="mb-6 d-flex align-center justify-center flex-column"
+                  elevation="0"
+                >
+                  <v-img
+                    eager
+                    src="img/android-step-2.jpg"
+                    width="40%"
+                    min-width="150"
+                    alt="Расписание"
+                    class="elevation-5 my-2"
+                  ></v-img>
+                </v-card>
+                <v-btn color="primary" @click="android = 3"> Далее </v-btn>
+                <v-btn text @click="android = android - 1"> Назад </v-btn>
+              </v-stepper-content>
+
+              <v-stepper-step :complete="android > 3" step="3">
+                Теперь приложение доступно на рабочем столе
+              </v-stepper-step>
+
+              <v-stepper-content step="3">
+                <v-card
+                  class="mb-6 d-flex align-center justify-center flex-column"
+                  elevation="0"
+                >
+                  <v-img
+                    src="img/android-step-3.jpg"
+                    width="20%"
+                    eager
+                    min-width="150"
+                    alt="Расписание"
+                    class="elevation-5 my-2"
+                  ></v-img>
+                </v-card>
+                <v-btn color="primary" @click="android = 1"> В начало </v-btn>
+                <v-btn text @click="android = android - 1"> Назад </v-btn>
+              </v-stepper-content>
+            </v-stepper>
+          </v-tab-item>
+
+          <v-tab-item value="tab-2"
+            ><v-stepper v-model="ios" vertical>
+              <v-stepper-step :complete="ios > 1" step="1">
+                Откройте главную страницу "Расписания" в Safari
+              </v-stepper-step>
+
+              <v-stepper-content step="1">
+                <v-card
+                  class="mb-6 d-flex align-center justify-center flex-column"
+                  elevation="0"
+                >
+                  <v-btn
+                    color="indigo"
+                    dark
+                    class="my-2"
+                    href="/"
+                    target="_blank"
+                  >
+                    beluni.ru
+                  </v-btn>
+                </v-card>
+                <v-btn color="primary" @click="ios = 2"> Далее </v-btn>
+              </v-stepper-content>
+
+              <v-stepper-step :complete="ios > 2" step="2">
+                Нажмите "Поделиться"
+              </v-stepper-step>
+
+              <v-stepper-content step="2">
+                <v-card
+                  class="mb-6 d-flex align-center justify-center flex-column"
+                  elevation="0"
+                >
+                  <v-img
+                    eager
+                    src="img/ios-step-2.jpg"
+                    width="40%"
+                    min-width="210"
+                    alt="Расписание"
+                    class="elevation-5 my-2"
+                  ></v-img>
+                </v-card>
+                <v-btn color="primary" @click="ios = 3"> Далее </v-btn>
+                <v-btn text @click="ios = ios - 1"> Назад </v-btn>
+              </v-stepper-content>
+
+              <v-stepper-step :complete="ios > 3" step="3">
+                Нажмите "На экран Домой"
+              </v-stepper-step>
+
+              <v-stepper-content step="3">
+                <v-card
+                  class="mb-6 d-flex align-center justify-center flex-column"
+                  elevation="0"
+                >
+                  <v-img
+                    src="img/ios-step-3.jpg"
+                    eager
+                    width="40%"
+                    min-width="210"
+                    alt="Расписание"
+                    class="elevation-5 my-2"
+                  ></v-img>
+                </v-card>
+                <v-btn color="primary" @click="ios = 4"> Далее </v-btn>
+                <v-btn text @click="ios = ios - 1"> Назад </v-btn>
+              </v-stepper-content>
+
+              <v-stepper-step :complete="ios > 4" step="4">
+                Добавьте приложение на рабочий стол
+              </v-stepper-step>
+
+              <v-stepper-content step="4">
+                <v-card
+                  class="mb-6 d-flex align-center justify-center flex-column"
+                  elevation="0"
+                >
+                  <v-img
+                    src="img/ios-step-4.jpg"
+                    eager
+                    width="40%"
+                    min-width="210"
+                    alt="Расписание"
+                    class="elevation-5 my-2"
+                  ></v-img>
+                </v-card>
+                <v-btn color="primary" @click="ios = 5"> Далее </v-btn>
+                <v-btn text @click="ios = ios - 1"> Назад </v-btn>
+              </v-stepper-content>
+
+              <v-stepper-step step="5">
+                Теперь приложение появилось на главном экране
+              </v-stepper-step>
+
+              <v-stepper-content step="5">
+                <v-card
+                  class="mb-6 d-flex align-center justify-center flex-column"
+                  elevation="0"
+                >
+                  <v-img
+                    src="img/ios-step-5.jpg"
+                    eager
+                    width="40%"
+                    min-width="130"
+                    max-width="200"
+                    alt="Расписание"
+                    class="elevation-5 my-2"
+                  ></v-img>
+                </v-card>
+                <v-btn color="primary" @click="ios = 1"> В начало </v-btn>
+                <v-btn text @click="ios = ios - 1"> Назад </v-btn>
+              </v-stepper-content>
+            </v-stepper></v-tab-item
+          >
+
+          <v-tab-item value="tab-3"
+            ><v-stepper v-model="pc" vertical>
+              <v-stepper-step :complete="pc > 1" step="1">
+                Откройте главную страницу "Расписания" в браузере
+              </v-stepper-step>
+
+              <v-stepper-content step="1">
+                <v-card
+                  class="mb-6 d-flex align-center justify-center flex-column"
+                  elevation="0"
+                >
+                  <v-btn
+                    color="indigo"
+                    dark
+                    class="my-2"
+                    href="/"
+                    target="_blank"
+                  >
+                    beluni.ru
+                  </v-btn>
+                </v-card>
+                <v-btn color="primary" @click="pc = 2"> Далее </v-btn>
+              </v-stepper-content>
+
+              <v-stepper-step :complete="pc > 2" step="2">
+                Нажмите "Установить"
+              </v-stepper-step>
+
+              <v-stepper-content step="2">
+                <v-card
+                  class="mb-6 d-flex align-center justify-center flex-column"
+                  elevation="0"
+                >
+                  <v-img
+                    eager
+                    src="img/pc-step-2.jpg"
+                    width="40%"
+                    min-width="210"
+                    alt="Расписание"
+                    class="elevation-5 my-2"
+                  ></v-img>
+                </v-card>
+                <v-btn color="primary" @click="pc = 3"> Далее </v-btn>
+                <v-btn text @click="pc = pc - 1"> Назад </v-btn>
+              </v-stepper-content>
+
+              <v-stepper-step :complete="pc > 3" step="3">
+                Установите приложение
+              </v-stepper-step>
+
+              <v-stepper-content step="3">
+                <v-card
+                  class="mb-6 d-flex align-center justify-center flex-column"
+                  elevation="0"
+                >
+                  <v-img
+                    src="img/pc-step-3.jpg"
+                    eager
+                    width="40%"
+                    min-width="210"
+                    alt="Расписание"
+                    class="elevation-5 my-2"
+                  ></v-img>
+                </v-card>
+                <v-btn color="primary" @click="pc = 4"> Далее </v-btn>
+                <v-btn text @click="pc = pc - 1"> Назад </v-btn>
+              </v-stepper-content>
+
+              <v-stepper-step :complete="pc > 4" step="4">
+                Теперь приложение доступно на рабочем столе
+              </v-stepper-step>
+
+              <v-stepper-content step="4">
+                <v-card
+                  class="mb-6 d-flex align-center justify-center flex-column"
+                  elevation="0"
+                >
+                  <v-img
+                    src="img/pc-step-4.jpg"
+                    eager
+                    width="40%"
+                    min-width="150"
+                    max-width="200"
+                    alt="Расписание"
+                    class="elevation-5 my-2"
+                  ></v-img>
+                </v-card>
+                <v-btn color="primary" @click="pc = 1"> В начало </v-btn>
+                <v-btn text @click="pc = pc - 1"> Назад </v-btn>
+              </v-stepper-content>
+            </v-stepper></v-tab-item
+          >
+        </v-tabs-items>
+      </v-card>
+
       <v-card class="mb-3 elevation-2" dark color="indigo">
         <v-card-title class="py-1 justify-center">Автор проекта</v-card-title>
       </v-card>
@@ -38,7 +338,7 @@
         class="rounded-lg d-flex justify-space-around flex-column align-center mb-3"
       >
         <v-avatar size="150" class="ma-3">
-          <v-img src="/img/author.jpg"></v-img>
+          <v-img src="/img/author.jpg" eager></v-img>
         </v-avatar>
         <div class="text-h5">Антон Дахин</div>
 
@@ -96,7 +396,7 @@
         class="rounded-lg d-flex justify-space-around flex-column align-center mb-3"
       >
         <v-avatar size="150" class="ma-3">
-          <v-img src="/img/thanks2.jpg"></v-img>
+          <v-img src="/img/thanks2.jpg" eager></v-img>
         </v-avatar>
         <div class="text-h5">Vitaly Taran</div>
         <div class="text-caption text-center mt-3">
@@ -119,7 +419,7 @@
         class="rounded-lg d-flex justify-space-around flex-column align-center mb-3"
       >
         <v-avatar size="150" class="ma-3">
-          <v-img src="/img/thanks3.jpg"></v-img>
+          <v-img src="/img/thanks3.jpg" eager></v-img>
         </v-avatar>
         <div class="text-h5">Мария Ходячих</div>
         <div class="text-caption text-center mt-3">
@@ -224,6 +524,12 @@ export default {
           "По нажатию кнопки в нижнем правом углу «Расписание» прокрутит страницу до текущего дня или занятия. Это очень удобно, ведь не нужно тратить время на поиски занятий!",
       },
     ],
+    model: "tab-1",
+    android: 1,
+    ios: 1,
+    pc: 1,
+    isAndroid: /(android)/i.test(navigator.userAgent),
+    isIphone: /iPhone|iPod|iPad/.test(navigator.platform),
   }),
 
   methods: {
@@ -234,11 +540,17 @@ export default {
     scrollUp() {
       window.scrollTo({ top: 0, behavior: "auto" });
     },
+    selectPlatform() {
+      if (this.isAndroid) return "tab-1";
+      if (this.isIphone) return "tab-2";
+      return "tab-3";
+    },
   },
 
   created() {
     this.startScroll();
     this.scrollUp();
+    this.model = this.selectPlatform();
   },
 };
 </script>
