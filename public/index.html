@@ -156,13 +156,17 @@
       media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
     />
   </head>
+
   <body>
     <noscript>
-      <strong
-        >Для работы этого приложения необходима поддержка JavaScript</strong
-      >
+      Для работы этого приложения необходима поддержка JavaScript
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script>
+      window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault();
+      });
+    </script>
   </body>
 </html>

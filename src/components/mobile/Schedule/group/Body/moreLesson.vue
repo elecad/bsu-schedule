@@ -146,9 +146,14 @@
         <v-row align="center" justify="center" no-gutters dense>
           <v-col cols="2" sm="1">
             <!-- //! Переход к расписанию преподавателя -->
-            <router-link 
-              :to="{ name: 'teacher', params: { id: more.sublesson.teacher.id ? more.sublesson.teacher.id : 0 }}" 
-              custom 
+            <router-link
+              :to="{
+                name: 'teacher',
+                params: {
+                  id: more.sublesson.teacher.id ? more.sublesson.teacher.id : 0,
+                },
+              }"
+              custom
               v-slot="{ navigate, href }"
               v-if="!isTeacher"
             >
@@ -168,9 +173,14 @@
               </v-btn>
             </router-link>
             <!-- //! Переход к расписанию группы -->
-            <router-link 
-              :to="{ name: 'group', params: { id: more.sublesson.group.id ? more.sublesson.group.id : 0 }}" 
-              custom 
+            <router-link
+              :to="{
+                name: 'group',
+                params: {
+                  id: more.sublesson.group.id ? more.sublesson.group.id : 0,
+                },
+              }"
+              custom
               v-slot="{ navigate, href }"
               v-if="!(isGroup || isLocation)"
             >
@@ -190,9 +200,16 @@
           </v-col>
           <v-col cols="2" sm="2">
             <!-- //! Переход к расписанию аудитории -->
-            <router-link 
-              :to="{ name: 'location', params: { id: more.sublesson.location.id ? more.sublesson.location.id : 0 }}" 
-              custom 
+            <router-link
+              :to="{
+                name: 'location',
+                params: {
+                  id: more.sublesson.location.id
+                    ? more.sublesson.location.id
+                    : 0,
+                },
+              }"
+              custom
               v-slot="{ navigate, href }"
               v-if="!isLocation"
             >
@@ -212,9 +229,14 @@
               </v-btn>
             </router-link>
             <!-- //! Переход к расписанию группы -->
-            <router-link 
-              :to="{ name: 'group', params: { id: more.sublesson.group.id ? more.sublesson.group.id : 0 }}" 
-              custom 
+            <router-link
+              :to="{
+                name: 'group',
+                params: {
+                  id: more.sublesson.group.id ? more.sublesson.group.id : 0,
+                },
+              }"
+              custom
               v-slot="{ navigate, href }"
               v-if="!(isGroup || isTeacher)"
             >
@@ -317,6 +339,7 @@ export default {
     isNotPWA: !(
       navigator.userAgent.includes("Android") &&
       (navigator.userAgent.includes("OPR") ||
+        navigator.userAgent.includes("HRY") ||
         window.matchMedia("(display-mode: standalone)").matches ||
         window.navigator.standalone ||
         document.referrer.includes("android-app://"))

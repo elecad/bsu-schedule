@@ -50,7 +50,7 @@
               </v-stepper-step>
 
               <v-stepper-content step="1">
-                <v-card
+                <div
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
                 >
@@ -66,11 +66,11 @@
                     color="indigo"
                     dark
                     class="my-2"
-                    href="/file/Schedule.apk"
+                    :href="`/file/${getNameAPK}`"
                   >
                     Скачать
                   </v-btn>
-                </v-card>
+                </div>
                 <v-btn color="primary" @click="android = 2"> Далее </v-btn>
               </v-stepper-content>
 
@@ -79,7 +79,7 @@
               </v-stepper-step>
 
               <v-stepper-content step="2">
-                <v-card
+                <div
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
                 >
@@ -91,7 +91,7 @@
                     alt="Расписание"
                     class="elevation-5 my-2"
                   ></v-img>
-                </v-card>
+                </div>
                 <v-btn color="primary" @click="android = 3"> Далее </v-btn>
                 <v-btn text @click="android = android - 1" class="ml-2">
                   Назад
@@ -103,7 +103,7 @@
               </v-stepper-step>
 
               <v-stepper-content step="3">
-                <v-card
+                <div
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
                 >
@@ -115,7 +115,7 @@
                     alt="Расписание"
                     class="elevation-5 my-2"
                   ></v-img>
-                </v-card>
+                </div>
                 <v-btn color="primary" @click="android = 1"> В начало </v-btn>
                 <v-btn text @click="android = android - 1" class="ml-2">
                   Назад
@@ -131,7 +131,7 @@
               </v-stepper-step>
 
               <v-stepper-content step="1">
-                <v-card
+                <div
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
                 >
@@ -144,7 +144,7 @@
                   >
                     beluni.ru
                   </v-btn>
-                </v-card>
+                </div>
                 <v-btn color="primary" @click="ios = 2"> Далее </v-btn>
               </v-stepper-content>
 
@@ -153,7 +153,7 @@
               </v-stepper-step>
 
               <v-stepper-content step="2">
-                <v-card
+                <div
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
                 >
@@ -165,7 +165,7 @@
                     alt="Расписание"
                     class="elevation-5 my-2"
                   ></v-img>
-                </v-card>
+                </div>
                 <v-btn color="primary" @click="ios = 3"> Далее </v-btn>
                 <v-btn text @click="ios = ios - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
@@ -175,7 +175,7 @@
               </v-stepper-step>
 
               <v-stepper-content step="3">
-                <v-card
+                <div
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
                 >
@@ -187,7 +187,7 @@
                     alt="Расписание"
                     class="elevation-5 my-2"
                   ></v-img>
-                </v-card>
+                </div>
                 <v-btn color="primary" @click="ios = 4"> Далее </v-btn>
                 <v-btn text @click="ios = ios - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
@@ -197,7 +197,7 @@
               </v-stepper-step>
 
               <v-stepper-content step="4">
-                <v-card
+                <div
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
                 >
@@ -209,7 +209,7 @@
                     alt="Расписание"
                     class="elevation-5 my-2"
                   ></v-img>
-                </v-card>
+                </div>
                 <v-btn color="primary" @click="ios = 5"> Далее </v-btn>
                 <v-btn text @click="ios = ios - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
@@ -219,7 +219,7 @@
               </v-stepper-step>
 
               <v-stepper-content step="5">
-                <v-card
+                <div
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
                 >
@@ -231,7 +231,7 @@
                     alt="Расписание"
                     class="elevation-5 my-2"
                   ></v-img>
-                </v-card>
+                </div>
                 <v-btn color="primary" @click="ios = 6"> Далее </v-btn>
                 <v-btn text @click="ios = ios - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
@@ -241,7 +241,7 @@
               </v-stepper-step>
 
               <v-stepper-content step="6">
-                <v-card
+                <div
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
                 >
@@ -254,7 +254,7 @@
                     alt="Расписание"
                     class="elevation-5 my-2"
                   ></v-img>
-                </v-card>
+                </div>
                 <v-btn color="primary" @click="ios = 1"> В начало </v-btn>
                 <v-btn text @click="ios = ios - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
@@ -268,7 +268,7 @@
               </v-stepper-step>
 
               <v-stepper-content step="1">
-                <v-card
+                <div
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
                 >
@@ -281,7 +281,7 @@
                   >
                     beluni.ru
                   </v-btn>
-                </v-card>
+                </div>
                 <v-btn color="primary" @click="pc = 2"> Далее </v-btn>
               </v-stepper-content>
 
@@ -290,7 +290,7 @@
               </v-stepper-step>
 
               <v-stepper-content step="2">
-                <v-card
+                <div
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
                 >
@@ -302,7 +302,7 @@
                     alt="Расписание"
                     class="elevation-5 my-2"
                   ></v-img>
-                </v-card>
+                </div>
                 <v-btn color="primary" @click="pc = 3"> Далее </v-btn>
                 <v-btn text @click="pc = pc - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
@@ -312,7 +312,7 @@
               </v-stepper-step>
 
               <v-stepper-content step="3">
-                <v-card
+                <div
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
                 >
@@ -324,7 +324,7 @@
                     alt="Расписание"
                     class="elevation-5 my-2"
                   ></v-img>
-                </v-card>
+                </div>
                 <v-btn color="primary" @click="pc = 4"> Далее </v-btn>
                 <v-btn text @click="pc = pc - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
@@ -334,7 +334,7 @@
               </v-stepper-step>
 
               <v-stepper-content step="4">
-                <v-card
+                <div
                   class="mb-6 d-flex align-center justify-center flex-column"
                   elevation="0"
                 >
@@ -347,7 +347,7 @@
                     alt="Расписание"
                     class="elevation-5 my-2"
                   ></v-img>
-                </v-card>
+                </div>
                 <v-btn color="primary" @click="pc = 1"> В начало </v-btn>
                 <v-btn text @click="pc = pc - 1" class="ml-2"> Назад </v-btn>
               </v-stepper-content>
@@ -521,7 +521,7 @@ export default {
       {
         header: "Установка на любое устройство",
         content:
-          "Расписание можно установить на любое устройство, поддерживающее технологию PWA. В рамках такой установки приложение появится на вашем главном экране и будет работать без окна браузера. Это очень удобно, ведь проподает необходимость каждый раз заходить на сайт самостоятельно!",
+          "Расписание можно установить на любое устройство, поддерживающее технологию PWA. В рамках такой установки приложение появится на вашем главном экране и будет работать без окна браузера. Это очень удобно, ведь пропадает необходимость каждый раз заходить на сайт самостоятельно!",
       },
       {
         header: "Избранное",
@@ -557,6 +557,14 @@ export default {
     isAndroid: /(android)/i.test(navigator.userAgent),
     isIphone: /iPhone|iPod|iPad/.test(navigator.userAgent),
   }),
+
+  computed: {
+    getNameAPK() {
+      return !/(android [0-7]\.)/i.test(navigator.userAgent)
+        ? "Schedule.apk"
+        : "Schedule-v7.apk";
+    },
+  },
 
   methods: {
     startScroll() {
