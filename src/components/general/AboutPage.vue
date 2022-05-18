@@ -407,12 +407,7 @@
           <div>Быстрый фидбек</div>
         </div>
         <div class="my-4">
-          <v-btn
-            color="#0077FF"
-            disabled
-            href="https://github.com/serfreeman1337"
-            target="_blank"
-          >
+          <v-btn color="#0077FF" disabled href="1337" target="_blank">
             Нет данных
           </v-btn>
         </div>

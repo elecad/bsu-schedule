@@ -265,7 +265,7 @@
                   color="indigo"
                   dark
                   class="fix--font--size--course--buttons ma-2"
-                  :href="formLink(link.href)"
+                  :href="link.href"
                   target="_blank"
                 >
                   {{ link.name }}
@@ -319,9 +319,6 @@ export default {
   },
 
   methods: {
-    formLink(link) {
-      return this.isNotPWA ? link : "intent:" + link + "#Intent;end";
-    },
     selectColorsBodyChip(text) {
       return Colors.selectBodyColor(text);
     },
@@ -336,14 +333,6 @@ export default {
   },
   data: () => ({
     tooltipShow: false,
-    isNotPWA: !(
-      navigator.userAgent.includes("Android") &&
-      (navigator.userAgent.includes("OPR") ||
-        navigator.userAgent.includes("HRY") ||
-        window.matchMedia("(display-mode: standalone)").matches ||
-        window.navigator.standalone ||
-        document.referrer.includes("android-app://"))
-    ),
   }),
   mounted() {},
 };

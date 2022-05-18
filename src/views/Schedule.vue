@@ -410,7 +410,7 @@ export default {
       let dayTime, lf, lt, m;
 
       for (let day of this.body) {
-        dayTime = Date.parse(day.date.replace(re, "$3-$2-$1 00:00:00"));
+        dayTime = Date.parse(day.date.replace(re, "$3-$2-$1T00:00:00"));
 
         if (dayTime == todayTime) {
           day.today = true;
