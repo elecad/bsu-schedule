@@ -41,6 +41,8 @@ export default {
 
     searchText: null,
     select: null,
+
+    timeout: null
   }),
   computed: {},
   watch: {
@@ -57,13 +59,51 @@ export default {
   },
   methods: {
     search(value) {
-      //? Функция поиска
+      this.hideNoData = true;
 
-      this.loading = true;
-      SearchAPI.query({
-        query: value,
-        setFunction: this.setResultFunction,
-      });
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        this.loading = true;
+        this.autocomplete = [];
+        
+        this.noResultText = 'Ничего не найдено :(';
+
+        if (value.length < 3) {
+          this.noResultText = 'Необходимо больше данных...';
+
+          this.hideNoData = false;
+          this.loading = false;
+
+          return;
+        }
+
+        fetch('https://beluni.ru/schedule/search?q='+value)
+          .then(r => {
+            if (!r.ok) {
+              throw 'fetch error';
+            }
+
+            return r.json();
+          })
+          .then(r => {
+            const fu = { t: 'teacher', g: 'group', a: 'location' };
+
+            this.autocomplete = r.map(v => {
+              return { text: v.name, value: { id: v.id, label: v.name, type: fu[v.type]}};
+            });
+
+            this.hideNoData = false;
+            this.loading = false;
+          })
+          .catch(err => {
+            console.error(err);
+
+            SearchAPI.query({
+              query: value,
+              setFunction: this.setResultFunction,
+            });
+          });
+      }, 500);
     },
 
     setResultFunction(obj) {
@@ -73,6 +113,7 @@ export default {
         return;
       }
 
+      this.hideNoData = false;
       this.loading = false;
       this.noResultText = obj.text;
       this.autocomplete = obj.result;
