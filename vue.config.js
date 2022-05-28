@@ -21,6 +21,7 @@ module.exports = defineConfig({
       exclude: [
         /\.map$/,
         /img\//,
+        /fonts\//,
         /file\//,
         /favicon\.ico$/,
         /robots\.txt$/,
@@ -30,7 +31,6 @@ module.exports = defineConfig({
     },
     iconPaths: {
       appleTouchIcon: "img/icons/apple-touch-icon-180x180.png",
-      // appleTouchIcon: 'https://pasteimg.com/images/2022/05/06/apple-touch-icon-180x180.png'
     },
     manifestOptions: {
       description: "Расписание занятий БелГУ",
