@@ -24,6 +24,7 @@ module.exports = defineConfig({
         /file\//,
         /favicon\.ico$/,
         /robots\.txt$/,
+        /sitemap\.txt$/,
         /^manifest.*\.js?$/,
       ],
     },
