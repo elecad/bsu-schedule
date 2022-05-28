@@ -395,15 +395,16 @@ export default {
             name: c.dis,
             online: c.online,
             subgroup: c.subgroup ? 
-              c.subgroup.replace("п/г ", "")
-                .replace("подгруппа", "п/г")
+              c.subgroup.replace("подгруппа", "п/г")
                 .replace("иностранный язык", "ин. яз.")
                 .replace("русский язык как иностранный", "рус. яз.")
                 .replace("немецкий язык", "нем. яз.")
                 .replace("русский язык как иностанный", "рус. яз.")
                 .replace("русский как иностранный", "рус. яз.")
                 .replace("английский", "англ.")
-                .replace("русский", "рус.") : null,
+                .replace("русский", "рус.")
+                .replace("язык", "яз.")
+                : null,
             links: c.links ? c.links : [],
             ...(this.scheduleType[0] == 'g' || this.scheduleType[0] == 't') && {
               location: c.room && !c.online ? {
