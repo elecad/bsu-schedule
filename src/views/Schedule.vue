@@ -131,7 +131,7 @@ export default {
       // this.INIT();
 
       this.calcDateRange();
-      this.loading({ full: true });
+      this.loading({ full: true }).then();
     },
   },
   computed: {
@@ -160,7 +160,7 @@ export default {
         this.dateRangePrev[0] != this.dateRange[0] ||
         this.dateRangePrev[1] != this.dateRange[1]
       ) {
-        this.loading({ full: this.hasError });
+        this.loading({ full: this.hasError }).then();
       }
     },
     onResize() {
@@ -180,7 +180,7 @@ export default {
 
       this.scrollUp();
 
-      this.loading({ full: this.hasError });
+      this.loading({ full: this.hasError }).then();
     },
 
     backWeek() {
@@ -192,7 +192,7 @@ export default {
 
       this.scrollUp();
 
-      this.loading({ full: this.hasError });
+      this.loading({ full: this.hasError }).then();
     },
 
     scrollUp() {
@@ -260,11 +260,6 @@ export default {
           return;
         }
 
-        this.$store.commit("SET_LAST", {
-          type: this.$router.currentRoute.name,
-          id: this.$route.params.id,
-        });
-
         this.header = this.isGroup
           ? { name: groupData.data.header }
           : groupData.data.header;
@@ -277,6 +272,11 @@ export default {
         this.isBodyLoading = false;
 
         this.findCurrentLesson();
+
+        this.$store.commit("SET_LAST", {
+          type: this.$router.currentRoute.name,
+          id: this.$route.params.id,
+        });
       } catch (e) {
         if (e && e.name == "AbortError") {
           return;
@@ -513,6 +513,11 @@ export default {
         this.isBodyLoading = false;
 
         this.findCurrentLesson();
+
+        this.$store.commit("SET_LAST", {
+          type: this.$router.currentRoute.name,
+          id: this.$route.params.id,
+        });
       } catch (e) {
         if (e && e.name == "AbortError") {
           return;
@@ -528,7 +533,7 @@ export default {
           return;
         }
 
-        this.loadingBsu(full);
+        await this.loadingBsu(full);
       }
     },
     calcDateRange() {
@@ -586,7 +591,7 @@ export default {
         }
 
         this.calcDateRange();
-        this.loading({ full: true });
+        this.loading({ full: true }).then();
       } else {
         this.scheduleType = "welcome";
       }
