@@ -127,7 +127,7 @@
           <v-tab-item value="tab-2"
             ><v-stepper v-model="ios" vertical>
               <v-stepper-step :complete="ios > 1" step="1">
-                Откройте главную страницу "Расписания" в Safari
+                Откройте главную страницу "Расписание" в Safari
               </v-stepper-step>
 
               <v-stepper-content step="1">
@@ -264,7 +264,7 @@
           <v-tab-item value="tab-3"
             ><v-stepper v-model="pc" vertical>
               <v-stepper-step :complete="pc > 1" step="1">
-                Откройте главную страницу "Расписания" в браузере
+                Откройте главную страницу "Расписание" в браузере
               </v-stepper-step>
 
               <v-stepper-content step="1">
