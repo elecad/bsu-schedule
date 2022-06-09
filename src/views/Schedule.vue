@@ -451,7 +451,7 @@ export default {
         }
 
         let oh = [];
-        let ld = 0;
+        let ld = -1;
 
         this.type = this.scheduleType;
 
@@ -479,7 +479,7 @@ export default {
               name: oh[1],
               middlename: oh.length == 3 ? oh[2] : '',
               post: c.teacher.pos,
-              promt: c.teacher.dep + ' ' + c.teacher.subdep
+              promt: (c.teacher.dep ? c.teacher.dep : '') + ' ' + (c.teacher.subdep ? c.teacher.subdep : '')
             };
           } else {
             oh = {
