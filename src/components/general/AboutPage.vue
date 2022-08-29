@@ -45,7 +45,7 @@
               <v-btn
                 color="indigo"
                 dark
-                href="https://vk.com/a_d_elec"
+                href="http://t.me/bsuedubot"
                 target="_blank"
               >
                 Перейти к боту
