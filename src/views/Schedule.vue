@@ -204,7 +204,7 @@ export default {
         if (this.controller) {
           this.controller.abort();
         }
-        
+
         this.controller = new AbortController();
         this.scheduleType = this.$router.currentRoute.name;
         this.hasError = false;
@@ -299,7 +299,7 @@ export default {
     },
 
     async loading({ full } = { full: true }) {
-      const fu = { group: 'g', teacher: 't', location: 'a' };
+      const fu = { group: "g", teacher: "t", location: "a" };
 
       try {
         if (this.controller) {
@@ -311,18 +311,18 @@ export default {
         this.scheduleType = this.$router.currentRoute.name;
         this.hasError = false;
 
-        let url = 'https://beluni.ru/schedule/';
+        let url = "https://beluni.ru/schedule/";
 
         switch (this.scheduleType) {
-          case 'group':
-            url += 'g/';
-          break;
-          case 'teacher':
-            url += 't/';
-          break;
-          case 'location':
-            url += 'a/';
-          break;
+          case "group":
+            url += "g/";
+            break;
+          case "teacher":
+            url += "t/";
+            break;
+          case "location":
+            url += "a/";
+            break;
           default:
             return;
         }
@@ -339,37 +339,37 @@ export default {
           this.isHeaderLoading = true;
           this.nextUpdate = 0;
 
-          if (this.scheduleType[0] == 'g') {
-            this.header = { name: 'Группа ' + this.$route.params.id };
+          if (this.scheduleType[0] == "g") {
+            this.header = { name: "Группа " + this.$route.params.id };
           } else {
-            r = await fetch(url + '?info=1', {
+            r = await fetch(url + "?info=1", {
               signal: this.controller.signal,
-              credentials: 'omit'
+              credentials: "omit",
             });
 
             if (r.status == 404) {
-              throw 'not found';
+              throw "not found";
             }
 
             if (!r.ok) {
-              throw 'fetch error';
+              throw "fetch error";
             }
 
             r = await r.json();
-  
+
             switch (this.scheduleType) {
-              case 'teacher':
+              case "teacher":
                 this.header = {
                   fullName: r.info1,
                   post: r.info2,
                 };
-              break;
-              case 'location':
+                break;
+              case "location":
                 this.header = {
-                  name: 'Аудитория ' + r.info1,
+                  name: "Аудитория " + r.info1,
                   corp: r.info2,
                 };
-              break;
+                break;
             }
           }
         }
@@ -381,114 +381,149 @@ export default {
           return {
             number: c.pairnumber,
             ts: c.timestart,
-            startTime: d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            endTime: d2.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            startTime: d.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            endTime: d2.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
             isNow: false,
             isToday: false,
-            content: [ai(c)]
+            content: [ai(c)],
           };
-        }
+        };
 
         let ai = (c) => {
           return {
             type: c.edworkkind,
             name: c.dis,
             online: c.online,
-            subgroup: c.subgroup ? 
-              c.subgroup.replace("подгруппа", "п/г")
-                .replace("иностранный язык", "ин. яз.")
-                .replace("русский язык как иностранный", "рус. яз.")
-                .replace("немецкий язык", "нем. яз.")
-                .replace("русский язык как иностанный", "рус. яз.")
-                .replace("русский как иностранный", "рус. яз.")
-                .replace("английский", "англ.")
-                .replace("русский", "рус.")
-                .replace("язык", "яз.")
-                : null,
+            subgroup: c.subgroup
+              ? c.subgroup
+                  .replace("подгруппа", "п/г")
+                  .replace("иностранный язык", "ин. яз.")
+                  .replace("русский язык как иностранный", "рус. яз.")
+                  .replace("немецкий язык", "нем. яз.")
+                  .replace("русский язык как иностанный", "рус. яз.")
+                  .replace("русский как иностранный", "рус. яз.")
+                  .replace("английский", "англ.")
+                  .replace("русский", "рус.")
+                  .replace("язык", "яз.")
+              : null,
             links: c.links ? c.links : [],
-            ...(this.scheduleType[0] == 'g' || this.scheduleType[0] == 't') && {
-              location: c.room && !c.online ? {
-                id: c.room.id,
-                aud: c.room.name,
-                corp: c.room.area,
-                prompt: c.room.address,
-                specific: ''
-              } : {
-                id: '',
-                aud: '',
-                corp: '',
-                prompt: '',
-                specific: c.online ? 'Онлайн курс' : ''
-              },
-            },
-            ...(this.scheduleType[0] == 'g' || this.scheduleType[0] == 'l') && {
-              teacher: oh
-            },
-            ...(this.scheduleType[0] == 't' || this.scheduleType[0] == 'l') && {
-              group: c.group ? {
-                id: c.group.id,
-                name: c.group.name,
-                promt: c.group.dep + ', ' + c.group.edform + ' форма обучения',
-              } : {
-                id: '',
-                name: '',
-                promt: ''
-              }
-            },
-            subname: c.withdist ? '(с видеотрансляцией)' : ''
+            ...((this.scheduleType[0] == "g" ||
+              this.scheduleType[0] == "t") && {
+              location:
+                c.room && !c.online
+                  ? {
+                      id: c.room.id,
+                      aud: c.room.name,
+                      corp: c.room.area,
+                      prompt: c.room.address,
+                      specific: "",
+                    }
+                  : {
+                      id: "",
+                      aud: "",
+                      corp: "",
+                      prompt: "",
+                      specific: c.online ? "Онлайн курс" : "",
+                    },
+            }),
+            ...((this.scheduleType[0] == "g" ||
+              this.scheduleType[0] == "l") && {
+              teacher: oh,
+            }),
+            ...((this.scheduleType[0] == "t" ||
+              this.scheduleType[0] == "l") && {
+              group: c.group
+                ? {
+                    id: c.group.id,
+                    name: c.group.name,
+                    promt:
+                      c.group.dep + ", " + c.group.edform + " форма обучения",
+                  }
+                : {
+                    id: "",
+                    name: "",
+                    promt: "",
+                  },
+            }),
+            subname: c.withdist ? "(с видеотрансляцией)" : "",
           };
         };
 
-        let dayNames = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+        let dayNames = [
+          "Воскресенье",
+          "Понедельник",
+          "Вторник",
+          "Среда",
+          "Четверг",
+          "Пятница",
+          "Суббота",
+        ];
 
         let oi = (c) => {
           return {
-            date: d.toLocaleDateString('ru'),
+            date: d.toLocaleDateString("ru"),
             dayWeek: dayNames[d.getDay()],
             lessons: [ah(c)],
-            today: false
+            today: false,
           };
-        }
+        };
 
         let oh = [];
         let ld = -1;
 
         this.type = this.scheduleType;
 
-        r = await fetch(url+'?from='+this.dateRange[0]+'&to='+this.dateRange[1]+'&qdist=1', {
-          signal: this.controller.signal,
-          credentials: 'omit'
-        });
+        r = await fetch(
+          url +
+            "?from=" +
+            this.dateRange[0] +
+            "&to=" +
+            this.dateRange[1] +
+            "&qdist=1",
+          {
+            signal: this.controller.signal,
+            credentials: "omit",
+          }
+        );
 
         if (!r.ok) {
-          throw 'fetch error';
+          throw "fetch error";
         }
 
         r = await r.json();
 
         this.body = r.reduce((p, c) => {
-          d.setTime(c.timestart*1000);
-          d2.setTime(c.timeend*1000);
+          d.setTime(c.timestart * 1000);
+          d2.setTime(c.timeend * 1000);
 
           if (c.teacher) {
-            oh = c.teacher.name.split(' ');
+            oh = c.teacher.name.split(" ");
 
             oh = {
               id: c.teacher.id,
               surname: oh[0],
               name: oh[1],
-              middlename: oh.length == 3 ? oh[2] : '',
+              middlename: oh.length == 3 ? oh[2] : "",
               post: c.teacher.pos,
-              promt: (c.teacher.dep ? c.teacher.dep : '') + ' ' + (c.teacher.subdep ? c.teacher.subdep : '')
+              promt:
+                (c.teacher.dep ? c.teacher.dep : "") +
+                " " +
+                (c.teacher.subdep ? c.teacher.subdep : ""),
             };
           } else {
             oh = {
-              id: '',
-              surname: '',
-              name: '',
-              middlename: '',
-              post: '',
-              promt: '',
+              id: "",
+              surname: "",
+              name: "",
+              middlename: "",
+              post: "",
+              promt: "",
             };
           }
 
@@ -498,8 +533,8 @@ export default {
             return [...p, oi(c)];
           }
 
-          let eh = p[p.length-1];
-          let leh = eh.lessons[eh.lessons.length-1];
+          let eh = p[p.length - 1];
+          let leh = eh.lessons[eh.lessons.length - 1];
 
           if (leh.ts == c.timestart) {
             leh.content.push(ai(c));
@@ -526,9 +561,10 @@ export default {
 
         console.error(e);
 
-        if (e == 'not found' || 
-          this.$router.currentRoute.name == "group" &&
-          this.$route.params.id.length < 8
+        if (
+          e == "not found" ||
+          (this.$router.currentRoute.name == "group" &&
+            this.$route.params.id.length < 8)
         ) {
           this.$router.push({ name: "notFound" });
           return;
@@ -724,7 +760,7 @@ export default {
   position: absolute;
   height: 100%;
   left: 0;
-  border-inline-start: 4px solid #3f51b5;
+  border-inline-start: 6px solid #3f51b5;
 }
 
 .today--lesson {
@@ -732,7 +768,7 @@ export default {
   height: 100%;
   left: 0;
 
-  border-inline-start: 4px solid rgba(63, 81, 181, 0.4);
+  border-inline-start: 5px solid rgba(63, 81, 181, 0.4);
 }
 
 .sublesson--discipline--information--location {

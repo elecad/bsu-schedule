@@ -27,6 +27,32 @@
             {{ item.content }}
           </v-expansion-panel-content>
         </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header class="text-subtitle-1 font-weight-medium">
+            Наличие собственного Telegram-бота
+          </v-expansion-panel-header>
+          <v-expansion-panel-content class="text-body-1 px-3">
+            <div>
+              Теперь имеется возможность посмотреть Расписание с помощью
+              современного Telegram-бота. Бот
+              <a href="http://t.me/bsuedubot" class="text-decoration-none"
+                >@bsuedubot</a
+              >
+              имеет полную поддержку всех видов расписаний!
+            </div>
+            <div class="d-flex justify-center mt-3">
+              <v-btn
+                color="indigo"
+                dark
+                href="https://vk.com/a_d_elec"
+                target="_blank"
+              >
+                Перейти к боту
+              </v-btn>
+            </div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
       </v-expansion-panels>
 
       <v-card class="mb-3">
@@ -423,6 +449,7 @@
         <div class="text-caption text-center mt-3">
           <div>Помощь с размещением</div>
           <div>Тестирование</div>
+          <div>Создание Telegram-бота</div>
         </div>
         <div class="my-4">
           <v-btn
@@ -473,7 +500,7 @@
     <v-parallax src="img/kod.jpg" height="200">
       <v-lazy>
         <div class="wrapper">
-          <div class="typing-demo-two mt-3 mb-3">Приятного пользования!</div>
+          <div class="typing-demo-two mt-3 mb-3">Приятного использования!</div>
         </div>
       </v-lazy>
       <div class="wrapper">
