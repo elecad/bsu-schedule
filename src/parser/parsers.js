@@ -41,7 +41,8 @@ export default class Parsers {
     }
 
     let htmlText = await response.text();
-    this.htmlText = htmlText;
+    this.htmlText = htmlText.replaceAll('<img src="../img/info.gif" class="tooltip" title="В системе ЭО «Пегас»" />', '');
+
     // this.htmlText = htmlCode;
     return this.parseGroup();
   }
@@ -82,7 +83,7 @@ export default class Parsers {
     }
 
     let htmlText = await response.text();
-    this.htmlText = htmlText;
+    this.htmlText = htmlText.replaceAll('<img src="../img/info.gif" class="tooltip" title="В системе ЭО «Пегас»" />', '');
 
     return this.parseTeacher();
   }
@@ -121,7 +122,7 @@ export default class Parsers {
     }
 
     let htmlText = await response.text();
-    this.htmlText = htmlText;
+    this.htmlText = htmlText.replaceAll('<img src="../img/info.gif" class="tooltip" title="В системе ЭО «Пегас»" />', '');
 
     //! Грязно, но быстро
     response = await fetch(links.loationAud({ location }));
