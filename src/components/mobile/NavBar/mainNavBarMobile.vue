@@ -98,7 +98,23 @@ export default {
   computed: {},
   watch: {
     searchText(val) {
-      val && val !== this.select && this.search(val);
+      clearTimeout(this.timeout);
+      
+      if (val == null) return;
+
+      if (val.length < 3) {
+        this.hideNoData = false;
+        this.noResultText = 'Необходимо 3 или более символов';
+        this.autocomplete = [];
+
+        return;
+      }
+        
+      this.hideNoData = true;
+
+      if (val !== this.select) {
+        this.search(val);
+      }
     },
     isSearch(newValue) {
       if (newValue) {
@@ -110,23 +126,13 @@ export default {
   },
   methods: {
     search(value) {
-      this.hideNoData = true;
-
-      clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
-        this.loading = true;
-        this.autocomplete = [];
-
-        this.noResultText = 'Ничего не найдено :(';
-
-        if (value.length < 3) {
-          this.noResultText = 'Необходимо больше данных...';
-
-          this.hideNoData = false;
-          this.loading = false;
-
+        if (value.length && (value[0] == ' ' || value[value.length - 1] == ' ')) {
+          this.searchText = value.trim();
           return;
         }
+
+        this.loading = true;
 
         fetch('https://beluni.ru/schedule/search?q='+value)
           .then(r => {
@@ -143,6 +149,7 @@ export default {
               return { text: v.name, value: { id: v.id, label: v.name, type: fu[v.type]}};
             });
 
+            this.noResultText = 'Ничего не найдено :(';
             this.hideNoData = false;
             this.loading = false;
           })

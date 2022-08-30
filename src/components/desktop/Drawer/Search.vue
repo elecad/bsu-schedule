@@ -48,11 +48,11 @@ export default {
   computed: {},
   watch: {
     searchText(val) {
+      clearTimeout(this.timeout);
+
       if (val == null) return;
 
       if (val.length < 3) {
-        clearTimeout(this.timeout);
-
         this.hideNoData = false;
         this.noResultText = 'Необходимо 3 или более символов';
         this.autocomplete = [];
@@ -76,7 +76,6 @@ export default {
   },
   methods: {
     search(value) {
-      clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
         if (value.length && (value[0] == ' ' || value[value.length - 1] == ' ')) {
           this.searchText = value.trim();
