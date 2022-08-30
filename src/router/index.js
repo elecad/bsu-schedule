@@ -57,4 +57,12 @@ const router = new VueRouter({
   routes,
 });
 
+router.afterEach((to) => {
+  if (to.name == 'main' || to.name == 'welcome' || to.name == 'about') return;
+
+  Vue.nextTick(() => {
+    document.title = 'Расписание';
+  });
+});
+
 export default router;
