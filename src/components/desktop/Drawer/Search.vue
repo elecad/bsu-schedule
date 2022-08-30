@@ -12,7 +12,7 @@
         filled
         :no-data-text="noResultText"
         hide-details
-        :hide-no-data="loading"
+        :hide-no-data="hideNoData || loading"
         :placeholder="placholder"
         :prepend-inner-icon="innerIcon"
         :append-icon="''"
@@ -24,19 +24,20 @@
 </template>
 
 <script>
-import SearchAPI from "@/class/SearchAPI";
+import SearchAPI from '@/class/SearchAPI';
 
 export default {
-  name: "Search",
+  name: 'Search',
   data: () => ({
     loading: false,
+    hideNoData: false,
     isSearch: false,
-    heightAppBar: "75px",
-    heightInput: "50px",
-    placholder: "Поиск...",
-    noResultText: "Необходимо 2 или более символов",
-    innerIcon: "mdi-magnify",
-    overlayOpacity: "0.2",
+    heightAppBar: '75px',
+    heightInput: '50px',
+    placholder: 'Поиск...',
+    noResultText: 'Необходимо 3 или более символов',
+    innerIcon: 'mdi-magnify',
+    overlayOpacity: '0.2',
     autocomplete: [],
 
     searchText: null,
@@ -47,7 +48,23 @@ export default {
   computed: {},
   watch: {
     searchText(val) {
-      val && val !== this.select && this.search(val);
+      if (val == null) return;
+
+      if (val.length < 3) {
+        clearTimeout(this.timeout);
+
+        this.hideNoData = false;
+        this.noResultText = 'Необходимо 3 или более символов';
+        this.autocomplete = [];
+
+        return;
+      }
+        
+      this.hideNoData = true;
+
+      if (val !== this.select) {
+        this.search(val);
+      }
     },
     isSearch(newValue) {
       if (newValue) {
@@ -59,23 +76,14 @@ export default {
   },
   methods: {
     search(value) {
-      this.hideNoData = true;
-
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
-        this.loading = true;
-        this.autocomplete = [];
-        
-        this.noResultText = 'Ничего не найдено :(';
-
-        if (value.length < 3) {
-          this.noResultText = 'Необходимо больше данных...';
-
-          this.hideNoData = false;
-          this.loading = false;
-
+        if (value.length && (value[0] == ' ' || value[value.length - 1] == ' ')) {
+          this.searchText = value.trim();
           return;
         }
+
+        this.loading = true;
 
         fetch('https://beluni.ru/schedule/search?q='+value)
           .then(r => {
@@ -92,6 +100,7 @@ export default {
               return { text: v.name, value: { id: v.id, label: v.name, type: fu[v.type]}};
             });
 
+            this.noResultText = 'Ничего не найдено :(';
             this.hideNoData = false;
             this.loading = false;
           })
@@ -107,7 +116,7 @@ export default {
     },
 
     setResultFunction(obj) {
-      if (obj.text == "Идёт поиск..." && !obj.result.length) {
+      if (obj.text == 'Идёт поиск...' && !obj.result.length) {
         this.noResultText = obj.text;
 
         return;
@@ -120,7 +129,7 @@ export default {
     },
 
     changeTheme() {
-      this.$store.commit("CHANGE_THEME");
+      this.$store.commit('CHANGE_THEME');
       this.$vuetify.theme.dark = this.$store.getters.getTheme;
     },
 
@@ -135,18 +144,18 @@ export default {
           this.$router.push({ name: value.type, params: { id: value.id } });
         }
         this.isSearch = false;
-        this.select = "";
-        this.searchText = "";
+        this.select = '';
+        this.searchText = '';
         this.autocomplete = [];
       }
     },
     stopScroll() {
-      document.body.style.overscrollBehaviorY = "contain";
-      document.querySelector("html").style.overflow = "hidden";
+      document.body.style.overscrollBehaviorY = 'contain';
+      document.querySelector('html').style.overflow = 'hidden';
     },
     startScroll() {
-      document.body.style.overscrollBehaviorY = "auto";
-      document.querySelector("html").style.overflow = "auto";
+      document.body.style.overscrollBehaviorY = 'auto';
+      document.querySelector('html').style.overflow = 'auto';
     },
   },
 };
