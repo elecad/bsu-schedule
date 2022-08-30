@@ -75,8 +75,8 @@ export default {
 
 <style scoped>
 .favorite--card--fix {
-  overflow: auto;
-  max-height: calc(100vh - 650px) !important;
+  overflow: hidden;
+
   min-height: 56px;
 }
 
