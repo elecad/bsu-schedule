@@ -87,7 +87,7 @@ export default {
     heightAppBar: "75px",
     heightInput: "50px",
     placholder: "Поиск...",
-    noResultText: "Необходимо 2 или более символов",
+    noResultText: "Необходимо 3 или более символов",
     innerIcon: "mdi-magnify",
     overlayOpacity: "0.2",
     autocomplete: [],
@@ -99,17 +99,17 @@ export default {
   watch: {
     searchText(val) {
       clearTimeout(this.timeout);
-      
+
       if (val == null) return;
 
       if (val.length < 3) {
         this.hideNoData = false;
-        this.noResultText = 'Необходимо 3 или более символов';
+        this.noResultText = "Необходимо 3 или более символов";
         this.autocomplete = [];
 
         return;
       }
-        
+
       this.hideNoData = true;
 
       if (val !== this.select) {
@@ -127,33 +127,39 @@ export default {
   methods: {
     search(value) {
       this.timeout = setTimeout(() => {
-        if (value.length && (value[0] == ' ' || value[value.length - 1] == ' ')) {
+        if (
+          value.length &&
+          (value[0] == " " || value[value.length - 1] == " ")
+        ) {
           this.searchText = value.trim();
           return;
         }
 
         this.loading = true;
 
-        fetch('https://beluni.ru/schedule/search?q='+value)
-          .then(r => {
+        fetch("https://beluni.ru/schedule/search?q=" + value)
+          .then((r) => {
             if (!r.ok) {
-              throw 'fetch error';
+              throw "fetch error";
             }
 
             return r.json();
           })
-          .then(r => {
-            const fu = { t: 'teacher', g: 'group', a: 'location' };
+          .then((r) => {
+            const fu = { t: "teacher", g: "group", a: "location" };
 
-            this.autocomplete = r.map(v => {
-              return { text: v.name, value: { id: v.id, label: v.name, type: fu[v.type]}};
+            this.autocomplete = r.map((v) => {
+              return {
+                text: v.name,
+                value: { id: v.id, label: v.name, type: fu[v.type] },
+              };
             });
 
-            this.noResultText = 'Ничего не найдено :(';
+            this.noResultText = "Ничего не найдено :(";
             this.hideNoData = false;
             this.loading = false;
           })
-          .catch(err => {
+          .catch((err) => {
             console.error(err);
 
             SearchAPI.query({
