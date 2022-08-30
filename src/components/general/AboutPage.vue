@@ -19,12 +19,90 @@
     >
     <v-container class="fix--about--container">
       <v-expansion-panels class="rounded-lg mb-3">
-        <v-expansion-panel v-for="(item, i) in advantages" :key="i">
+        <v-expansion-panel>
           <v-expansion-panel-header class="text-subtitle-1 font-weight-medium">
-            {{ item.header }}
+            Актуальное расписание
           </v-expansion-panel-header>
           <v-expansion-panel-content class="text-body-1 px-3">
-            {{ item.content }}
+            Первоисточником расписания является официальный сайт НИУ БелГУ. По этой причине расписание всегда будет актуальным!
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header class="text-subtitle-1 font-weight-medium">
+            Поддержка всех типов расписания
+          </v-expansion-panel-header>
+          <v-expansion-panel-content class="text-body-1 px-3">
+            Расписание имеет полную поддержку расписаний групп, преподавателей и аудиторий. 
+            Навигация возможна с помощью поиска или кнопок перехода.
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header class="text-subtitle-1 font-weight-medium">
+            Переход в курс ПЕГАС
+          </v-expansion-panel-header>
+          <v-expansion-panel-content class="text-body-1 px-3">
+            В Расписание интегрирована возможность перехода в курсы дисциплин электронной системы НИУ БелГУ ПЕГАС. 
+            Поддерживается система множественных курсов ПЕГАС: их количество не отличается от количества на официальном сайте НИУ БелГУ.
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header class="text-subtitle-1 font-weight-medium">
+            Установка на любое устройство
+          </v-expansion-panel-header>
+          <v-expansion-panel-content class="text-body-1 px-3">
+            Расписание можно установить на любое устройство, поддерживающее технологию PWA. 
+            В рамках такой установки приложение появится на вашем главном экране и будет работать без окна браузера. 
+            Это очень удобно, ведь пропадает необходимость каждый раз заходить на сайт самостоятельно!
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header class="text-subtitle-1 font-weight-medium">
+            Избранное
+          </v-expansion-panel-header>
+          <v-expansion-panel-content class="text-body-1 px-3">
+            Возможность удобно переключаться между частопосещаемыми группами / преподавателями / аудиториями может быть удобна для кураторов и работников университета.
+            Избранное сохраняется в памяти устройства, поэтому не нужно каждый раз искать группу, преподавателя или аудиторию самостоятельно
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header class="text-subtitle-1 font-weight-medium">
+            Адаптивный интерфейс
+          </v-expansion-panel-header>
+          <v-expansion-panel-content class="text-body-1 px-3">
+            Расписание сохраняет особенности интерфейса для различных платформ. Такой подход - гарант удобства пользователя.
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header class="text-subtitle-1 font-weight-medium">
+            Отображение текущего занятия в реальном времени
+          </v-expansion-panel-header>
+          <v-expansion-panel-content class="text-body-1 px-3">
+            Теперь нет необходимости каждый раз обновлять страницу! Расписание самостоятельно перерисует интерфейс и покажет текущее занятие.
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header class="text-subtitle-1 font-weight-medium">
+            Автоматическое переключение на следующую неделю
+          </v-expansion-panel-header>
+          <v-expansion-panel-content class="text-body-1 px-3">
+            Думаете в воскресенье о новой неделе? Расписание автоматически переключится на следующую неделю в этот день! Эту функцию можно отключить в настройках.
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header class="text-subtitle-1 font-weight-medium">
+            Прокрутка до текущего занятия
+          </v-expansion-panel-header>
+          <v-expansion-panel-content class="text-body-1 px-3">
+            По нажатию кнопки в нижнем правом углу «Расписание» прокрутит страницу до текущего дня или занятия. 
+            Это очень удобно, ведь не нужно тратить время на поиски занятий!
           </v-expansion-panel-content>
         </v-expansion-panel>
 
@@ -524,54 +602,6 @@
 export default {
   name: "AboutPage",
   data: () => ({
-    advantages: [
-      {
-        header: "Актуальное расписание",
-        content:
-          "Первоисточником расписания является официальный сайт НИУ БелГУ. По этой причине расписание всегда будет актуальным!",
-      },
-      {
-        header: "Поддержка всех типов расписания",
-        content:
-          "Расписание имеет полную поддержку расписаний групп, преподавателей и аудиторий. Навигация возможна с помощью поиска или кнопок перехода.",
-      },
-      {
-        header: "Переход в курс ПЕГАС",
-        content:
-          "В Расписание интегрирована возможность перехода в курсы дисциплин электронной системы НИУ БелГУ ПЕГАС. Поддерживается система множественных курсов ПЕГАС: их количество не отличается от количества на официальном сайте НИУ БелГУ.",
-      },
-      {
-        header: "Установка на любое устройство",
-        content:
-          "Расписание можно установить на любое устройство, поддерживающее технологию PWA. В рамках такой установки приложение появится на вашем главном экране и будет работать без окна браузера. Это очень удобно, ведь пропадает необходимость каждый раз заходить на сайт самостоятельно!",
-      },
-      {
-        header: "Избранное",
-        content:
-          "Возможность удобно переключаться между частопосещаемыми группами / преподавателями / аудиториями может быть удобна для кураторов и работников университета. Избранное сохраняется в памяти устройства, поэтому не нужно каждый раз искать группу, преподавателя или аудиторию самостоятельно.",
-      },
-      {
-        header: "Адаптивный интерфейс",
-        content:
-          "Расписание сохраняет особенности интерфейса для различных платформ. Такой подход - гарант удобства пользователя.",
-      },
-      {
-        header: "Отображение текущего занятия в реальном времени",
-        content:
-          "Теперь нет необходимости каждый раз обновлять страницу! Расписание самостоятельно перерисует интерфейс и покажет текущее занятие.",
-      },
-
-      {
-        header: "Автоматическое переключение на следующую неделю",
-        content:
-          "Думаете в воскресенье о новой неделе? Расписание автоматически переключится на следующую неделю в этот день! Эту функцию можно отключить в настройках.",
-      },
-      {
-        header: "Прокрутка до текущего занятия",
-        content:
-          "По нажатию кнопки в нижнем правом углу «Расписание» прокрутит страницу до текущего дня или занятия. Это очень удобно, ведь не нужно тратить время на поиски занятий!",
-      },
-    ],
     model: "tab-1",
     android: 1,
     ios: 1,
