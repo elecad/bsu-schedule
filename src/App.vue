@@ -98,4 +98,35 @@ body.dark {
   --cupertino-pane-move-background: #424246;
   --cupertino-pane-destroy-button-background: #424246;
 }
+
+body.light .v-navigation-drawer__content::-webkit-scrollbar {
+  width: 5px;
+  background-color: #f9f9fd;
+}
+
+body.light .v-navigation-drawer__content::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #cccccc;
+}
+
+body.light .v-navigation-drawer__content::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: white;
+}
+
+body.dark .v-navigation-drawer__content::-webkit-scrollbar {
+  width: 5px !important;
+
+  background-color: #121212;
+}
+
+body.dark .v-navigation-drawer__content::-webkit-scrollbar-thumb {
+  border-radius: 5px !important;
+  background-color: #757575;
+}
+
+body.dark .v-navigation-drawer__content::-webkit-scrollbar-track {
+  border-radius: 5px !important;
+  background-color: #121212;
+}
 </style>

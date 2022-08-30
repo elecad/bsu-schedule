@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="2" class="fix--favorite--height">
+  <v-card elevation="2" class="fix--favorite--height mb-5">
     <v-card-title class="pb-2 fix--favorite--title--height">
       <div>Избранное</div>
       <v-spacer></v-spacer>
@@ -42,9 +42,6 @@
 <script>
 import AppFavoriteChip from "@/components/desktop/Favorite/AppFavoriteChip.vue";
 
-import simplebar from "simplebar-vue";
-import "simplebar/dist/simplebar.min.css";
-
 export default {
   name: "appFavorite",
   methods: {
@@ -72,7 +69,6 @@ export default {
   }),
   components: {
     AppFavoriteChip,
-    simplebar,
   },
 };
 </script>
@@ -81,6 +77,7 @@ export default {
 .favorite--card--fix {
   overflow: auto;
   max-height: calc(100vh - 650px) !important;
+  min-height: 56px;
 }
 
 .fix--favorite--title--height {

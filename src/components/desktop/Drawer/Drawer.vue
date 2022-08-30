@@ -50,11 +50,14 @@ export default {
   name: "Drawer",
   props: {
     dateRange: Array,
-    dateRangeLabel: String
+    dateRangeLabel: String,
   },
   computed: {
     favorite() {
       return this.$store.getters.getFavorite;
+    },
+    theme() {
+      return this.$vuetify.theme.dark;
     },
   },
   watch: {
