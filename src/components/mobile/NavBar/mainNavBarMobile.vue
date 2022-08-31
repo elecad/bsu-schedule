@@ -4,7 +4,7 @@
       opacity="0.46"
       class="overlay--fix"
       :value="isSearch"
-      @click="isSearch = !isSearch"
+      @click="closeSearch"
     ></v-overlay>
     <v-app-bar height="60px" class="z--index--app--bar--fix">
       <div class="mr-2" style="positon: relative; width: 24px; height: 24px">
@@ -15,9 +15,7 @@
         </v-fade-transition>
 
         <v-fade-transition leave-absolute>
-          <v-icon v-if="isSearch" @click="isSearch = !isSearch">
-            mdi-arrow-left
-          </v-icon>
+          <v-icon v-if="isSearch" @click="closeSearch"> mdi-arrow-left </v-icon>
         </v-fade-transition>
       </div>
 
@@ -28,7 +26,7 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn icon @click="isSearch = !isSearch">
+            <v-btn icon @click="openSearch">
               <v-icon>mdi-magnify</v-icon>
             </v-btn>
 
@@ -82,7 +80,7 @@ export default {
   name: "mainNavBarMobile",
   data: () => ({
     loading: false,
-    isSearch: false,
+    // isSearch: false,
     hideNoData: false,
     heightAppBar: "75px",
     heightInput: "50px",
@@ -95,7 +93,11 @@ export default {
     searchText: null,
     select: null,
   }),
-  computed: {},
+  computed: {
+    isSearch() {
+      return this.$store.getters.getMobileSearch;
+    },
+  },
   watch: {
     searchText(val) {
       clearTimeout(this.timeout);
@@ -125,6 +127,13 @@ export default {
     },
   },
   methods: {
+    openSearch() {
+      this.$store.commit("setMobileSearch", true);
+    },
+
+    closeSearch() {
+      this.$store.commit("setMobileSearch", false);
+    },
     search(value) {
       this.timeout = setTimeout(() => {
         if (
@@ -198,7 +207,8 @@ export default {
         ) {
           this.$router.push({ name: value.type, params: { id: value.id } });
         }
-        this.isSearch = false;
+        // this.isSearch = false;
+        this.$store.commit("setMobileSearch", false);
         this.select = "";
         this.searchText = "";
         this.autocomplete = [];

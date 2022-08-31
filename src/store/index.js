@@ -9,6 +9,7 @@ export default new Vuex.Store({
     last: {},
     favorite: [],
     settings: {},
+    isMobileSearch: false,
   },
   getters: {
     getLast(state) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     },
     getSettings(state) {
       return state.settings;
+    },
+    getMobileSearch(state) {
+      return state.isMobileSearch;
     },
   },
   mutations: {
@@ -67,6 +71,10 @@ export default new Vuex.Store({
     weakMobile(state, value) {
       state.settings.weakMobile = value;
       LSAPI.settings = state.settings;
+    },
+
+    setMobileSearch(state, value) {
+      state.isMobileSearch = value;
     },
   },
   actions: {},

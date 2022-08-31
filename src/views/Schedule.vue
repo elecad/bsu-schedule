@@ -384,12 +384,12 @@ export default {
             startTime: d.toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
-              timeZone: 'Europe/Moscow',
+              timeZone: "Europe/Moscow",
             }),
             endTime: d2.toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
-              timeZone: 'Europe/Moscow',
+              timeZone: "Europe/Moscow",
             }),
             isNow: false,
             isToday: false,
@@ -469,7 +469,7 @@ export default {
 
         let oi = (c) => {
           return {
-            date: d.toLocaleDateString("ru", { timeZone: 'Europe/Moscow' }),
+            date: d.toLocaleDateString("ru", { timeZone: "Europe/Moscow" }),
             dayWeek: dayNames[d.getDay()],
             lessons: [ah(c)],
             today: false,

@@ -5,8 +5,14 @@
     <!-- <div class="text-h4">Добрый день! Впервые здесь?</div> -->
     <div v-if="isMobile" class="mobile--welcome">
       <div class="text-h4">Впервые здесь?</div>
-      <div class="text-h6 mt-4 text-center">
-        Воспользуйтесь <v-icon x-large>mdi-magnify</v-icon>
+      <div class="text-h6 mt-2 text-center">
+        Воспользуйтесь
+        <v-btn icon @click="openSearch"
+          ><v-icon x-large>mdi-magnify</v-icon></v-btn
+        >
+      </div>
+      <div class="text-body-2 mt-15 mx-4" style="max-width: 250px">
+        Введите в поиске группу, преподавателя или аудиторию
       </div>
     </div>
     <div v-else>
@@ -35,6 +41,11 @@ export default {
   data: () => ({
     isMobile: window.innerWidth > 959 ? false : true,
   }),
+  methods: {
+    openSearch() {
+      this.$store.commit("setMobileSearch", true);
+    },
+  },
 };
 </script>
 
@@ -51,5 +62,10 @@ export default {
 .mobile--welcome {
   position: absolute;
   top: 35%;
+}
+
+.help--text {
+  position: fixed;
+  top: 60%;
 }
 </style>
