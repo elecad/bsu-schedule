@@ -11,7 +11,7 @@
           ><v-icon x-large>mdi-magnify</v-icon></v-btn
         >
       </div>
-      <div class="text-body-2 mt-15 mx-4" style="max-width: 250px">
+      <div class="text-body-2 mt-11 mx-4" style="max-width: 250px">
         Введите в поиске группу, преподавателя или аудиторию
       </div>
     </div>
@@ -23,7 +23,9 @@
       </div>
     </div>
 
-    <span class="text--disabled d-flex justify-center footer--welcome--page"
+    <span
+      v-if="!isSearch"
+      class="text--disabled d-flex justify-center footer--welcome--page"
       >by &nbsp;
       <router-link :to="{ name: 'about' }" custom v-slot="{ navigate }"
         ><span class="text-decoration-underline" @click="navigate"
@@ -44,6 +46,11 @@ export default {
   methods: {
     openSearch() {
       this.$store.commit("setMobileSearch", true);
+    },
+  },
+  computed: {
+    isSearch() {
+      return this.$store.getters.getMobileSearch;
     },
   },
 };
@@ -67,5 +74,11 @@ export default {
 .help--text {
   position: fixed;
   top: 60%;
+}
+
+@media (max-height: 400px) {
+  .footer--welcome--page {
+    display: none !important;
+  }
 }
 </style>
