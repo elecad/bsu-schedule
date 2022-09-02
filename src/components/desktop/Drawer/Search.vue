@@ -18,6 +18,7 @@
         :append-icon="''"
         solo
         flat
+        no-filter
       ></v-autocomplete>
     </div>
   </div>
@@ -43,16 +44,23 @@ export default {
     searchText: null,
     select: null,
 
-    timeout: null
+    timeout: null,
+    abortController: null,
   }),
   computed: {},
   watch: {
     searchText(val) {
       clearTimeout(this.timeout);
 
+      if (this.abortController) {
+        this.abortController.abort();
+        this.abortController = null;
+      }
+
       if (val == null) return;
 
       if (val.length < 3) {
+        this.loading = false;
         this.hideNoData = false;
         this.noResultText = 'Необходимо 3 или более символов';
         this.autocomplete = [];
@@ -77,14 +85,14 @@ export default {
   methods: {
     search(value) {
       this.timeout = setTimeout(() => {
-        if (value.length && (value[0] == ' ' || value[value.length - 1] == ' ')) {
-          this.searchText = value.trim();
-          return;
-        }
-
         this.loading = true;
 
-        fetch('https://beluni.ru/schedule/search?q='+value)
+        if (this.abortController) {
+          this.abortController.abort();
+        }
+        
+        this.abortController = new AbortController();
+        fetch('https://beluni.ru/schedule/search?q='+value.trim(), { signal: this.abortController.signal })
           .then(r => {
             if (!r.ok) {
               throw 'fetch error';
@@ -103,8 +111,12 @@ export default {
             this.hideNoData = false;
             this.loading = false;
           })
-          .catch(err => {
-            console.error(err);
+          .catch(e => {
+            if (e && e.name == 'AbortError') {
+              return;
+            }
+
+            console.error(e);
 
             SearchAPI.query({
               query: value,

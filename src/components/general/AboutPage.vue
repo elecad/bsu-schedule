@@ -15,7 +15,7 @@
           class="elevation-5 rounded-circle"
         ></v-img>
         <div class="text-h6 mt-2">Расписание</div>
-        <div class="">1.0.7</div>
+        <div class="">1.0.8</div>
       </div></v-parallax
     >
     <v-container class="fix--about--container">
