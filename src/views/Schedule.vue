@@ -381,15 +381,15 @@ export default {
           return {
             number: c.pairnumber,
             ts: c.timestart,
-            startTime: d.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-              timeZone: "Europe/Moscow",
+            startTime: d.toLocaleTimeString('ru-RU', {
+              hour: '2-digit',
+              minute: '2-digit',
+              timeZone: 'Europe/Moscow',
             }),
-            endTime: d2.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-              timeZone: "Europe/Moscow",
+            endTime: d2.toLocaleTimeString('ru-RU', {
+              hour: '2-digit',
+              minute: '2-digit',
+              timeZone: 'Europe/Moscow',
             }),
             isNow: false,
             isToday: false,
@@ -546,16 +546,6 @@ export default {
 
           return p;
         }, []);
-
-        this.isHeaderLoading = false;
-        this.isBodyLoading = false;
-
-        this.findCurrentLesson();
-
-        this.$store.commit("SET_LAST", {
-          type: this.$router.currentRoute.name,
-          id: this.$route.params.id,
-        });
       } catch (e) {
         if (e && e.name == "AbortError") {
           return;
@@ -574,6 +564,16 @@ export default {
 
         await this.loadingBsu(full);
       }
+
+      this.isHeaderLoading = false;
+      this.isBodyLoading = false;
+
+      this.findCurrentLesson();
+
+      this.$store.commit("SET_LAST", {
+        type: this.$router.currentRoute.name,
+        id: this.$route.params.id,
+      });
     },
     calcDateRange() {
       let currentDay = this.d.getDay();
@@ -692,19 +692,26 @@ export default {
       let todayTime = this.d.setHours(0, 0, 0, 0);
       let dayTime, lf, lt, m;
 
+      const tzOffset = (-180 - this.d.getTimezoneOffset()) * 60000;
+
       for (let day of this.body) {
-        dayTime = Date.parse(day.date.replace(re, "$3-$2-$1T00:00:00"));
+        dayTime = Date.parse(day.date.replace(re, '$3-$2-$1T00:00:00'));
 
         if (dayTime == todayTime) {
           day.today = true;
           this.nowButtonVisible = true;
 
           for (let lesson of day.lessons) {
-            m = lesson.startTime.split(":");
+            m = lesson.startTime.split(':');
             lf = dayTime + m[0] * 3600000 + m[1] * 60000;
 
-            m = lesson.endTime.split(":");
+            m = lesson.endTime.split(':');
             lt = dayTime + m[0] * 3600000 + m[1] * 60000;
+
+            if (tzOffset) {
+              lf += tzOffset;
+              lt += tzOffset;
+            }
 
             if (!this.nextUpdate) {
               if (lf > now) {

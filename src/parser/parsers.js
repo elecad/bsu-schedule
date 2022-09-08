@@ -7,19 +7,19 @@ import { htmlCode } from "@/class/Mooks";
 
 const links = {
   group: ({ group, week }) => {
-    return `/bsu/education/schedule/groups/show_schedule.php?group=${group}&week=${week}`;
+    return `/bsu/education/schedule/groups/show_schedule.php?group=${group}&week=${week}&fail=1`;
   },
   teacher: ({ teacher, week }) => {
-    return `/bsu/education/schedule/teachers/show_schedule.php?teach=${teacher}&week=${week}`;
+    return `/bsu/education/schedule/teachers/show_schedule.php?teach=${teacher}&week=${week}&fail=1`;
   },
   location: ({ location, week }) => {
-    return `/bsu/education/schedule/auditories/show_schedule.php?aud=${location}&week=${week}`;
+    return `/bsu/education/schedule/auditories/show_schedule.php?aud=${location}&week=${week}&fail=1`;
   },
   loationAud: ({ location }) => {
-    return `/bsu/education/schedule/auditories/index.php?auditory=${location}`;
+    return `/bsu/education/schedule/auditories/index.php?auditory=${location}&fail=1`;
   },
   search: ({ query }) => {
-    return `/bsu/education/schedule/search/index.php?query=${query}`;
+    return `/bsu/education/schedule/search/index.php?query=${query}&fail=1`;
   },
 };
 
