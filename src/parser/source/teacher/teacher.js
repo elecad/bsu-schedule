@@ -35,7 +35,7 @@ export default class teacherScheduleParser {
       }
       return this.schedule;
     } catch (err) {
-      throw err.message;
+      throw err;
     }
   }
 

@@ -64,7 +64,7 @@ export default class searchScheduleParser {
       }
       return this.result;
     } catch (err) {
-      throw err.message;
+      throw err;
     }
   }
 

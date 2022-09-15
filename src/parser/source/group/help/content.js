@@ -74,14 +74,14 @@ export default class contentParser {
   }
 
   locationParse(node) {
-    if (node.childNodes.length == 1) {
+    const aLocation = node.querySelector("a");
+    if (!aLocation) {
       //? Онлайн курс или что-то другое
       this.Content.locationSpecific = node.textContent.trim();
       this.Content.online =
         node.textContent.trim() == "Онлайн курс" ? true : false;
     } else {
       //? Аудитория + корпус
-      const aLocation = node.querySelector("a");
       this.Content.locationAud = aLocation.textContent;
       this.Content.locationId = +aLocation.href.split("=")[1];
       this.Content.locationPromt = node.querySelector("img").title.trim();

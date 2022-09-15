@@ -37,7 +37,7 @@ export default class locationScheduleParser {
       }
       return this.schedule;
     } catch (err) {
-      throw err.message;
+      throw err;
     }
   }
 
