@@ -153,7 +153,7 @@ export default {
   }),
   methods: {
     setCurrentWeek() {
-      this.$emit('update:dateRange', [new Date().toLocaleDateString('en-CA')]);
+      this.$emit('update:dateRange', [new Date().toLocaleDateString('sv')]);
 
       this.$nextTick(() => {
         this.$emit('date--set');

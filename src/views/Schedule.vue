@@ -606,7 +606,7 @@ export default {
       this.timeFrom = this.d.setHours(0, 0, 0);
       this.dateRangeLabel =
         this.d.getDate() + " " + monthNames[this.d.getMonth()];
-      dr[0] = this.d.toLocaleDateString("en-CA"); // Canadian locale matches ISO format (YYYY-mm-dd)
+      dr[0] = this.d.toLocaleDateString("sv"); //  Canadian locale no longer matches ISO format (YYYY-mm-dd), use Sweden instead
 
       this.dateRangeLabel += " - ";
 
@@ -615,7 +615,7 @@ export default {
       this.timeTo = this.d.setHours(23, 59, 59);
       this.dateRangeLabel +=
         this.d.getDate() + " " + monthNames[this.d.getMonth()];
-      dr[1] = this.d.toLocaleDateString("en-CA");
+      dr[1] = this.d.toLocaleDateString("sv");
 
       this.dateRange = dr;
     },

@@ -125,7 +125,7 @@ export default {
       let n = Date.now();
 
       if (n >= this.f && n <= this.t) { // uh
-        this.events = [new Date().toLocaleDateString('en-CA')];
+        this.events = [new Date().toLocaleDateString('sv')];
       } else {
         this.events = [];
       }
@@ -176,7 +176,7 @@ export default {
     },
     submitCurrentWeek() {
       this.d.setTime(Date.now());
-      this.$emit('update:dateRange', [this.d.toLocaleDateString('en-CA')]);
+      this.$emit('update:dateRange', [this.d.toLocaleDateString('sv')]);
 
       this.$nextTick(() => {
         this.dateRangePrev = this.dateRange;

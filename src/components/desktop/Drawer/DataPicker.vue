@@ -55,7 +55,7 @@ export default {
       let n = Date.now();
 
       if (n >= this.f && n <= this.t) { // uh
-        this.events = [new Date().toLocaleDateString('en-CA')];
+        this.events = [new Date().toLocaleDateString('sv')];
       } else {
         this.events = [];
       }
