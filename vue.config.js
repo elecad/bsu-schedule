@@ -7,7 +7,7 @@ module.exports = defineConfig({
       webSocketURL: "auto://0.0.0.0:0/ws",
     },
     proxy: {
-      "^/bsu": { target: "https://beluni.ru" },
+      "^/(bsu|schedule)": { target: "https://beluni.ru" },
     },
   },
 

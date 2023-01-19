@@ -311,7 +311,7 @@ export default {
         this.scheduleType = this.$router.currentRoute.name;
         this.hasError = false;
 
-        let url = "https://beluni.ru/schedule/";
+        let url = "/schedule/";
 
         switch (this.scheduleType) {
           case "group":

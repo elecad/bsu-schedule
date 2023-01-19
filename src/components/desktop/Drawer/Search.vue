@@ -92,7 +92,7 @@ export default {
         }
         
         this.abortController = new AbortController();
-        fetch('https://beluni.ru/schedule/search?q='+value.trim(), { signal: this.abortController.signal })
+        fetch('/schedule/search?q='+value.trim(), { signal: this.abortController.signal })
           .then(r => {
             if (!r.ok) {
               throw 'fetch error';
