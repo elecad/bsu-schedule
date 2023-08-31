@@ -41,11 +41,20 @@
             <v-chip
               class="mr-1 mb-1 elevation-1"
               small
-              v-if="sublesson.online"
+              v-if="sublesson.online && !sublesson.location.aud"
               color="indigo"
               text-color="white"
             >
               онлайн</v-chip
+            >
+            <v-chip
+              class="mr-1 mb-1 elevation-1"
+              small
+              v-if="sublesson.online && sublesson.location.aud"
+              color="indigo"
+              text-color="white"
+            >
+              с возм. онлайн</v-chip
             >
           </div>
 

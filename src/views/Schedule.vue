@@ -80,6 +80,7 @@
 
 <script>
 import parsers from "@/parser/parsers";
+import { createLogger } from "vuex";
 
 export default {
   name: "ScheduleView",
@@ -295,6 +296,8 @@ export default {
         this.hasError = true;
         this.isHeaderLoading = true;
         this.isBodyLoading = false;
+
+
       }
     },
 
@@ -418,7 +421,7 @@ export default {
             ...((this.scheduleType[0] == "g" ||
               this.scheduleType[0] == "t") && {
               location:
-                c.room && !c.online
+                c.room
                   ? {
                       id: c.room.id,
                       aud: c.room.name,
