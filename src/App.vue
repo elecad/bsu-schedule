@@ -36,6 +36,11 @@ export default {
 </script>
 
 <style lang="scss">
+
+.v-toolbar{
+  box-shadow: none !important;
+}
+
 @media (max-width: 959px) {
   html {
     overflow-y: auto;
