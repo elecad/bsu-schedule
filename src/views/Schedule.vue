@@ -14,7 +14,7 @@
     </div>
 
     <v-main :style="{ paddingLeft: isMobile ? '0px' : '400px' }">
-      <v-container v-if="isMobile" class="schedule--mobile pa-2">
+      <div v-if="isMobile" class="schedule--mobile">
         <schedule-head-mobile
           :header="header"
           :loading="isHeaderLoading"
@@ -43,7 +43,7 @@
             ></schedule-footer>
           </div>
         </schedule-body-mobile>
-      </v-container>
+      </div>
 
       <v-container
         v-if="!isMobile"
