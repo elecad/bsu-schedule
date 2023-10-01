@@ -20,7 +20,7 @@
           <!-- //! Характеристики занятия -->
           <div class="sublesson--discipline--type">
             <v-chip
-              class="mr-1 mb-1 elevation-1"
+              class="mr-1 mb-1"
               small
               :color="selectColorsBodyChip(sublesson.type)"
               :text-color="selectColorsTextChip(sublesson.type)"
@@ -29,7 +29,7 @@
             >
 
             <v-chip
-              class="mr-1 mb-1 elevation-1"
+              class="mr-1 mb-1"
               small
               color="teal darken-2"
               text-color="white"
@@ -39,7 +39,7 @@
             >
 
             <v-chip
-              class="mr-1 mb-1 elevation-1"
+              class="mr-1 mb-1"
               small
               v-if="sublesson.online && !sublesson.location.aud"
               color="indigo"
@@ -48,7 +48,7 @@
               онлайн</v-chip
             >
             <v-chip
-              class="mr-1 mb-1 elevation-1"
+              class="mr-1 mb-1"
               small
               v-if="sublesson.online && sublesson.location.aud"
               color="indigo"
@@ -167,14 +167,12 @@ export default {
             this.sublesson.location.id == false &&
             this.sublesson.links.length == false
           );
-          break;
         case "location":
           return !(
             this.sublesson.group.id == false &&
             this.sublesson.teacher.id == false &&
             this.sublesson.links.length == false
           );
-          break;
       }
     },
     isGroup() {
