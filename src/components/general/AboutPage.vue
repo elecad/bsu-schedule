@@ -15,7 +15,7 @@
           class="elevation-5 rounded-circle"
         ></v-img>
         <div class="text-h6 mt-2">Расписание</div>
-        <div class="">1.0.11</div>
+        <div class="">1.0.12</div>
       </div></v-parallax
     >
     <v-container class="fix--about--container">
@@ -577,6 +577,30 @@
             VK
           </v-btn>
         </div>
+      </v-card>
+
+      <v-card
+        class="rounded-lg d-flex justify-space-around flex-column align-center mb-3"
+      >
+        <v-avatar size="150" class="ma-3">
+          <v-img src="/img/thanks4.jpg" eager></v-img>
+        </v-avatar>
+        <div class="text-h5">Даниил Щербаков</div>
+        <div class="text-caption text-center mt-3">
+          <div>Помощь с кодом</div>
+          <div>Новый взгяд в проект</div>
+        </div>
+        <div class="my-4">
+          <v-btn
+            color="#0077FF"
+            dark
+            href="https://vk.com/kurkulio"
+            target="_blank"
+          >
+            VK
+          </v-btn>
+        </div>
+
       </v-card>
 
       <v-card
