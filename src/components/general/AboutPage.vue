@@ -15,7 +15,7 @@
           class="elevation-5 rounded-circle"
         ></v-img>
         <div class="text-h6 mt-2">Расписание</div>
-        <div class="">1.0.12</div>
+        <div class="">1.0.14</div>
       </div></v-parallax
     >
     <v-container class="fix--about--container">
@@ -564,7 +564,7 @@
         <div class="text-h5">Мария Ходячих</div>
         <div class="text-caption text-center mt-3">
           <div>Создание иконки</div>
-          <div>Создание информационных картинок</div>
+          <div>Разработка адаптивного интерфейса</div>
           <div>Тестирование</div>
         </div>
         <div class="my-4">
@@ -588,7 +588,7 @@
         <div class="text-h5">Даниил Щербаков</div>
         <div class="text-caption text-center mt-3">
           <div>Помощь с кодом</div>
-          <div>Новый взгяд в проект</div>
+          <div>Новые идеи в проект</div>
         </div>
         <div class="my-4">
           <v-btn
