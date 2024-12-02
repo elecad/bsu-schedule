@@ -2,7 +2,6 @@
   <div>
     <div class="d-flex align-center">
       <v-autocomplete
-        class="elevation-2"
         @change="goNewSchedule"
         v-model.trim="select"
         :search-input.sync="searchText"

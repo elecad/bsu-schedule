@@ -78,6 +78,7 @@
               class="fix--width--about--button"
               @click="navigate"
               :href="href"
+              rounded="xl"
             >
               О проекте
             </v-btn>
@@ -96,10 +97,10 @@
 </template>
 
 <script>
-import SystemUI from "@/class/SystemUI";
+import SystemUI from '@/class/SystemUI';
 
 export default {
-  name: "Settings",
+  name: 'Settings',
   computed: {
     settings() {
       return this.$store.getters.getSettings;
@@ -107,13 +108,13 @@ export default {
   },
   watch: {
     theme(newVal) {
-      this.$store.commit("dark", newVal ? true : false);
+      this.$store.commit('dark', newVal ? true : false);
     },
     autoNextWeek(newVal) {
-      this.$store.commit("autoNextWeek", newVal);
+      this.$store.commit('autoNextWeek', newVal);
     },
     weakDesktop(newVal) {
-      this.$store.commit("weakDesktop", newVal);
+      this.$store.commit('weakDesktop', newVal);
     },
   },
   props: {
@@ -129,11 +130,11 @@ export default {
       this.$vuetify.theme.dark = event ? true : false;
       SystemUI.changeThemeAppBar();
       if (event) {
-        document.body.classList.remove("light");
-        document.body.classList.add("dark");
+        document.body.classList.remove('light');
+        document.body.classList.add('dark');
       } else {
-        document.body.classList.remove("dark");
-        document.body.classList.add("light");
+        document.body.classList.remove('dark');
+        document.body.classList.add('light');
       }
     },
   },

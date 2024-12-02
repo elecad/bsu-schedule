@@ -4,7 +4,7 @@
     @leave="leaveDay($event)"
     :threshold="[1]"
   >
-    <v-card class="mb-3 elevation-2 fix--position--day--card" color="indigo">
+    <v-card class="elevation-2 fix--position--day--card" color="indigo">
       <div class="now--day" v-if="today">
         <v-icon dark x-small>mdi-checkbox-blank-circle</v-icon>
       </div>

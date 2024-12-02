@@ -3,14 +3,14 @@
     <div v-if="type != 'welcome'">
       <v-scroll-y-transition leave-absolute>
         <div v-if="!loading && type">
-          <div v-for="(day, k) in body" :key="k">
+          <div class="mb-2" v-for="(day, k) in body" :key="k">
             <day-header
               :week="day.dayWeek"
               :date="day.date"
               :today="day.today"
               :type="type"
             ></day-header>
-            <div class="mb-4" v-for="(lesson, i) in day.lessons" :key="i">
+            <div v-for="(lesson, i) in day.lessons" :key="i">
               <div
                 v-for="(sublesson, j) in lesson.content"
                 :key="j"

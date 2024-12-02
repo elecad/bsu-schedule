@@ -168,6 +168,7 @@
               v-if="more.links.length == 0"
               depressed
               color="indigo"
+              rounded="xl"
               class="fix--font--size--course--buttons ma-2 white--text"
               disabled
             >
