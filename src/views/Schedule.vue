@@ -268,7 +268,6 @@ export default {
         this.scheduleType = this.$router.currentRoute.name;
 
         this.body = groupData.data.schedule;
-
         this.isHeaderLoading = false;
         this.isBodyLoading = false;
 
@@ -500,8 +499,10 @@ export default {
         if (!r.ok) {
           throw "fetch error";
         }
-
-        r = await r.json();
+        // TODO: Убрать в будущем
+        r = await r.text();
+        r = r.replaceAll("bsu.edu", "bsuedu")
+        r = JSON.parse(r)
 
         this.body = r.reduce((p, c) => {
           d.setTime(c.timestart * 1000);
@@ -549,6 +550,7 @@ export default {
 
           return p;
         }, []);
+
       } catch (e) {
         if (e && e.name == "AbortError") {
           return;
