@@ -4,14 +4,14 @@
       <div class="sublesson--discipline--type">
         <v-chip
           v-if="more.sublesson.type"
-          class="mr-1 mb-1 elevation-1"
+          class="mr-1 mb-1"
           small
           :color="selectColorsBodyChip(more.sublesson.type)"
           :text-color="selectColorsTextChip(more.sublesson.type)"
           >{{ more.sublesson.type }}</v-chip
         >
         <v-chip
-          class="mr-1 mb-1 elevation-1"
+          class="mr-1 mb-1"
           small
           color="teal darken-2"
           text-color="white"
@@ -25,7 +25,7 @@
         >
 
         <v-chip
-          class="mr-1 mb-1 elevation-1"
+          class="mr-1 mb-1"
           small
           v-if="more.sublesson.online && !more.sublesson.location.aud"
           color="indigo"
@@ -34,7 +34,7 @@
           онлайн</v-chip
         >
         <v-chip
-          class="mr-1 mb-1 elevation-1"
+          class="mr-1 mb-1"
           small
           v-if="more.sublesson.online && more.sublesson.location.aud"
           color="indigo"
