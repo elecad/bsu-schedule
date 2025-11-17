@@ -12,6 +12,7 @@ module.exports = defineConfig({
   },
 
   pwa: {
+    manifestPath: `manifest.json?time=${new Date().getTime()}`,
     name: "Расписание",
     themeColor: "#ffffff",
     msTileColor: "#ffffff",
