@@ -663,7 +663,7 @@ export default {
 
       if(version < 8) {
         fileName = 'Schedule-v7.apk'
-      } else if(version > 14) {
+      } else if(version > 12) {
         fileName = 'Schedule-v15.apk'
       }
 
