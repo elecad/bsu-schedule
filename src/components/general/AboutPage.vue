@@ -650,9 +650,24 @@ export default {
 
   computed: {
     getNameAPK() {
-      return !/(android [0-7]\.)/i.test(navigator.userAgent)
-        ? "Schedule.apk"
-        : "Schedule-v7.apk";
+      let fileName = 'Schedule.apk'
+      const isAndroid = /(android)/i.test(navigator.userAgent)
+
+      if(!isAndroid) return fileName
+
+      const match = navigator.userAgent.match(/android\s([0-9]+)/i);
+
+      if(!match?.[1]) return fileName
+
+      const version = +match[1];
+
+      if(version < 8) {
+        fileName = 'Schedule-v7.apk'
+      } else if(version > 14) {
+        fileName = 'Schedule-v15.apk'
+      }
+
+      return fileName
     },
   },
 
