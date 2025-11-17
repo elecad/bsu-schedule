@@ -5,6 +5,7 @@ import Schedule from "@/views/Schedule.vue";
 import NotFound from "@/views/NotFound.vue";
 import Last from "@/views/LastRedirect.vue";
 import About from "@/components/general/AboutPage.vue";
+import ClearPage from "@/views/ClearPage.vue";
 
 Vue.use(VueRouter);
 
@@ -42,6 +43,11 @@ const routes = [
     path: "/about",
     name: "about",
     component: About,
+  },
+  {
+    path: "/clear",
+    name: "clear",
+    component: ClearPage,
   },
   {
     path: "/404",

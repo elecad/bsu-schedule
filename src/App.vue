@@ -10,7 +10,6 @@ import SystemUI from "./class/SystemUI";
 
 export default {
   name: "App",
-
   components: { navBarMobile },
   data: () => ({}),
   computed: {
@@ -31,7 +30,7 @@ export default {
     } else {
       document.body.classList.add("light");
     }
-  },
+  }
 };
 </script>
 
