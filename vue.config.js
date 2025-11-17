@@ -37,7 +37,7 @@ module.exports = defineConfig({
       background_color: "#ffffff",
       display: "standalone",
       scope: "/",
-      start_url: "/",
+      start_url: "/init",
       icons: [
         {
           "src": "/img/icons/android-chrome-192x192.png",

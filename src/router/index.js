@@ -11,6 +11,10 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
+    redirect: "/init"
+  },
+  {
+    path: "/init",
     name: "main",
     component: Last,
   },
