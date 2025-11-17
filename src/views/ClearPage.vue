@@ -32,7 +32,7 @@ export default {
       }
 
       const link = document.createElement('a');
-      link.href = "/";
+      link.href = "/init";
       link.target = '_self';
       link.style.display = 'none';
       document.body.appendChild(link);
