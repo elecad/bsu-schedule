@@ -15,7 +15,7 @@
           class="elevation-5 rounded-circle"
         ></v-img>
         <div class="text-h6 mt-2">Расписание</div>
-        <div class="">1.0.17</div>
+        <div class="">1.0.18</div>
       </div></v-parallax
     >
     <v-container class="fix--about--container">
@@ -164,7 +164,7 @@
           <v-tab-item value="tab-1">
             <v-stepper v-model="android" vertical>
               <v-stepper-step :complete="android > 1" step="1">
-                Скачайте приложение "Расписание" на своё устройство
+                Скачайте приложение "Расписание" на своё устройство согласно версии Android
               </v-stepper-step>
 
               <v-stepper-content step="1">
@@ -184,9 +184,27 @@
                     color="indigo"
                     dark
                     class="my-2"
-                    :href="`/file/${getNameAPK}`"
+                    href="/file/Schedule-v13.apk"
                   >
-                    Скачать
+                    Для Android 13+
+                  </v-btn>
+
+                  <v-btn
+                    color="indigo"
+                    dark
+                    class="my-2"
+                    href="/file/Schedule.apk"
+                  >
+                    Для Android 8-12
+                  </v-btn>
+
+                  <v-btn
+                    color="indigo"
+                    dark
+                    class="my-2"
+                    href="/file/Schedule-v7.apk"
+                  >
+                    Для Android 7
                   </v-btn>
                 </div>
                 <v-btn color="primary" @click="android = 2"> Далее </v-btn>
@@ -645,32 +663,8 @@ export default {
     ios: 1,
     pc: 1,
     isAndroid: /(android)/i.test(navigator.userAgent),
-    isIphone: /iPhone|iPod|iPad/.test(navigator.userAgent),
+    isIphone: /iPhone|iPod|iPad/.test(navigator.userAgent)
   }),
-
-  computed: {
-    getNameAPK() {
-      let fileName = 'Schedule.apk'
-      const isAndroid = /(android)/i.test(navigator.userAgent)
-
-      if(!isAndroid) return fileName
-
-      const match = navigator.userAgent.match(/android\s([0-9]+)/i);
-
-      if(!match?.[1]) return fileName
-
-      const version = +match[1];
-
-      if(version < 8) {
-        fileName = 'Schedule-v7.apk'
-      } else if(version > 12) {
-        fileName = 'Schedule-v15.apk'
-      }
-
-      return fileName
-    },
-  },
-
   methods: {
     startScroll() {
       document.body.style.overscrollBehaviorY = "auto";
@@ -683,14 +677,14 @@ export default {
       if (this.isAndroid) return "tab-1";
       if (this.isIphone) return "tab-2";
       return "tab-3";
-    },
+    }
   },
 
   created() {
     this.startScroll();
     this.scrollUp();
     this.model = this.selectPlatform();
-  },
+  }
 };
 </script>
 
