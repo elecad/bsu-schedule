@@ -18,18 +18,8 @@ module.exports = defineConfig({
     msTileColor: "#ffffff",
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "light-content",
-    workboxOptions: {
-      exclude: [
-        /\.map$/,
-        /img\//,
-        /fonts\//,
-        /file\//,
-        /favicon\.ico$/,
-        /robots\.txt$/,
-        /sitemap\.txt$/,
-        /^manifest.*\.js?$/,
-      ],
-    },
+    workboxPluginMode: 'none',
+    workboxOptions: null,
     iconPaths: {
       appleTouchIcon: "img/icons/apple-touch-icon-180x180.png",
     },
