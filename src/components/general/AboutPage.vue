@@ -186,7 +186,7 @@
                     class="my-2"
                     href="/file/Schedule-v13.apk"
                   >
-                    Для Android 13+
+                    Android 13+
                   </v-btn>
 
                   <v-btn
@@ -195,7 +195,7 @@
                     class="my-2"
                     href="/file/Schedule.apk"
                   >
-                    Для Android 8-12
+                    Android 8-12
                   </v-btn>
 
                   <v-btn
@@ -204,7 +204,7 @@
                     class="my-2"
                     href="/file/Schedule-v7.apk"
                   >
-                    Для Android 7
+                    Android 7
                   </v-btn>
                 </div>
                 <v-btn color="primary" @click="android = 2"> Далее </v-btn>
