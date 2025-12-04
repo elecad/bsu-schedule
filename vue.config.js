@@ -28,7 +28,8 @@ module.exports = defineConfig({
         /robots\.txt$/,
         /sitemap\.txt$/,
         /^manifest.*\.js?$/,
-        /^index.*\.html\?/,
+        // Ignore all html page
+        /\.html/i,
       ],
     },
     iconPaths: {
