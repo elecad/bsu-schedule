@@ -30,6 +30,8 @@ module.exports = defineConfig({
         /^manifest.*\.js?$/,
         // Ignore all html page
         /\.html/i,
+        // Ignore all apk page
+        /\.apk/i,
       ],
     },
     iconPaths: {
